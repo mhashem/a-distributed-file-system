@@ -14,8 +14,11 @@ import net.jini.core.entry.Entry;
 import net.jini.core.transaction.TransactionException;
 import net.jini.space.JavaSpace;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
- * @author Rukshan
+ * @author Rukshan Silva
  *
  */
 public class FileSpaceImpl implements FileSpace {
@@ -23,6 +26,7 @@ public class FileSpaceImpl implements FileSpace {
 	private SecurityManager security;
 	private Lookup lookup;
 	private JavaSpace space ;
+	private Log log = LogFactory.getLog(FileSpaceImpl.class);
 	
 	public void fileSpace(){
 
@@ -42,22 +46,18 @@ public class FileSpaceImpl implements FileSpace {
 			try {
 				//while(System.in.read() > 0){
 					space.write((Entry) file, null, Long.MAX_VALUE);
-					System.out.println("File " + file.getName() + " written to the Space");
+					log.debug("-- File " + file.getName() + " written to the Space");
 			//	}	
 			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (TransactionException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		else{
-			// we were unable to find the JavaSpaces service specified
-			System.out.println("Unable to find ");
+			log.debug("-- Unable to find ");
 			System.exit(1);
 		}
 

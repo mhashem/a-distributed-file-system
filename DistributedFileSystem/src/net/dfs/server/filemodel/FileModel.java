@@ -3,6 +3,8 @@
  */
 package net.dfs.server.filemodel;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -23,41 +25,41 @@ public class FileModel implements Entry{
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	InputStream fis;
-	OutputStream fout;
-	String name;
+	BufferedInputStream bufferedInputStream;
+	BufferedOutputStream bufferedOutputStream;
+	String fileName;
 	int bytesRead;
-	byte [] b;
+	byte [] bytes;
 		
 	public InputStream getFis() {
-		return fis;
+		return bufferedInputStream;
 	}
 	
-	public void setFis(File file) {
+	public void setBufferedInputStream(String fileName) {
 		try {
-			this.fis = new FileInputStream(file);
+			this.bufferedInputStream = new BufferedInputStream(new FileInputStream(new File(fileName)));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public OutputStream getFout() {
-		return fout;
+	public OutputStream getBufferedOutputStream() {
+		return bufferedOutputStream;
 	}
 
-	public void setFout(String fileName) {
+	public void setBufferedOutputStream(String fileName) {
 		try {
-			this.fout = new FileOutputStream(new File(fileName));
+			this.bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(new File(fileName)));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public String getName() {
-		return name;
+		return fileName;
 	}
 	public void setName(String name) {
-		this.name = name;
+		this.fileName = name;
 	}
  
 	public int getBytesRead() {
@@ -69,10 +71,10 @@ public class FileModel implements Entry{
 	}
 
 	public byte[] getB() {
-		return b;
+		return bytes;
 	}
 
 	public void setB(byte[] b) {
-		this.b = b;
+		this.bytes = b;
 	}	
 }

@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package net.dfs.client.storefile;
 
 import java.io.IOException;
@@ -7,18 +10,28 @@ import net.dfs.server.filemodel.FileModel;
 import net.dfs.server.filespace.Lookup;
 import net.dfs.server.filespace.SecurityManager;
 import net.dfs.server.filespace.impl.LookupImpl;
-import net.dfs.server.filespace.impl.SecurityManagerImpl;
 import net.jini.core.entry.UnusableEntryException;
 import net.jini.core.transaction.TransactionException;
 import net.jini.space.JavaSpace;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+/**
+ * @author Rukshan Silva
+ *
+ */
+
 public class Store {
 	
-	Lookup lookup = new LookupImpl();
+	private Lookup lookup;
+	private SecurityManager security;
+	private static Store store;
+	private FileModel fileTemp;
 	JavaSpace space;
-	
+	private Log log = LogFactory.getLog(Store.class);
+
 	public static void main(String args []) {
-		Store store = new Store();
 		store.connectJavaSpace();
 		store.storeFile();
 		
@@ -27,7 +40,6 @@ public class Store {
 	public void connectJavaSpace(){
 		String hostname = "localhost";
 		
-		SecurityManager security = new SecurityManagerImpl();
 		security.securityM();
 
 		((LookupImpl) lookup).setHostname(hostname);
@@ -40,18 +52,17 @@ public class Store {
 		
 		if(space != null){
 			
-			FileModel tempFile = new FileModel();
 			for(;;){
 				try {
-					FileModel received = (FileModel) space.take(tempFile, null, Long.MAX_VALUE);
+					FileModel received = (FileModel) space.take(fileTemp, null, Long.MAX_VALUE);
 
-					System.out.println(received.getName());
-					tempFile.setFout(received.getName());
-					tempFile.getFout().write(received.getB(),0, received.getBytesRead());
-					tempFile.getFout().flush();
-					tempFile.getFout().close();
+					log.debug("--" + received.getName());
+					fileTemp.setBufferedOutputStream(received.getName());
+					fileTemp.getBufferedOutputStream().write(received.getB(),0, received.getBytesRead());
+					fileTemp.getBufferedOutputStream().flush();
+					fileTemp.getBufferedOutputStream().close();
 					
-					System.out.println("File " + received.getName() + " Saved");
+					log.debug("-- File " + received.getName() + " Saved");
 
 				} catch (RemoteException e) {
 					e.printStackTrace();
@@ -62,12 +73,28 @@ public class Store {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}
 		else
-			System.out.println("Space is Null...");
+			log.debug("-- Space is Null...");
 	}
+
+	public void setSecurity(SecurityManager security) {
+		this.security = security;
+	}
+
+	public void setLookup(Lookup lookup) {
+		this.lookup = lookup;
+	}
+
+	public static void setStore(Store store) {
+		Store.store = store;
+	}
+
+	public void setTempFile(FileModel tempFile) {
+		this.fileTemp = tempFile;
+	}
+		
 }

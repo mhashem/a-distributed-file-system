@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Spring Beans Configuration -->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+<!-- Import Beans Configuration -->
+
+			<import resource="classpath:net/dfs/client/storefile/spring-client.xml"/>
+
+
+			<bean id="splitfile" class="net.dfs.server.splitfile.impl.SplitFileImpl" >
+				<property name="fileName"><value>C:\\Done.txt</value></property>
+				<property name="fileModel"><ref bean="filemodel" /> </property>
+				<property name="fileSpace"><ref bean="filespace" /> </property>
+			</bean>
+			
+			<bean id="filemodel" class="net.dfs.server.filemodel.FileModel" >
+			</bean>
+
+			<bean id="filespace" class="net.dfs.server.filespace.impl.FileSpaceImpl" >
+				<property name="security"><ref bean="security" /> </property>
+				<property name="lookup"><ref bean="lookup" /> </property>
+			</bean>
+
+			<bean id="security" class="net.dfs.server.filespace.impl.SecurityManagerImpl" >
+			</bean>
+
+			<bean id="lookup" class="net.dfs.server.filespace.impl.LookupImpl" >
+			</bean>
+
+</beans>
+		

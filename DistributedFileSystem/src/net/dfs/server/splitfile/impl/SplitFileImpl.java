@@ -3,21 +3,15 @@
  */
 package net.dfs.server.splitfile.impl;
 
-import java.io.File;
 import java.io.IOException;
+
+import net.dfs.server.filemodel.FileModel;
+import net.dfs.server.filespace.FileSpace;
+import net.dfs.server.splitfile.SplitFile;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import net.dfs.server.filemodel.FileModel;
-import net.dfs.server.filespace.FileSpace;
-import net.dfs.server.filespace.impl.FileSpaceImpl;
-import net.dfs.server.splitfile.SplitFile;
-
-/**
- * @author Rukshan
- *
- */
 public class SplitFileImpl implements SplitFile {
 	
 	private FileModel fileModel;
@@ -40,7 +34,7 @@ public class SplitFileImpl implements SplitFile {
 				increment += 1;
 				fileModel.setName("D:\\Working\\Done_"+increment+".txt");
 				fileModel.setBytesRead(bytesRead);
-				fileModel.setB(buffer);
+				fileModel.setBytes(buffer);
 				
 				fileSpace.writeToSpace(fileModel);
 				log.debug("-- File " + fileModel.getName() + " Send to the Space");

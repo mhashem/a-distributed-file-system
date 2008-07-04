@@ -22,13 +22,14 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 
 import net.jini.core.entry.Entry;
 
 /**
  * @author Rukshan Silva
  */
-public class FileModel implements Entry{
+public class FileModel implements Entry, Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	

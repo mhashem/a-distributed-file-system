@@ -38,7 +38,7 @@ public class SplitFileImpl implements SplitFile {
 				
 				fileSpace.writeToSpace(fileModel);
 
-				log.debug("-- File " + fileModel.getName() + " Send to the Space");
+//				log.debug("-- File " + fileModel.getName() + " Send to the Space");
 
 			}
 		} catch (IOException e) {

@@ -9,7 +9,7 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class Main {
+public class MainClient {
 
 	private static StoreFile storeFile;
 	private static Log log = LogFactory.getLog(FileSpaceImpl.class);
@@ -17,16 +17,16 @@ public class Main {
 	public static void main(String args []) {
 		
 		ApplicationContext context = new ClassPathXmlApplicationContext("net\\dfs\\server\\filespace\\spring-server.xml");
-		StoreFile storeFile = (StoreFile) context.getBean("storeFile");
-
+//		StoreFile storeFile = (StoreFile) context.getBean("storeFile");
 		
-		storeFile.connectJavaSpace();
+		MessageShell ms = (MessageShell) context.getBean("ms");
+		ms.readImpl();
 		log.debug("-- Calling connectJavaSpace()");
 		storeFile.storeFile();
 	}
 
 	public static void setStoreFile(StoreFile storeFile) {
-		Main.storeFile = storeFile;
+		MainClient.storeFile = storeFile;
 	}
 
 }

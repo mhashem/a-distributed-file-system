@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 
 import net.dfs.client.storefile.StoreFile;
+import net.dfs.server.filemodel.FileCreator;
 import net.dfs.server.filemodel.FileModel;
 import net.dfs.server.filespace.Lookup;
 import net.dfs.server.filespace.SecurityManager;
@@ -20,6 +21,7 @@ public class StoreFileImpl implements StoreFile{
 	private Lookup lookup;
 	private SecurityManager security;
 	private FileModel fileTemp;
+	private FileCreator creator;
 	JavaSpace space;
 	private Log log = LogFactory.getLog(StoreFileImpl.class);
 	
@@ -45,10 +47,10 @@ public class StoreFileImpl implements StoreFile{
 					FileModel received = (FileModel) space.take(fileTemp, null, Long.MAX_VALUE);
 
 					log.debug("--" + received.getName());
-					fileTemp.setBufferedOutputStream(received.getName());
-					fileTemp.getBufferedOutputStream().write(received.getBytes(),0, received.getBytesRead());
-					fileTemp.getBufferedOutputStream().flush();
-					fileTemp.getBufferedOutputStream().close();
+					creator.setBufferedOutputStream(received.getName());
+					creator.getBufferedOutputStream().write(received.getBytes(),0, received.getBytesRead());
+					creator.getBufferedOutputStream().flush();
+					creator.getBufferedOutputStream().close();
 					
 					log.debug("-- File " + received.getName() + " Saved");
 
@@ -80,5 +82,10 @@ public class StoreFileImpl implements StoreFile{
 	public void setTempFile(FileModel tempFile) {
 		this.fileTemp = tempFile;
 	}
+
+	public void setCreator(FileCreator creator) {
+		this.creator = creator;
+	}
 		
+
 }

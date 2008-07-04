@@ -33,6 +33,5 @@
 
 			<bean id="lookup" class="net.dfs.server.filespace.impl.LookupImpl" />
 
-
 </beans>
 		

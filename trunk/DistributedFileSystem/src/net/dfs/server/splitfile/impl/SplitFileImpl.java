@@ -29,7 +29,7 @@ public class SplitFileImpl implements SplitFile {
 
 		try {
 			fileSpace.fileSpace();
-
+			
 			while((bytesRead = fileModel.getFis().read(buffer)) != -1){
 				increment += 1;
 				fileModel.setName("D:\\Working\\Done_"+increment+".txt");
@@ -37,6 +37,7 @@ public class SplitFileImpl implements SplitFile {
 				fileModel.setBytes(buffer);
 				
 				fileSpace.writeToSpace(fileModel);
+
 				log.debug("-- File " + fileModel.getName() + " Send to the Space");
 
 			}
@@ -61,6 +62,5 @@ public class SplitFileImpl implements SplitFile {
 	public void setFileSpace(FileSpace fileSpace) {
 		this.fileSpace = fileSpace;
 	}
-	
-	
+
 }

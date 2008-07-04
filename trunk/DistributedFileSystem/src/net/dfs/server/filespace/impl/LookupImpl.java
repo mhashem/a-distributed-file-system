@@ -33,7 +33,7 @@ public class LookupImpl implements Lookup{
 	@SuppressWarnings("unchecked")
 	public JavaSpace getSpace() {
 		try {
-			LookupLocator lookup = new LookupLocator("jini://" + hostname);
+			LookupLocator lookup = new LookupLocator("jini://" + hostname+ "/");
 			log.debug("-- SpaceAccessor using locater: "+lookup);
 			ServiceRegistrar registrar = lookup.getRegistrar();
 

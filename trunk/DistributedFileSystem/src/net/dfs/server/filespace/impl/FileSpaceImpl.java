@@ -15,6 +15,7 @@
 package net.dfs.server.filespace.impl;
 
 import java.io.IOException;
+import java.rmi.MarshalledObject;
 import java.rmi.RemoteException;
 
 import net.dfs.server.filemodel.FileModel;
@@ -22,6 +23,7 @@ import net.dfs.server.filespace.FileSpace;
 import net.dfs.server.filespace.Lookup;
 import net.dfs.server.filespace.SecurityManager;
 import net.jini.core.entry.Entry;
+import net.jini.core.lease.Lease;
 import net.jini.core.transaction.TransactionException;
 import net.jini.space.JavaSpace;
 
@@ -36,7 +38,7 @@ public class FileSpaceImpl implements FileSpace {
 	private Log log = LogFactory.getLog(FileSpaceImpl.class);
 	
 	public void fileSpace(){
-
+		
 		String hostname = "localhost";
 		
 		security.securityManager();
@@ -44,6 +46,18 @@ public class FileSpaceImpl implements FileSpace {
 		((LookupImpl) lookup).setHostname(hostname);
 
 		space = lookup.getSpace();
+
+		try {
+			FileListener listener = new FileListener(space);
+			FileModel model = new FileModel();
+			space.notify(model,null,listener,Lease.FOREVER, null);
+
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (TransactionException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	public void writeToSpace(FileModel file){
@@ -52,8 +66,8 @@ public class FileSpaceImpl implements FileSpace {
 							
 			try {
 				//while(System.in.read() > 0){
-					space.write((Entry) file, null, Long.MAX_VALUE);
-					log.debug("-- File " + file.getName() + " written to the Space");
+				space.write((Entry) file, null, Long.MAX_VALUE);
+				//	log.debug("-- File " + file.getName() + " written to the Space");
 			//	}	
 			} catch (RemoteException e) {
 				e.printStackTrace();

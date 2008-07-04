@@ -14,7 +14,9 @@
 
 package net.dfs.server.filespace.impl;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.rmi.MarshalledObject;
 import java.rmi.RemoteException;
 
@@ -32,7 +34,7 @@ import net.jini.space.JavaSpace;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class FileSpaceImpl implements FileSpace {
+public class Temp implements FileSpace {
 	
 	private SecurityManager security;
 	private Lookup lookup;
@@ -66,26 +68,27 @@ public class FileSpaceImpl implements FileSpace {
 	public void writeToSpace(FileModel file){
 		
 		if(space != null){
-				
+							
+			String line;
+			BufferedReader reader = new BufferedReader(new
+			InputStreamReader(System.in));
+			// create a message entry
+			Message msg = new Message();
+			// while console input available
 			try {
-				//while(System.in.read() > 0){
-
-				space.write((Entry)file, null, Long.MAX_VALUE);
-				log.debug("-- File " + file.getName() + " Written to the Space");
-
-				FileModel received = (FileModel) space.take(file, null, Long.MAX_VALUE);
-				log.debug("-- File " + received.getName() + " taken from the Space");
-			//	}	
+				while ((line = reader.readLine()).length() > 0) {
+					// set the message text
+					msg.text = line;
+					// write a message per line entered
+					space.write(msg, null, Long.MAX_VALUE);	
+				}
 			} catch (RemoteException e) {
-				e.printStackTrace();
-			} catch (TransactionException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (UnusableEntryException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (InterruptedException e) {
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (TransactionException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

@@ -12,9 +12,17 @@
 
 			<!-- Spring Beans Definition -->
 	
-	 		<bean id="storeFile" class="net.dfs.client.storefile.impl.StoreFileImpl" />
-			
+	 		<bean id="ms" class="net.dfs.client.storefile.impl.MessageShell" >
+				<property name="security" ref ="security" />
+				<property name="lookup" ref ="lookup" />
+			</bean>
+
 			<bean id="fileTemp" class="net.dfs.server.filemodel.FileModel" />
+		
+			<bean id="security" class="net.dfs.server.filespace.impl.SecurityManagerImpl" />
+
+			<bean id="lookup" class="net.dfs.server.filespace.impl.LookupImpl" />
+		
 		
 </beans>
 		

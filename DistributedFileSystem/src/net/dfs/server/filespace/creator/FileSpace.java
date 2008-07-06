@@ -12,37 +12,27 @@
  * under the License.
  */
 
-package net.dfs.server.filemodel;
+package net.dfs.server.filespace.creator;
 
-import net.jini.entry.AbstractEntry;
+import net.dfs.server.filemodel.FileModel;
 
 /**
+ * FileSpace Interface configures the Space and
+ * Insert files into the Space
+ * 
  * @author Rukshan Silva
  */
-public class FileModel extends AbstractEntry{
+public interface FileSpace {
 	
-	private static final long serialVersionUID = 1L;
-	
-	public String fileName;
-	public Integer bytesRead;
-	public byte [] bytes;
+	/**
+	 * fileSpace() configures the Space
+	 */
+	public void fileSpace();
 
-	
-	public FileModel(){
-		
-	}	
+	/**
+	 * writeToSPace() Insert the file into the Space
+	 * @param modeled file
+	 */
+	public void writeToSpace(FileModel file);
 
-	public FileModel(String fileName){
-		super();
-		this.fileName = fileName;
-		
-	}	
-	public FileModel(Integer bytesRead){
-		super();
-		this.bytesRead =  bytesRead;
-	}	
-	public FileModel(byte bytes[]){
-		super();
-		this.bytes = bytes;
-	}	
 }

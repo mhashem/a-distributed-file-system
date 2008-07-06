@@ -9,30 +9,31 @@ import java.io.FileOutputStream;
 
 public class FileCreator {
 
-	private BufferedInputStream bufferedInputStream;
-	private BufferedOutputStream bufferedOutputStream;
+	private static BufferedInputStream bufferedInputStream;
+	private static BufferedOutputStream bufferedOutputStream;
 
-	public BufferedInputStream getBufferedInputStream() {
+	public static BufferedInputStream getBufferedInputStream() {
 		return bufferedInputStream;
 	}
 
-	public void setBufferedInputStream(String fileName) {
+	public static void setBufferedInputStream(String fileName) {
 		try {
-			this.bufferedInputStream = new BufferedInputStream(new FileInputStream(new File(fileName)));
+			FileCreator.bufferedInputStream = new BufferedInputStream(new FileInputStream(new File(fileName)));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public BufferedOutputStream getBufferedOutputStream() {
+	public static BufferedOutputStream getBufferedOutputStream() {
 		return bufferedOutputStream;
 	}
 	
-	public void setBufferedOutputStream(String fileName) {
+	public static void setBufferedOutputStream(String fileName) {
 		try {
-			this.bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(new File(fileName)));
+			FileCreator.bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(new File(fileName)));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
+	
 }

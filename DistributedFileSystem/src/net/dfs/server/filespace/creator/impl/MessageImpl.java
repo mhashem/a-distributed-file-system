@@ -12,37 +12,21 @@
  * under the License.
  */
 
-package net.dfs.server.filemodel;
+package net.dfs.server.filespace.creator.impl;
 
-import net.jini.entry.AbstractEntry;
+import net.jini.core.entry.Entry;
 
-/**
- * @author Rukshan Silva
- */
-public class FileModel extends AbstractEntry{
+public class MessageImpl implements Entry{
 	
 	private static final long serialVersionUID = 1L;
+	String text;
 	
-	public String fileName;
-	public Integer bytesRead;
-	public byte [] bytes;
-
+	public MessageImpl(){
+		
+	}
 	
-	public FileModel(){
-		
-	}	
-
-	public FileModel(String fileName){
+	public MessageImpl(String text){
 		super();
-		this.fileName = fileName;
-		
-	}	
-	public FileModel(Integer bytesRead){
-		super();
-		this.bytesRead =  bytesRead;
-	}	
-	public FileModel(byte bytes[]){
-		super();
-		this.bytes = bytes;
-	}	
+		this.text = text;
+	}
 }

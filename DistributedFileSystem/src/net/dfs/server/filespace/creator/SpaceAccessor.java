@@ -12,37 +12,22 @@
  * under the License.
  */
 
-package net.dfs.server.filemodel;
+package net.dfs.server.filespace.creator;
 
-import net.jini.entry.AbstractEntry;
+import net.jini.space.JavaSpace;
 
 /**
+ * Lookup Interface Creates the JavaSpace
+ * 
  * @author Rukshan Silva
  */
-public class FileModel extends AbstractEntry{
-	
-	private static final long serialVersionUID = 1L;
-	
-	public String fileName;
-	public Integer bytesRead;
-	public byte [] bytes;
+public interface SpaceAccessor {
+
+	/**
+	 * getSpace() creates and returns the created Space
+	 * @return Space
+	 */
+	public JavaSpace getSpace(String host);
 
 	
-	public FileModel(){
-		
-	}	
-
-	public FileModel(String fileName){
-		super();
-		this.fileName = fileName;
-		
-	}	
-	public FileModel(Integer bytesRead){
-		super();
-		this.bytesRead =  bytesRead;
-	}	
-	public FileModel(byte bytes[]){
-		super();
-		this.bytes = bytes;
-	}	
 }

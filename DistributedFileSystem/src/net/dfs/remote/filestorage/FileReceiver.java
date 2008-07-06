@@ -12,37 +12,24 @@
  * under the License.
  */
 
-package net.dfs.server.filemodel;
-
-import net.jini.entry.AbstractEntry;
+package net.dfs.remote.filestorage;
 
 /**
+ * StoreFile Interface Connects to the Space
+ * and get the Files and Stores them in the 
+ * remote storage
+ * 
  * @author Rukshan Silva
  */
-public class FileModel extends AbstractEntry{
+public interface FileReceiver {
 	
-	private static final long serialVersionUID = 1L;
+	/**
+	 * connectJavaSpace() connects to the Space
+	 */
+	public void connectJavaSpace();
 	
-	public String fileName;
-	public Integer bytesRead;
-	public byte [] bytes;
-
-	
-	public FileModel(){
-		
-	}	
-
-	public FileModel(String fileName){
-		super();
-		this.fileName = fileName;
-		
-	}	
-	public FileModel(Integer bytesRead){
-		super();
-		this.bytesRead =  bytesRead;
-	}	
-	public FileModel(byte bytes[]){
-		super();
-		this.bytes = bytes;
-	}	
+	/**
+	 * storeFile() Stores the file in the remote storage
+	 */
+	public void retrieveFile();
 }

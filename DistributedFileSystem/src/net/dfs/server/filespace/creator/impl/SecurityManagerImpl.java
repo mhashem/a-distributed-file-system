@@ -12,37 +12,21 @@
  * under the License.
  */
 
-package net.dfs.server.filemodel;
+package net.dfs.server.filespace.creator.impl;
 
-import net.jini.entry.AbstractEntry;
+import java.rmi.RMISecurityManager;
 
-/**
- * @author Rukshan Silva
- */
-public class FileModel extends AbstractEntry{
+import net.dfs.server.filespace.creator.SecurityManager;
+
+public class SecurityManagerImpl implements SecurityManager{
 	
-	private static final long serialVersionUID = 1L;
-	
-	public String fileName;
-	public Integer bytesRead;
-	public byte [] bytes;
-
-	
-	public FileModel(){
-		
-	}	
-
-	public FileModel(String fileName){
-		super();
-		this.fileName = fileName;
-		
-	}	
-	public FileModel(Integer bytesRead){
-		super();
-		this.bytesRead =  bytesRead;
-	}	
-	public FileModel(byte bytes[]){
-		super();
-		this.bytes = bytes;
-	}	
+	public void securityManager() {
+		try {
+			if(System.getSecurityManager() == null){
+				System.setSecurityManager(new RMISecurityManager());
+			}
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		}
+	}
 }

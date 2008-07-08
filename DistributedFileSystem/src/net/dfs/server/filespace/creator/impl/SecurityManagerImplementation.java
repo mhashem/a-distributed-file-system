@@ -12,22 +12,21 @@
  * under the License.
  */
 
-package net.dfs.server.filespace.creator;
+package net.dfs.server.filespace.creator.impl;
 
-import net.jini.space.JavaSpace;
+import java.rmi.RMISecurityManager;
 
-/**
- * Lookup Interface Creates the JavaSpace
- * 
- * @author Rukshan Silva
- */
-public interface SpaceAccessor {
+import net.dfs.server.filespace.creator.SecurityManager;
 
-	/**
-	 * getSpace() creates and returns the created Space
-	 * @return Space
-	 */
-	public JavaSpace getSpace(String host);
-
+public class SecurityManagerImplementation implements SecurityManager{
 	
+	public void securityManager() {
+		try {
+			if(System.getSecurityManager() == null){
+				System.setSecurityManager(new RMISecurityManager());
+			}
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		}
+	}
 }

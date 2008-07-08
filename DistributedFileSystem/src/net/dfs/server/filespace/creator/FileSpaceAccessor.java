@@ -12,21 +12,27 @@
  * under the License.
  */
 
-package net.dfs.server.filespace.creator.impl;
+package net.dfs.server.filespace.creator;
 
-import java.rmi.RMISecurityManager;
+import net.dfs.server.filemodel.FileModel;
 
-import net.dfs.server.filespace.creator.SecurityManager;
-
-public class SecurityManagerImpl implements SecurityManager{
+/**
+ * FileSpace Interface configures the Space and
+ * Insert files into the Space
+ * 
+ * @author Rukshan Silva
+ */
+public interface FileSpaceAccessor {
 	
-	public void securityManager() {
-		try {
-			if(System.getSecurityManager() == null){
-				System.setSecurityManager(new RMISecurityManager());
-			}
-		} catch (RuntimeException e) {
-			e.printStackTrace();
-		}
-	}
+	/**
+	 * fileSpace() configures the Space
+	 */
+	public void fileSpace();
+
+	/**
+	 * writeToSPace() Insert the file into the Space
+	 * @param modeled file
+	 */
+	public void writeToSpace(FileModel file);
+
 }

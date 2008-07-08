@@ -14,25 +14,20 @@
 
 package net.dfs.server.filespace.creator;
 
-import net.dfs.server.filemodel.FileModel;
+import net.jini.space.JavaSpace;
 
 /**
- * FileSpace Interface configures the Space and
- * Insert files into the Space
+ * Lookup Interface Creates the JavaSpace
  * 
  * @author Rukshan Silva
  */
-public interface FileSpace {
+public interface FileSpaceCreator {
+
+	/**
+	 * getSpace() creates and returns the created Space
+	 * @return Space
+	 */
+	public JavaSpace getSpace(String host);
+
 	
-	/**
-	 * fileSpace() configures the Space
-	 */
-	public void fileSpace();
-
-	/**
-	 * writeToSPace() Insert the file into the Space
-	 * @param modeled file
-	 */
-	public void writeToSpace(FileModel file);
-
 }

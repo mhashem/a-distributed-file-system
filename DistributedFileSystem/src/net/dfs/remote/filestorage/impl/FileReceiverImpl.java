@@ -6,8 +6,8 @@ import java.rmi.RemoteException;
 import net.dfs.remote.filestorage.FileReceiver;
 import net.dfs.remote.filestorage.StoreFile;
 import net.dfs.server.filemodel.FileModel;
-import net.dfs.server.filespace.creator.SpaceAccessor;
-import net.dfs.server.filespace.creator.SpaceHost;
+import net.dfs.server.filespace.creator.FileSpaceCreator;
+import net.dfs.server.filespace.creator.HostAddressCreator;
 import net.jini.core.entry.UnusableEntryException;
 import net.jini.core.transaction.TransactionException;
 import net.jini.space.JavaSpace;
@@ -17,8 +17,8 @@ import org.apache.commons.logging.LogFactory;
 
 public class FileReceiverImpl implements FileReceiver{
 	
-	private SpaceAccessor lookup;
-	private SpaceHost spaceHost;
+	private FileSpaceCreator spaceCreator;
+	private HostAddressCreator addressCreator;
 	private JavaSpace space;
 	private StoreFile storeFile;
 	private Log log = LogFactory.getLog(FileReceiverImpl.class);
@@ -27,7 +27,7 @@ public class FileReceiverImpl implements FileReceiver{
 		log.debug("-- ConnectJavaSpce()called ");
 		
 		try {
-			space = lookup.getSpace(spaceHost.getHostAddress());
+			space = spaceCreator.getSpace(addressCreator.getHostAddress());
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -66,12 +66,13 @@ public class FileReceiverImpl implements FileReceiver{
 
 	}
 
-	public void setSpaceHost(SpaceHost spaceHost) {
-		this.spaceHost = spaceHost;
+
+	public void setSpaceCreator(FileSpaceCreator spaceCreator) {
+		this.spaceCreator = spaceCreator;
 	}
 
-	public void setLookup(SpaceAccessor lookup) {
-		this.lookup = lookup;
+	public void setAddressCreator(HostAddressCreator addressCreator) {
+		this.addressCreator = addressCreator;
 	}
 
 	public void setStoreFile(StoreFile storeFile) {

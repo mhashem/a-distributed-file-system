@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import net.dfs.server.filemodel.FileCreator;
 import net.dfs.server.filemodel.FileModel;
-import net.dfs.server.filespace.creator.FileSpace;
+import net.dfs.server.filespace.creator.FileSpaceAccessor;
 import net.dfs.server.filesplitter.SplitFile;
 
 import org.apache.commons.logging.Log;
@@ -15,8 +15,7 @@ import org.apache.commons.logging.LogFactory;
 
 public class SplitFileImpl implements SplitFile {
 	
-	private FileCreator fileCreator;
-	private FileSpace fileSpace;
+	private FileSpaceAccessor spaceAccessor;
 	private String fileName;
 	private Log log = LogFactory.getLog(SplitFileImpl.class);
 
@@ -29,7 +28,7 @@ public class SplitFileImpl implements SplitFile {
 		
 
 		try {
-			fileSpace.fileSpace();
+			spaceAccessor.fileSpace();
 			FileModel fileModel = new FileModel();
 			
 			while((bytesRead = FileCreator.getBufferedInputStream().read(buffer)) != -1){
@@ -38,7 +37,7 @@ public class SplitFileImpl implements SplitFile {
 				fileModel.bytesRead = bytesRead;
 				fileModel.bytes = buffer;
 				
-				fileSpace.writeToSpace(fileModel);
+				spaceAccessor.writeToSpace(fileModel);
 
 			}
 		} catch (IOException e) {
@@ -55,13 +54,8 @@ public class SplitFileImpl implements SplitFile {
 		this.fileName = fileName;
 	}
 
-	public void setFileSpace(FileSpace fileSpace) {
-		this.fileSpace = fileSpace;
+	public void setSpaceAccessor(FileSpaceAccessor spaceAccessor) {
+		this.spaceAccessor = spaceAccessor;
 	}
-
-	public void setFileCreator(FileCreator fileCreator) {
-		this.fileCreator = fileCreator;
-	}
-
 
 }

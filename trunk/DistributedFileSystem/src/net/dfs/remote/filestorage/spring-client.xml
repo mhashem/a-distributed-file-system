@@ -22,30 +22,19 @@
 				<property name="hashTable" ref ="hashtable" />
 			</bean>
 
-<!-- 
-			<bean id="spaceAccessor" class="net.dfs.server.filespace.creator.impl.SpaceAccessorImpl" >
-				<property name="security" ref ="security" />
-			</bean>
-
-			<bean id="security" class="net.dfs.server.filespace.creator.impl.SecurityManagerImpl" />
-
-			<bean id="hashtable" class="net.dfs.server.filemapper.impl.MapFileImpl" />
-
-			<bean id="host" class="net.dfs.server.filespace.creator.impl.SpaceHostImpl" />
- -->		
 		
 			<bean id="spaceAccessor" class="org.springframework.remoting.rmi.RmiProxyFactoryBean" >
- 			   	<property name="serviceUrl" value="rmi://192.168.2.2:8080/"/>
+ 			   	<property name="serviceUrl" value="rmi://192.168.2.2:8989/SpaceAccessor"/>
  				<property name="serviceInterface" value="net.dfs.server.filespace.creator.SpaceAccessor"/>
  			</bean>
  
 			<bean id="hashtable" class="org.springframework.remoting.rmi.RmiProxyFactoryBean" >
-			   	<property name="serviceUrl" value="rmi://192.168.2.2:8080/" />
+			   	<property name="serviceUrl" value="rmi://192.168.2.2:8989/MapFile" />
  				<property name="serviceInterface" value="net.dfs.server.filemapper.MapFile"/>
  			</bean>
  
 			<bean id="host" class="org.springframework.remoting.rmi.RmiProxyFactoryBean" >
-			   	<property name="serviceUrl" value="rmi://192.168.2.2:8080/" />
+			   	<property name="serviceUrl" value="rmi://192.168.2.2:8989/SpaceHost" />
  				<property name="serviceInterface" value="net.dfs.server.filespace.creator.SpaceHost"/>
  			</bean>
  

@@ -19,9 +19,6 @@ public class MainClient {
 		ApplicationContext context = new ClassPathXmlApplicationContext("net\\dfs\\remote\\filestorage\\spring-client.xml");
 		FileReceiver receiveFile = (FileReceiver) context.getBean("receiveFile");
 		
-//		MessageShell ms = (MessageShell) context.getBean("ms");
-//		ms.readImpl();
-		
 		receiveFile.connectJavaSpace();
 		receiveFile.retrieveFile();
 	}

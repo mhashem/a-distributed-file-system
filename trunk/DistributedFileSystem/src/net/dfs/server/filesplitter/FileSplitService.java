@@ -19,7 +19,7 @@ package net.dfs.server.filesplitter;
  * 
  * @author Rukshan Silva
  */
-public interface SplitFile {
+public interface FileSplitService {
 	
 	/**
 	 * split the file

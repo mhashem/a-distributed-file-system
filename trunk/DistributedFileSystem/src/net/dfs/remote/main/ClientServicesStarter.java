@@ -3,7 +3,7 @@ package net.dfs.remote.main;
 import net.dfs.remote.filestorage.FileReceiver;
 import net.dfs.remote.filestorage.impl.FileReceiverImplementation;
 import net.dfs.server.filespace.accessor.impl.FileSpaceAccessorImplementation;
-import net.dfs.server.filesplitter.SplitFile;
+import net.dfs.server.filesplitter.FileSplitService;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

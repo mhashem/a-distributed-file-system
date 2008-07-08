@@ -3,7 +3,7 @@
  */
 package net.dfs.server.main;
 
-import net.dfs.server.filesplitter.SplitFile;
+import net.dfs.server.filesplitter.FileSplitService;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -16,7 +16,7 @@ public class ServerServicesStarter {
 	public static void main(String args []){
 		
 		ApplicationContext context = new ClassPathXmlApplicationContext("net\\dfs\\server\\filespace\\creator\\spring-server.xml");
-		SplitFile splitfile = (SplitFile) context.getBean("splitfile");
+		FileSplitService splitfile = (FileSplitService) context.getBean("splitfile");
 		
 		splitfile.split();
 		

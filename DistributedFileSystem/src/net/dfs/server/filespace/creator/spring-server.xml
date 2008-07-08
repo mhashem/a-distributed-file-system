@@ -12,7 +12,7 @@
 
 			<!-- Spring Beans Definition -->
 			
-			<bean id="splitfile" class="net.dfs.server.filesplitter.impl.SplitFileImpl" >
+			<bean id="splitfile" class="net.dfs.server.filesplitter.impl.FileSplitServiceImplementation" >
 				<property name="fileName" value="C:\\Done.txt" />
 				<property name="spaceAccessor" ref ="spaceAccessor" />
 				</bean>

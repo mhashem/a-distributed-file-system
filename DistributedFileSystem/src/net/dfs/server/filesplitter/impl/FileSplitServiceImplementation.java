@@ -8,16 +8,16 @@ import java.io.IOException;
 import net.dfs.server.filemodel.FileCreator;
 import net.dfs.server.filemodel.FileModel;
 import net.dfs.server.filespace.accessor.FileSpaceAccessor;
-import net.dfs.server.filesplitter.SplitFile;
+import net.dfs.server.filesplitter.FileSplitService;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class SplitFileImpl implements SplitFile {
+public class FileSplitServiceImplementation implements FileSplitService {
 	
 	private FileSpaceAccessor spaceAccessor;
 	private String fileName;
-	private Log log = LogFactory.getLog(SplitFileImpl.class);
+	private Log log = LogFactory.getLog(FileSplitServiceImplementation.class);
 
 	public void split() {
 		

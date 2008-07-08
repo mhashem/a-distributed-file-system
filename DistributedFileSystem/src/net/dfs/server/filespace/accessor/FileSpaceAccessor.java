@@ -12,7 +12,7 @@
  * under the License.
  */
 
-package net.dfs.server.filespace.creator;
+package net.dfs.server.filespace.accessor;
 
 import net.dfs.server.filemodel.FileModel;
 

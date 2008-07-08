@@ -3,14 +3,14 @@ package net.dfs.remote.filestorage.impl;
 import java.io.IOException;
 import java.net.InetAddress;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.dfs.remote.filestorage.StoreFile;
 import net.dfs.server.filemapper.MapFile;
 import net.dfs.server.filemapper.impl.MapFileImpl;
 import net.dfs.server.filemodel.FileCreator;
 import net.dfs.server.filemodel.FileModel;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 public class StoreFileImpl implements StoreFile{
 	
@@ -21,8 +21,8 @@ public class StoreFileImpl implements StoreFile{
 	public void fileStorage() {
 	
 		try {
-			((MapFileImpl) hashTable).setKey(storeFile.fileName);
-			((MapFileImpl) hashTable).setValue(InetAddress.getLocalHost().getHostAddress());
+			((MapFile) hashTable).setKey(storeFile.fileName);
+			((MapFile) hashTable).setValue(InetAddress.getLocalHost().getHostAddress());
 			hashTable.createHashIndex();
 			
 			FileCreator.setBufferedOutputStream(storeFile.fileName);

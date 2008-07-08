@@ -1,6 +1,6 @@
 package net.dfs.server.filemapper;
 
-public interface MapFile {
+public interface FileLocationTracker {
 	
 	public void createHashIndex();
 

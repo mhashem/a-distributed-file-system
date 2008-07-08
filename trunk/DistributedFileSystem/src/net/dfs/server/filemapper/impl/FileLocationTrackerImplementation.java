@@ -3,9 +3,9 @@ package net.dfs.server.filemapper.impl;
 import java.util.Enumeration;
 import java.util.Hashtable;
 
-import net.dfs.server.filemapper.MapFile;
+import net.dfs.server.filemapper.FileLocationTracker;
 
-public class MapFileImpl implements MapFile{
+public class FileLocationTrackerImplementation implements FileLocationTracker{
 	private String key;
 	private String value;
 	
@@ -18,7 +18,7 @@ public class MapFileImpl implements MapFile{
 	}
 	
 	public static void main(String args[]){
-		MapFileImpl map = new MapFileImpl();
+		FileLocationTrackerImplementation map = new FileLocationTrackerImplementation();
 		map.retreveKeys();
 		System.out.println("All the Keys.... ");
 	}	

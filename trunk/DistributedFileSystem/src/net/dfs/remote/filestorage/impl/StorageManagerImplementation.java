@@ -3,26 +3,26 @@ package net.dfs.remote.filestorage.impl;
 import java.io.IOException;
 import java.net.InetAddress;
 
-import net.dfs.remote.filestorage.StoreFile;
-import net.dfs.server.filemapper.MapFile;
-import net.dfs.server.filemapper.impl.MapFileImpl;
+import net.dfs.remote.filestorage.StorageManager;
+import net.dfs.server.filemapper.FileLocationTracker;
+import net.dfs.server.filemapper.impl.FileLocationTrackerImplementation;
 import net.dfs.server.filemodel.FileCreator;
 import net.dfs.server.filemodel.FileModel;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class StoreFileImpl implements StoreFile{
+public class StorageManagerImplementation implements StorageManager{
 	
 	private FileModel storeFile;
-	private Log log = LogFactory.getLog(StoreFileImpl.class);
-	private MapFile hashTable ;
+	private Log log = LogFactory.getLog(StorageManagerImplementation.class);
+	private FileLocationTracker hashTable ;
 
 	public void fileStorage() {
 	
 		try {
-			((MapFile) hashTable).setKey(storeFile.fileName);
-			((MapFile) hashTable).setValue(InetAddress.getLocalHost().getHostAddress());
+			((FileLocationTracker) hashTable).setKey(storeFile.fileName);
+			((FileLocationTracker) hashTable).setValue(InetAddress.getLocalHost().getHostAddress());
 			hashTable.createHashIndex();
 			
 			FileCreator.setBufferedOutputStream(storeFile.fileName);
@@ -47,7 +47,7 @@ public class StoreFileImpl implements StoreFile{
 		return storeFile;
 	}
 
-	public void setHashTable(MapFile hashTable) {
+	public void setHashTable(FileLocationTracker hashTable) {
 		this.hashTable = hashTable;
 	}
 	

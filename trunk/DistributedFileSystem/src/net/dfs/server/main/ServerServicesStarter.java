@@ -1,7 +1,7 @@
 /**
  * 
  */
-package net.dfs.server.filesplitter.impl;
+package net.dfs.server.main;
 
 import net.dfs.server.filesplitter.SplitFile;
 
@@ -10,8 +10,8 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class MainServer {
-	private Log log = LogFactory.getLog(MainServer.class);
+public class ServerServicesStarter {
+	private Log log = LogFactory.getLog(ServerServicesStarter.class);
 
 	public static void main(String args []){
 		

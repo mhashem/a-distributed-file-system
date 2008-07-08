@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import net.dfs.server.filemodel.FileCreator;
 import net.dfs.server.filemodel.FileModel;
-import net.dfs.server.filespace.creator.FileSpaceAccessor;
+import net.dfs.server.filespace.accessor.FileSpaceAccessor;
 import net.dfs.server.filesplitter.SplitFile;
 
 import org.apache.commons.logging.Log;

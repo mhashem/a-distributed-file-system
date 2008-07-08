@@ -12,13 +12,13 @@
  * under the License.
  */
 
-package net.dfs.server.filespace.creator.impl;
+package net.dfs.server.filespace.accessor.impl;
 
 import java.io.IOException;
 import java.rmi.RemoteException;
 
 import net.dfs.server.filemodel.FileModel;
-import net.dfs.server.filespace.creator.FileSpaceAccessor;
+import net.dfs.server.filespace.accessor.FileSpaceAccessor;
 import net.dfs.server.filespace.creator.FileSpaceCreator;
 import net.dfs.server.filespace.creator.HostAddressCreator;
 import net.jini.core.transaction.TransactionException;

@@ -16,27 +16,26 @@ package net.dfs.server.filespace.creator.impl;
 
 import java.io.IOException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
+import net.dfs.server.filespace.creator.FileSpaceCreator;
 import net.dfs.server.filespace.creator.SecurityManager;
-import net.dfs.server.filespace.creator.SpaceAccessor;
-import net.dfs.server.filespace.creator.SpaceHost;
 import net.jini.core.discovery.LookupLocator;
 import net.jini.core.lookup.ServiceRegistrar;
 import net.jini.core.lookup.ServiceTemplate;
 import net.jini.space.JavaSpace;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
-public class SpaceAccessorImpl implements SpaceAccessor{
-	private SecurityManager security;
-	private Log log = LogFactory.getLog(SpaceAccessorImpl.class);
+
+public class FileSpaceCreatorImplementation implements FileSpaceCreator{
+	private SecurityManager securityManager;
+	private Log log = LogFactory.getLog(FileSpaceCreatorImplementation.class);
 
 	@SuppressWarnings("unchecked")
 	public JavaSpace getSpace(String host) {
 		
 		try {
-			security.securityManager();
+			securityManager.securityManager();
 
 			
 			LookupLocator lookup = new LookupLocator("jini://" + host);
@@ -61,9 +60,9 @@ public class SpaceAccessorImpl implements SpaceAccessor{
 		return null;
 	}
 
-	public void setSecurity(SecurityManager security) {
-		this.security = security;
+	public void setSecurityManager(SecurityManager securityManager) {
+		this.securityManager = securityManager;
 	}
-	
+
 	
 }

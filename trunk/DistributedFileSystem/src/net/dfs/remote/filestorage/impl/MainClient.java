@@ -1,7 +1,7 @@
 package net.dfs.remote.filestorage.impl;
 
 import net.dfs.remote.filestorage.FileReceiver;
-import net.dfs.server.filespace.creator.impl.FileSpaceImpl;
+import net.dfs.server.filespace.creator.impl.FileSpaceAccessorImplementation;
 import net.dfs.server.filesplitter.SplitFile;
 
 import org.apache.commons.logging.Log;
@@ -12,7 +12,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class MainClient {
 
 	private static FileReceiver receiveFile;
-	private static Log log = LogFactory.getLog(FileSpaceImpl.class);
+	private static Log log = LogFactory.getLog(FileSpaceAccessorImplementation.class);
 	
 	public static void main(String args []) {
 		

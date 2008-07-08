@@ -3,9 +3,9 @@ package net.dfs.server.filespace.creator.impl;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import net.dfs.server.filespace.creator.SpaceHost;
+import net.dfs.server.filespace.creator.HostAddressCreator;
 
-public class SpaceHostImpl implements SpaceHost{
+public class HostAddressCreatorImplementation implements HostAddressCreator{
 
 	public String getHostAddress() {
 		

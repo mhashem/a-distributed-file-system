@@ -18,29 +18,27 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 
 import net.dfs.server.filemodel.FileModel;
-import net.dfs.server.filespace.creator.FileSpace;
-import net.dfs.server.filespace.creator.SecurityManager;
-import net.dfs.server.filespace.creator.SpaceAccessor;
-import net.dfs.server.filespace.creator.SpaceHost;
-import net.jini.core.entry.UnusableEntryException;
+import net.dfs.server.filespace.creator.FileSpaceAccessor;
+import net.dfs.server.filespace.creator.FileSpaceCreator;
+import net.dfs.server.filespace.creator.HostAddressCreator;
 import net.jini.core.transaction.TransactionException;
 import net.jini.space.JavaSpace;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class FileSpaceImpl implements FileSpace {
+public class FileSpaceAccessorImplementation implements FileSpaceAccessor {
 	
-	private SpaceAccessor lookup;
+	private FileSpaceCreator spaceCreator;
 	private JavaSpace space ;
-	private SpaceHost spaceHost;
-	private Log log = LogFactory.getLog(FileSpaceImpl.class);
+	private HostAddressCreator addressCreator;
+	private Log log = LogFactory.getLog(FileSpaceAccessorImplementation.class);
 	
 	public void fileSpace(){
 		
 
 		try {
-			space = lookup.getSpace(spaceHost.getHostAddress());
+			space = spaceCreator.getSpace(addressCreator.getHostAddress());
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -92,12 +90,13 @@ public class FileSpaceImpl implements FileSpace {
 		}
 	}
 
-	public void setLookup(SpaceAccessor lookup) {
-		this.lookup = lookup;
+	public void setSpaceCreator(FileSpaceCreator spaceCreator) {
+		this.spaceCreator = spaceCreator;
 	}
 
-	public void setSpaceHost(SpaceHost spaceHost) {
-		this.spaceHost = spaceHost;
+	public void setAddressCreator(HostAddressCreator addressCreator) {
+		this.addressCreator = addressCreator;
 	}
-	
+
+
 }

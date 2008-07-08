@@ -2,7 +2,6 @@ package net.dfs.server.filespace.creator.impl;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
-import java.rmi.server.UnicastRemoteObject;
 
 import net.dfs.server.filemodel.FileModel;
 import net.jini.core.entry.UnusableEntryException;

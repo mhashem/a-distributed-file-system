@@ -13,19 +13,19 @@
 			<!-- Spring Beans Definition -->
 	
 	 		<bean id="receiveFile" class="net.dfs.remote.filestorage.impl.FileReceiverImpl" >
-				<property name="lookup" ref ="spaceAccessor" />
-				<property name="spaceHost" ref ="host" />
-				<property name="storeFile" ref ="storefile" />
+				<property name="spaceCreator" ref ="spaceCreator" />
+				<property name="addressCreator" ref ="addressCreator" />
+				<property name="storeFile" ref ="storeFile" />
 			</bean>
 		
-			<bean id="storefile" class="net.dfs.remote.filestorage.impl.StoreFileImpl" >
+			<bean id="storeFile" class="net.dfs.remote.filestorage.impl.StoreFileImpl" >
 				<property name="hashTable" ref ="hashtable" />
 			</bean>
 
 		
-			<bean id="spaceAccessor" class="org.springframework.remoting.rmi.RmiProxyFactoryBean" >
- 			   	<property name="serviceUrl" value="rmi://192.168.2.2:8989/SpaceAccessor"/>
- 				<property name="serviceInterface" value="net.dfs.server.filespace.creator.SpaceAccessor"/>
+			<bean id="spaceCreator" class="org.springframework.remoting.rmi.RmiProxyFactoryBean" >
+ 			   	<property name="serviceUrl" value="rmi://192.168.2.2:8989/FileSpaceCreator"/>
+				<property name="serviceInterface" value="net.dfs.server.filespace.creator.FileSpaceCreator"/>
  			</bean>
  
 			<bean id="hashtable" class="org.springframework.remoting.rmi.RmiProxyFactoryBean" >
@@ -33,10 +33,10 @@
  				<property name="serviceInterface" value="net.dfs.server.filemapper.MapFile"/>
  			</bean>
  
-			<bean id="host" class="org.springframework.remoting.rmi.RmiProxyFactoryBean" >
-			   	<property name="serviceUrl" value="rmi://192.168.2.2:8989/SpaceHost" />
- 				<property name="serviceInterface" value="net.dfs.server.filespace.creator.SpaceHost"/>
- 			</bean>
+			<bean id="addressCreator" class="org.springframework.remoting.rmi.RmiProxyFactoryBean" >
+			   	<property name="serviceUrl" value="rmi://192.168.2.2:8989/HostAddressCreator" />
+  				<property name="serviceInterface" value="net.dfs.server.filespace.creator.HostAddressCreator"/>
+			</bean>
  
 </beans>
 		

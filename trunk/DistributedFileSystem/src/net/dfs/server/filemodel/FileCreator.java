@@ -2,38 +2,23 @@ package net.dfs.server.filemodel;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 public class FileCreator {
-
-	private static BufferedInputStream bufferedInputStream;
-	private static BufferedOutputStream bufferedOutputStream;
-
-	public static BufferedInputStream getBufferedInputStream() {
-		return bufferedInputStream;
-	}
-
-	public static void setBufferedInputStream(String fileName) {
-		try {
-			FileCreator.bufferedInputStream = new BufferedInputStream(new FileInputStream(new File(fileName)));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
+	private static BufferedOutputStream outputStream;
 	
-	public static BufferedOutputStream getBufferedOutputStream() {
-		return bufferedOutputStream;
+	public static BufferedInputStream BufferedInputStreamCreator(FileInputStream file) {
+		return new BufferedInputStream(file);
 	}
-	
-	public static void setBufferedOutputStream(String fileName) {
-		try {
-			FileCreator.bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(new File(fileName)));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
+
+	public static BufferedOutputStream getOutputStream() {
+		return outputStream;
 	}
+
+	public static void setOutputStream(FileOutputStream fileOutputStream) {
+		FileCreator.outputStream = new BufferedOutputStream(fileOutputStream);
+	}
+
 	
 }

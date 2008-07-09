@@ -1,5 +1,7 @@
 package net.dfs.remote.filestorage.impl;
 
+import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 
@@ -17,18 +19,19 @@ public class StorageManagerImplementation implements StorageManager{
 	private FileModel storeFile;
 	private Log log = LogFactory.getLog(StorageManagerImplementation.class);
 	private FileLocationTracker hashTable ;
-
-	public void fileStorage() {
 	
+	public void fileStorage() {
+
 		try {
 			((FileLocationTracker) hashTable).setKey(storeFile.fileName);
 			((FileLocationTracker) hashTable).setValue(InetAddress.getLocalHost().getHostAddress());
 			hashTable.createHashIndex();
 			
-			FileCreator.setBufferedOutputStream(storeFile.fileName);
-			FileCreator.getBufferedOutputStream().write(storeFile.bytes,0,storeFile.bytesRead);
-			FileCreator.getBufferedOutputStream().flush();
-			FileCreator.getBufferedOutputStream().close();
+			FileCreator.setOutputStream(new FileOutputStream(storeFile.fileName));
+
+			FileCreator.getOutputStream().write(storeFile.bytes,0,storeFile.bytesRead);
+			FileCreator.getOutputStream().flush();
+			FileCreator.getOutputStream().close();
 		
 			log.debug("-- File " + storeFile.fileName + " Saved to the Disk");
 

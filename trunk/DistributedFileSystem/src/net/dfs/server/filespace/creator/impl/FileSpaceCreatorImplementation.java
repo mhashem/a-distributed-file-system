@@ -43,10 +43,9 @@ public class FileSpaceCreatorImplementation implements FileSpaceCreator{
 			ServiceRegistrar registrar = lookup.getRegistrar();
 
 			Class[] types = new Class[]{JavaSpace.class};
-			log.debug("-- Entries Created");
 
 			JavaSpace space = (JavaSpace) registrar.lookup(new ServiceTemplate(null,types,null));
-			log.debug("-- Space Created");
+			log.debug("-- Accessed to the Space");
 			
 			return space;
 			

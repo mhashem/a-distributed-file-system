@@ -14,6 +14,8 @@
 
 package net.dfs.server.filesplitter;
 
+import java.io.FileInputStream;
+
 /**
  * SplitFile Interface Split the file into many chunks
  * 
@@ -24,6 +26,6 @@ public interface FileSplitService {
 	/**
 	 * split the file
 	 */
-	public void split();
+	public void split(FileInputStream fileStream);
 
 }

@@ -18,7 +18,8 @@ public class RetrievalManagerImpl implements RetrievalManager{
 		
 			System.out.println("CALLED !!! - Retrieve");
 		try {
-			inputStream = FileCreator.BufferedInputStreamCreator(new FileInputStream(fileName));
+			byte b[] = fileName.getBytes();
+			inputStream = FileCreator.BufferedInputStreamCreator(b);
 
 			byte[] buffer = new byte [inputStream.available()];
 			Integer bytesRead = 0;

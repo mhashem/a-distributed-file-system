@@ -26,6 +26,6 @@ public interface FileSplitService {
 	/**
 	 * split the file
 	 */
-	public void split(FileInputStream fileStream);
+	public void split(byte fileStream[]);
 
 }

@@ -12,7 +12,7 @@
 
 			<!-- Spring Beans Definition -->
 			
-			<bean id="store" class="net.dfs.user.connect.impl.StorageConnectionHandlerImpl" >
+			<bean id="storageHandler" class="net.dfs.user.connect.impl.StorageConnectionHandlerImpl" >
 				<property name="split" ref ="splitfile" />
 				</bean>
 
@@ -41,6 +41,12 @@
 				<property name="registryPort" value="8989"/>		
 			</bean>
 			
+			<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+				<property name="serviceName" value="StorageConnectionHandler" /> 
+				<property name="service" ref ="storageHandler" />
+ 				<property name="serviceInterface" value="net.dfs.user.connect.StorageConnectionHandler"/>
+				<property name="registryPort" value="8989"/>		
+			</bean>
 
 			<bean id="spaceAccessor" class="net.dfs.server.filespace.accessor.impl.FileSpaceAccessorImpl" >
 				<property name="addressCreator" ref ="addressCreator" />

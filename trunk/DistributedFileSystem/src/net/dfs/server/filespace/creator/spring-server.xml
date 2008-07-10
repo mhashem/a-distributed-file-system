@@ -12,6 +12,10 @@
 
 			<!-- Spring Beans Definition -->
 			
+			<bean id="store" class="net.dfs.user.connect.impl.StorageConnectionHandlerImplementation" >
+				<property name="split" ref ="splitfile" />
+				</bean>
+
 			<bean id="splitfile" class="net.dfs.server.filesplitter.impl.FileSplitServiceImplementation" >
 				<property name="spaceAccessor" ref ="spaceAccessor" />
 				</bean>
@@ -20,21 +24,21 @@
 				<property name="serviceName" value="HostAddressCreator" /> 
 				<property name="service" ref ="addressCreator" />
  				<property name="serviceInterface" value="net.dfs.server.filespace.creator.HostAddressCreator"/>
-				<property name="registryPort" value="8686"/>		
+				<property name="registryPort" value="8989"/>		
 			</bean>
 
 			<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
 				<property name="serviceName" value="FileSpaceCreator" /> 
 				<property name="service" ref ="spaceCreator" />
 				<property name="serviceInterface" value="net.dfs.server.filespace.creator.FileSpaceCreator"/>
- 				<property name="registryPort" value="8686"/>		
+ 				<property name="registryPort" value="8989"/>		
 			</bean>
 
 			<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
 				<property name="serviceName" value="FileLocationTracker" /> 
 				<property name="service" ref ="hashtable" />
  				<property name="serviceInterface" value="net.dfs.server.filemapper.FileLocationTracker"/>
-				<property name="registryPort" value="8686"/>		
+				<property name="registryPort" value="8989"/>		
 			</bean>
 			
 

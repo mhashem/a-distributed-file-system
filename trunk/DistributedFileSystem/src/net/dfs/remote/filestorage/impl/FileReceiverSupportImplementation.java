@@ -3,7 +3,7 @@ package net.dfs.remote.filestorage.impl;
 import java.io.IOException;
 import java.rmi.RemoteException;
 
-import net.dfs.remote.filestorage.FileReceiver;
+import net.dfs.remote.filestorage.FileReceiverSupport;
 import net.dfs.remote.filestorage.StorageManager;
 import net.dfs.server.filemodel.FileModel;
 import net.dfs.server.filespace.creator.FileSpaceCreator;
@@ -15,13 +15,13 @@ import net.jini.space.JavaSpace;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class FileReceiverImplementation implements FileReceiver{
+public class FileReceiverSupportImplementation implements FileReceiverSupport{
 	
 	private FileSpaceCreator spaceCreator;
 	private HostAddressCreator addressCreator;
 	private JavaSpace space;
 	private StorageManager storageManager;
-	private Log log = LogFactory.getLog(FileReceiverImplementation.class);
+	private Log log = LogFactory.getLog(FileReceiverSupportImplementation.class);
 	
 	public void connectJavaSpace(){
 		log.debug("-- ConnectJavaSpce()called ");

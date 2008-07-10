@@ -12,7 +12,7 @@
 
 			<!-- Spring Beans Definition -->
 	
-	 		<bean id="receiveFile" class="net.dfs.remote.filestorage.impl.FileReceiverImplementation" >
+	 		<bean id="receiveFile" class="net.dfs.remote.filestorage.impl.FileReceiverSupportImplementation" >
 				<property name="spaceCreator" ref ="spaceCreator" />
 				<property name="addressCreator" ref ="addressCreator" />
 				<property name="storageManager" ref ="storageManager" />
@@ -37,6 +37,24 @@
 			   	<property name="serviceUrl" value="rmi://192.168.2.2:8989/HostAddressCreator" />
   				<property name="serviceInterface" value="net.dfs.server.filespace.creator.HostAddressCreator"/>
 			</bean>
+			
+ <!-- Client  -->
  
+ 			<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+				<property name="serviceName" value="RetrievalManager" /> 
+				<property name="service" ref ="retrievalManager" />
+ 				<property name="serviceInterface" value="net.dfs.remote.fileretrieve.RetrievalManager"/>
+				<property name="registryPort" value="8989"/>		
+			</bean>
+ 
+ 			<bean id="retrievalManager" class="net.dfs.remote.fileretrieve.impl.RetrievalManagerImplementation" >
+				<property name="fileSender" ref ="fileSender" />
+ 			</bean>
+ 
+ 			<bean id="fileSender" class="net.dfs.remote.fileretrieve.impl.FileSenderSupportImplementation" >
+				<property name="spaceCreator" ref ="spaceCreator" />
+				<property name="addressCreator" ref ="addressCreator" />
+ 			</bean>
+
 </beans>
 		

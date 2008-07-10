@@ -21,7 +21,7 @@ package net.dfs.remote.filestorage;
  * 
  * @author Rukshan Silva
  */
-public interface FileReceiver {
+public interface FileReceiverSupport {
 	
 	/**
 	 * connectJavaSpace() connects to the Space

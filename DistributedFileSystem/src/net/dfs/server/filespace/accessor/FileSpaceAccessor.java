@@ -14,7 +14,7 @@
 
 package net.dfs.server.filespace.accessor;
 
-import net.dfs.server.filemodel.FileModel;
+import net.dfs.server.filemodel.FileStorageModel;
 
 /**
  * FileSpace Interface configures the Space and
@@ -33,6 +33,6 @@ public interface FileSpaceAccessor {
 	 * writeToSPace() Insert the file into the Space
 	 * @param modeled file
 	 */
-	public void writeToSpace(FileModel file);
+	public void writeToSpace(FileStorageModel file);
 
 }

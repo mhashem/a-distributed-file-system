@@ -3,7 +3,7 @@ package net.dfs.server.filespace.creator.impl;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 
-import net.dfs.server.filemodel.FileModel;
+import net.dfs.server.filemodel.FileStorageModel;
 import net.jini.core.entry.UnusableEntryException;
 import net.jini.core.event.RemoteEvent;
 import net.jini.core.event.RemoteEventListener;
@@ -34,10 +34,10 @@ public class FileListenerImpl implements RemoteEventListener, Serializable{
 	
 	public void notify(RemoteEvent event) throws UnknownEventException,
 			RemoteException {
-		FileModel temp = new FileModel();
+		FileStorageModel temp = new FileStorageModel();
 		
 		try {
-			FileModel result = (FileModel) space.read(temp, null, Long.MAX_VALUE);
+			FileStorageModel result = (FileStorageModel) space.read(temp, null, Long.MAX_VALUE);
 		
 			System.out.println(result.fileName);
 		} catch (UnusableEntryException e) {

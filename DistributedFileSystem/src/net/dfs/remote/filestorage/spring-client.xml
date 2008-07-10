@@ -12,14 +12,14 @@
 
 			<!-- Spring Beans Definition -->
 	
-	 		<bean id="receiveFile" class="net.dfs.remote.filestorage.impl.FileReceiverSupportImplementation" >
+	 		<bean id="receiveFile" class="net.dfs.remote.filestorage.impl.FileReceiverSupportImpl" >
 				<property name="spaceCreator" ref ="spaceCreator" />
 				<property name="addressCreator" ref ="addressCreator" />
 				<property name="storageManager" ref ="storageManager" />
 			</bean>
 		
-			<bean id="storageManager" class="net.dfs.remote.filestorage.impl.StorageManagerImplementation" >
-				<property name="hashTable" ref ="hashtable" />
+			<bean id="storageManager" class="net.dfs.remote.filestorage.impl.StorageManagerImpl" >
+				<property name="hashMap" ref ="hashMap" />
 			</bean>
 
 		
@@ -28,7 +28,7 @@
 				<property name="serviceInterface" value="net.dfs.server.filespace.creator.FileSpaceCreator"/>
  			</bean>
  
-			<bean id="hashtable" class="org.springframework.remoting.rmi.RmiProxyFactoryBean" >
+			<bean id="hashMap" class="org.springframework.remoting.rmi.RmiProxyFactoryBean" >
 			   	<property name="serviceUrl" value="rmi://192.168.2.2:8989/FileLocationTracker" />
  				<property name="serviceInterface" value="net.dfs.server.filemapper.FileLocationTracker"/>
  			</bean>
@@ -47,11 +47,11 @@
 				<property name="registryPort" value="8989"/>		
 			</bean>
  
- 			<bean id="retrievalManager" class="net.dfs.remote.fileretrieve.impl.RetrievalManagerImplementation" >
+ 			<bean id="retrievalManager" class="net.dfs.remote.fileretrieve.impl.RetrievalManagerImpl" >
 				<property name="fileSender" ref ="fileSender" />
  			</bean>
  
- 			<bean id="fileSender" class="net.dfs.remote.fileretrieve.impl.FileSenderSupportImplementation" >
+ 			<bean id="fileSender" class="net.dfs.remote.fileretrieve.impl.FileSenderSupportImpl" >
 				<property name="spaceCreator" ref ="spaceCreator" />
 				<property name="addressCreator" ref ="addressCreator" />
  			</bean>

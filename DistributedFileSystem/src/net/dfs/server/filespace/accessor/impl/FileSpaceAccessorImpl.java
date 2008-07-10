@@ -17,7 +17,7 @@ package net.dfs.server.filespace.accessor.impl;
 import java.io.IOException;
 import java.rmi.RemoteException;
 
-import net.dfs.server.filemodel.FileModel;
+import net.dfs.server.filemodel.FileStorageModel;
 import net.dfs.server.filespace.accessor.FileSpaceAccessor;
 import net.dfs.server.filespace.creator.FileSpaceCreator;
 import net.dfs.server.filespace.creator.HostAddressCreator;
@@ -27,12 +27,12 @@ import net.jini.space.JavaSpace;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class FileSpaceAccessorImplementation implements FileSpaceAccessor {
+public class FileSpaceAccessorImpl implements FileSpaceAccessor {
 	
 	private FileSpaceCreator spaceCreator;
 	private JavaSpace space ;
 	private HostAddressCreator addressCreator;
-	private Log log = LogFactory.getLog(FileSpaceAccessorImplementation.class);
+	private Log log = LogFactory.getLog(FileSpaceAccessorImpl.class);
 	
 	public void fileSpace(){
 		
@@ -60,15 +60,15 @@ public class FileSpaceAccessorImplementation implements FileSpaceAccessor {
 */		
 	}
 
-	public void writeToSpace(FileModel file){
+	public void writeToSpace(FileStorageModel file){
 		
 		if(space != null){
 
-		FileModel fileTemp = new FileModel();
+		FileStorageModel fileTemp = new FileStorageModel();
 				
 			try {
 
-				space.write((FileModel)file, null, Long.MAX_VALUE);
+				space.write((FileStorageModel)file, null, Long.MAX_VALUE);
 				log.debug("-- File " + file.fileName + " Written to the Space");
 
 //				FileModel received = (FileModel) space.take((FileModel)fileTemp, null, Long.MAX_VALUE);

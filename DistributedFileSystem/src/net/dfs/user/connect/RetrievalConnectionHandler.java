@@ -1,8 +1,10 @@
 package net.dfs.user.connect;
 
+import net.dfs.remote.fileretrieve.RetrievalManager;
+
 
 public interface RetrievalConnectionHandler {
 
-	public RetrievalConnectionHandler createProxy();
+	public abstract RetrievalManager createProxy();
 	public void retrieveFile();
 }

@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 import net.dfs.server.filesplitter.FileSplitService;
 import net.dfs.user.connect.StorageConnectionHandler;
 
-public class StorageConnectionHandlerImplementation implements StorageConnectionHandler{
+public class StorageConnectionHandlerImpl implements StorageConnectionHandler{
 	private FileSplitService split;
 	
 	public void StoreFile(FileInputStream fileStream) {

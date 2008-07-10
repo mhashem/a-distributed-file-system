@@ -27,9 +27,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 
-public class FileSpaceCreatorImplementation implements FileSpaceCreator{
+public class FileSpaceCreatorImpl implements FileSpaceCreator{
 	private SecurityManager securityManager;
-	private Log log = LogFactory.getLog(FileSpaceCreatorImplementation.class);
+	private Log log = LogFactory.getLog(FileSpaceCreatorImpl.class);
 
 	@SuppressWarnings("unchecked")
 	public JavaSpace getSpace(String host) {

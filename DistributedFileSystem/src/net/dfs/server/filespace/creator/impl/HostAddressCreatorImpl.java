@@ -5,7 +5,7 @@ import java.net.UnknownHostException;
 
 import net.dfs.server.filespace.creator.HostAddressCreator;
 
-public class HostAddressCreatorImplementation implements HostAddressCreator{
+public class HostAddressCreatorImpl implements HostAddressCreator{
 
 	public String getHostAddress() {
 		

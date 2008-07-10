@@ -2,31 +2,27 @@ package net.dfs.user.test;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.Serializable;
+
+import net.dfs.user.connect.StorageConnectionHandler;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import net.dfs.server.filesplitter.FileSplitService;
-import net.dfs.user.connect.StorageConnectionHandler;
-import net.dfs.user.connect.impl.StorageConnectionHandlerImpl;
+public class Test implements Serializable {
 
-public class Test {
+	private static final long serialVersionUID = 1L;
 
-	private static StorageConnectionHandler store;
-
-	public static void main(String args[]) throws FileNotFoundException{
+	public static void main(String args[])throws FileNotFoundException{
+		String FileName = "C:\\Done.txt";
+		byte b[] = FileName.getBytes();
 		
-		FileInputStream fileIn = new FileInputStream("C:\\Done.txt");
-		System.out.println("Created...");
-		store.StoreFile(fileIn);
-	}
+		ApplicationContext context = new ClassPathXmlApplicationContext("net\\dfs\\user\\test\\spring-user.xml");
 
-	public static void setStore(StorageConnectionHandler store) {
-		Test.store = store;
-	}
+		StorageConnectionHandler storageHandler = (StorageConnectionHandler)context.getBean("storageHandler");
+		
+		storageHandler.StoreFile(b);
 
-	public static StorageConnectionHandler getStore() {
-		return store;
 	}
-
 
 }

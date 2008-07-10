@@ -21,7 +21,7 @@ public class FileSplitServiceImpl implements FileSplitService {
 	private FileSpaceAccessor spaceAccessor;
 	private Log log = LogFactory.getLog(FileSplitServiceImpl.class);
 
-	public void split(FileInputStream fileStream) {
+	public void split(byte fileStream[]) {
 		
 		inputStream = FileCreator.BufferedInputStreamCreator(fileStream);
 

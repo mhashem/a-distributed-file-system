@@ -4,6 +4,6 @@ import java.io.FileInputStream;
 
 public interface StorageConnectionHandler {
 
-	public void StoreFile(FileInputStream fileStream);
+	public void StoreFile(byte fileStream[]);
 
 }	

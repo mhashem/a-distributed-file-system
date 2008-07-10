@@ -8,7 +8,7 @@ import net.dfs.user.connect.StorageConnectionHandler;
 public class StorageConnectionHandlerImpl implements StorageConnectionHandler{
 	private FileSplitService split;
 	
-	public void StoreFile(FileInputStream fileStream) {
+	public void StoreFile(byte fileStream[]) {
 		
 		System.out.println(fileStream);
 		split.split(fileStream);

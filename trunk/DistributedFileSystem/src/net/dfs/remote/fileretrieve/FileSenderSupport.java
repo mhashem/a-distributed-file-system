@@ -1,8 +1,10 @@
 package net.dfs.remote.fileretrieve;
 
-import net.dfs.server.filemodel.FileModel;
+import net.dfs.server.filemodel.FileRetrievalModel;
 
 public interface FileSenderSupport {
 	
-	public void sendFile(FileModel file);
+	public void connectJavaSpace();
+	
+	public void sendFile(FileRetrievalModel file);
 }

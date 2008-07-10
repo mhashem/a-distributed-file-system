@@ -1,31 +1,28 @@
 package net.dfs.remote.filestorage.impl;
 
-import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 
 import net.dfs.remote.filestorage.StorageManager;
 import net.dfs.server.filemapper.FileLocationTracker;
-import net.dfs.server.filemapper.impl.FileLocationTrackerImplementation;
 import net.dfs.server.filemodel.FileCreator;
-import net.dfs.server.filemodel.FileModel;
+import net.dfs.server.filemodel.FileStorageModel;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class StorageManagerImplementation implements StorageManager{
+public class StorageManagerImpl implements StorageManager{
 	
-	private FileModel storeFile;
-	private Log log = LogFactory.getLog(StorageManagerImplementation.class);
-	private FileLocationTracker hashTable ;
+	private FileStorageModel storeFile;
+	private Log log = LogFactory.getLog(StorageManagerImpl.class);
+	private FileLocationTracker hashMap ;
 	
 	public void fileStorage() {
 
 		try {
-			((FileLocationTracker) hashTable).setKey(storeFile.fileName);
-			((FileLocationTracker) hashTable).setValue(InetAddress.getLocalHost().getHostAddress());
-			hashTable.createHashIndex();
+
+			hashMap.createHashIndex(storeFile.fileName, InetAddress.getLocalHost().getHostAddress());
 			
 			FileCreator.setOutputStream(new FileOutputStream(storeFile.fileName));
 
@@ -39,19 +36,20 @@ public class StorageManagerImplementation implements StorageManager{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		hashMap.retrieveKeys();
 	}
 
-	public void setStoreFile(FileModel storeFile) {
+	public void setStoreFile(FileStorageModel storeFile) {
 		this.storeFile = storeFile;
 	}
 
-	public FileModel getStoreFile() {
+	public FileStorageModel getStoreFile() {
 		return storeFile;
 	}
 
-	public void setHashTable(FileLocationTracker hashTable) {
-		this.hashTable = hashTable;
+	public void setHashMap(FileLocationTracker hashMap) {
+		this.hashMap = hashMap;
 	}
+
 	
 }

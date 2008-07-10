@@ -7,9 +7,9 @@ import java.io.IOException;
 import net.dfs.remote.fileretrieve.FileSenderSupport;
 import net.dfs.remote.fileretrieve.RetrievalManager;
 import net.dfs.server.filemodel.FileCreator;
-import net.dfs.server.filemodel.FileModel;
+import net.dfs.server.filemodel.FileRetrievalModel;
 
-public class RetrievalManagerImplementation implements RetrievalManager{
+public class RetrievalManagerImpl implements RetrievalManager{
 
 	private BufferedInputStream inputStream;
 	private FileSenderSupport fileSender;
@@ -22,14 +22,16 @@ public class RetrievalManagerImplementation implements RetrievalManager{
 
 			byte[] buffer = new byte [inputStream.available()];
 			Integer bytesRead = 0;
-		
-			FileModel fileModel = new FileModel();
+			
+			fileSender.connectJavaSpace();
+			FileRetrievalModel fileModel = new FileRetrievalModel();
 			
 			while((bytesRead = inputStream.read(buffer)) != -1){
+				fileModel.fileName = fileName;	
 				fileModel.fileName = fileName;
 				fileModel.bytesRead = bytesRead;
 				fileModel.bytes = buffer;
-
+				
 				System.out.println("CALLED !!! - Sending");
 				fileSender.sendFile(fileModel);
 				System.out.println("CALLED !!! - Sent");

@@ -8,18 +8,18 @@ import java.io.FileInputStream;
 import java.io.IOException;
 
 import net.dfs.server.filemodel.FileCreator;
-import net.dfs.server.filemodel.FileModel;
+import net.dfs.server.filemodel.FileStorageModel;
 import net.dfs.server.filespace.accessor.FileSpaceAccessor;
 import net.dfs.server.filesplitter.FileSplitService;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class FileSplitServiceImplementation implements FileSplitService {
+public class FileSplitServiceImpl implements FileSplitService {
 	
 	private BufferedInputStream inputStream;
 	private FileSpaceAccessor spaceAccessor;
-	private Log log = LogFactory.getLog(FileSplitServiceImplementation.class);
+	private Log log = LogFactory.getLog(FileSplitServiceImpl.class);
 
 	public void split(FileInputStream fileStream) {
 		
@@ -31,7 +31,7 @@ public class FileSplitServiceImplementation implements FileSplitService {
 
 		try {
 			spaceAccessor.fileSpace();
-			FileModel fileModel = new FileModel();
+			FileStorageModel fileModel = new FileStorageModel();
 			
 			while((bytesRead = inputStream.read(buffer)) != -1){
 				increment += 1;

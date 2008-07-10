@@ -2,17 +2,12 @@ package net.dfs.server.filemapper;
 
 public interface FileLocationTracker {
 	
-	public void createHashIndex();
+	public void createHashIndex(String key, String value);
 
-	public void retreveKeys();
+	public void retrieveKeys();
 	
+	public String getValues(String key);
 
-	public String getKey();
 
-	public void setKey(String key);
-
-	public String getValue();
-
-	public void setValue(String value);
-
+	
 }

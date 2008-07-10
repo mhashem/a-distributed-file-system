@@ -7,7 +7,7 @@ import org.springframework.context.ApplicationContext;
 
 import net.dfs.server.filesplitter.FileSplitService;
 import net.dfs.user.connect.StorageConnectionHandler;
-import net.dfs.user.connect.impl.StorageConnectionHandlerImplementation;
+import net.dfs.user.connect.impl.StorageConnectionHandlerImpl;
 
 public class Test {
 

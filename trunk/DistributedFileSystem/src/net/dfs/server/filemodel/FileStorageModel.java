@@ -19,7 +19,7 @@ import net.jini.entry.AbstractEntry;
 /**
  * @author Rukshan Silva
  */
-public class FileModel extends AbstractEntry{
+public class FileStorageModel extends AbstractEntry{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -28,20 +28,20 @@ public class FileModel extends AbstractEntry{
 	public byte [] bytes;
 
 	
-	public FileModel(){
+	public FileStorageModel(){
 		
 	}	
 
-	public FileModel(String fileName){
+	public FileStorageModel(String fileName){
 		super();
 		this.fileName = fileName;
 		
 	}	
-	public FileModel(Integer bytesRead){
+	public FileStorageModel(Integer bytesRead){
 		super();
 		this.bytesRead =  bytesRead;
 	}	
-	public FileModel(byte bytes[]){
+	public FileStorageModel(byte bytes[]){
 		super();
 		this.bytes = bytes;
 	}	

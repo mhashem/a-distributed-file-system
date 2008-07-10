@@ -18,7 +18,7 @@ import java.rmi.RMISecurityManager;
 
 import net.dfs.server.filespace.creator.SecurityManager;
 
-public class SecurityManagerImplementation implements SecurityManager{
+public class SecurityManagerImpl implements SecurityManager{
 	
 	public void securityManager() {
 		try {

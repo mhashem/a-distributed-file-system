@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 
 import net.dfs.remote.filestorage.FileReceiverSupport;
 import net.dfs.remote.filestorage.StorageManager;
-import net.dfs.server.filemodel.FileModel;
+import net.dfs.server.filemodel.FileStorageModel;
 import net.dfs.server.filespace.creator.FileSpaceCreator;
 import net.dfs.server.filespace.creator.HostAddressCreator;
 import net.jini.core.entry.UnusableEntryException;
@@ -15,13 +15,13 @@ import net.jini.space.JavaSpace;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class FileReceiverSupportImplementation implements FileReceiverSupport{
+public class FileReceiverSupportImpl implements FileReceiverSupport{
 	
 	private FileSpaceCreator spaceCreator;
 	private HostAddressCreator addressCreator;
 	private JavaSpace space;
 	private StorageManager storageManager;
-	private Log log = LogFactory.getLog(FileReceiverSupportImplementation.class);
+	private Log log = LogFactory.getLog(FileReceiverSupportImpl.class);
 	
 	public void connectJavaSpace(){
 		log.debug("-- ConnectJavaSpce()called ");
@@ -36,16 +36,16 @@ public class FileReceiverSupportImplementation implements FileReceiverSupport{
 	}
 	
 	public void retrieveFile(){
-		FileModel fileTemp = new FileModel();
+		FileStorageModel fileTemp = new FileStorageModel();
 		
 		if(space != null){
 			
 			for(;;){
 				try {
-					FileModel received = (FileModel) space.take(fileTemp, null, Long.MAX_VALUE);
+					FileStorageModel received = (FileStorageModel) space.take(fileTemp, null, Long.MAX_VALUE);
 					log.debug("--" + received.fileName + " Bytes READ -- " + received.bytesRead);
 					
-					((StorageManagerImplementation) storageManager).setStoreFile(received);
+					((StorageManagerImpl) storageManager).setStoreFile(received);
 					storageManager.fileStorage();
 					
 				} catch (RemoteException e) {

@@ -14,7 +14,6 @@
 
 package net.dfs.server.filespace.accessor.impl;
 
-import java.io.IOException;
 import java.rmi.RemoteException;
 
 import net.dfs.server.filemodel.FileStorageModel;
@@ -27,20 +26,28 @@ import net.jini.space.JavaSpace;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class FileSpaceAccessorImpl implements FileSpaceAccessor {
+/**
+ * Implementation of the {@link FileSpaceAccessor} which will be create a Space in 
+ * the local Server and the File objects will be written to the Space.
+ * 
+ * @author Rukshan Silva
+ * @version 1.0
+ */
+ public class FileSpaceAccessorImpl implements FileSpaceAccessor {
 	
 	private FileSpaceCreator spaceCreator;
 	private JavaSpace space ;
 	private HostAddressCreator addressCreator;
 	private Log log = LogFactory.getLog(FileSpaceAccessorImpl.class);
 	
+	/**
+	 * {@inheritDoc}
+	 */
 	public void fileSpace(){
 		
-
 		try {
 			space = spaceCreator.getSpace(addressCreator.getHostAddress());
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -60,27 +67,26 @@ public class FileSpaceAccessorImpl implements FileSpaceAccessor {
 */		
 	}
 
+	/**
+	 * writeToSPace will write a File object to the newly created local Space. It
+	 * makes sure the Space is not null before the File objects are been written to the 
+	 * Space.
+	 * <p>
+	 * It returns no value and throws RemoteException or TransactionException on a failure.
+	 * 
+	 * @param file is an object of the type {@link FileStorageModel}
+	 */
 	public void writeToSpace(FileStorageModel file){
 		
 		if(space != null){
 
-		FileStorageModel fileTemp = new FileStorageModel();
-				
 			try {
-
 				space.write((FileStorageModel)file, null, Long.MAX_VALUE);
 				log.debug("-- File " + file.fileName + " Written to the Space");
-
-//				FileModel received = (FileModel) space.take((FileModel)fileTemp, null, Long.MAX_VALUE);
-
-//				log.debug("-- File " + received.fileName + " Reading from the Space");
-//				log.debug("-- Bytes " + received.bytesRead + " Reading from the Space");
 
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			} catch (TransactionException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
 				e.printStackTrace();
 			}	
 		}
@@ -89,14 +95,24 @@ public class FileSpaceAccessorImpl implements FileSpaceAccessor {
 			System.exit(1);
 		}
 	}
-
+	
+	/**
+	 * setSpaceCreator will be used for the setter injection of the 
+	 * Spring container. It injects the dependency with {@link FileSpaceCreator}
+	 * 
+	 * @param spaceCreator is an object of type {@link FileSpaceCreator}
+	 */
 	public void setSpaceCreator(FileSpaceCreator spaceCreator) {
 		this.spaceCreator = spaceCreator;
 	}
 
+	/**
+	 * setAddressCreator will be used for the setter injection of the 
+	 * Spring container. It injects the dependency with {@link HostAddressCreator}
+	 * 
+	 * @param addressCreator is an object of type {@link HostAddressCreator}
+	 */
 	public void setAddressCreator(HostAddressCreator addressCreator) {
 		this.addressCreator = addressCreator;
 	}
-
-
 }

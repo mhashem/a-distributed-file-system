@@ -6,6 +6,7 @@ package net.dfs.server.main;
 import java.io.FileNotFoundException;
 
 import net.dfs.user.connect.StorageConnectionHandler;
+import net.dfs.user.connect.impl.RetrievalConnectionHandlerImpl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -17,13 +18,9 @@ public class ServerServicesStarter {
 	
 
 	public static void main(String args []) throws FileNotFoundException{
-		String FileName = "C:\\Done.txt";
-		byte b[] = FileName.getBytes();
 
 		ApplicationContext context = new ClassPathXmlApplicationContext("net\\dfs\\server\\filespace\\creator\\spring-server.xml");
-		StorageConnectionHandler storageHandler = (StorageConnectionHandler)context.getBean("storageHandler");
-		
-		storageHandler.StoreFile(b);
+		RetrievalConnectionHandlerImpl retreive = (RetrievalConnectionHandlerImpl) context.getBean("retreive");
 
 	}
 }

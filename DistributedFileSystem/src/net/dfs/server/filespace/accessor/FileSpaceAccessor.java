@@ -15,24 +15,30 @@
 package net.dfs.server.filespace.accessor;
 
 import net.dfs.server.filemodel.FileStorageModel;
+import net.dfs.server.filespace.creator.FileSpaceCreator;
 
 /**
- * FileSpace Interface configures the Space and
- * Insert files into the Space
+ * FileSpaceAccessor will get connected to the Space and write the File objects to the 
+ * Space. The Space is local to the Server and will receives an instance upon a successful 
+ * creation of a Space at {@link FileSpaceCreator}.
  * 
  * @author Rukshan Silva
+ * @version 1.0
  */
-public interface FileSpaceAccessor {
+ public interface FileSpaceAccessor {
 	
 	/**
-	 * fileSpace() configures the Space
+	 * fileSpace will connect to the {@link FileSpaceCreator} and get an instance of the Space. 
+	 * Throws a RemoteException on a failure. It accepts no values and returns 
+	 * no value.
 	 */
 	public void fileSpace();
 
 	/**
-	 * writeToSPace() Insert the file into the Space
-	 * @param modeled file
+	 * writeToSPace will write a File object to the newly created local Space.
+	 * 
+	 * @param file is an object of the type {@link FileStorageModel}
 	 */
 	public void writeToSpace(FileStorageModel file);
 
-}
+ }

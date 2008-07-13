@@ -14,22 +14,32 @@
 
 package net.dfs.remote.filestorage;
 
+import net.dfs.server.filespace.creator.FileSpaceCreator;
+
+
 /**
- * StoreFile Interface Connects to the Space
- * and get the Files and Stores them in the 
- * remote storage
+ * FileRetrieverSupport connects to the Space and takes the File objects from the 
+ * Space. This will retrieve an instance of the Space and then connect to the 
+ * Space on the startup of the client. 
+ * <p>
+ * Client will be keep listening to the 
+ * Space and when a File is been written to the Space, will take the File
+ * from the Space and store the File via {@link StorageManager}  
  * 
  * @author Rukshan Silva
+ * @version 1.0
  */
-public interface FileReceiverSupport {
+ public interface FileReceiverSupport {
 	
-	/**
-	 * connectJavaSpace() connects to the Space
-	 */
+	 /** 
+	  * connectJavaSpace will communicate with the {@link FileSpaceCreator} and 
+	  * will receive an instance of the Space. It accepts no arguments and returns no values.
+	  */
 	public void connectJavaSpace();
 	
 	/**
-	 * storeFile() Stores the file in the remote storage
+	 * retrieveFile will get the File objects from the Space and send it to the 
+	 * {@link StorageManager} for the Storage purposes.
 	 */
 	public void retrieveFile();
-}
+ }

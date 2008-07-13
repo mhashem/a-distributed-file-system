@@ -17,17 +17,22 @@ package net.dfs.server.filespace.creator;
 import net.jini.space.JavaSpace;
 
 /**
- * Lookup Interface Creates the JavaSpace
+ * FileSpacCreator will set the security manager,  create the method invocation 
+ * connections and creates an instance of the Space.
  * 
  * @author Rukshan Silva
+ * @version 1.0
  */
-public interface FileSpaceCreator {
+ public interface FileSpaceCreator {
 
 	/**
-	 * getSpace() creates and returns the created Space
-	 * @return Space
+	 * getSpace will create an instance to the Space in the given host 
+	 * and will return the created Space.
+	 * 
+	 * @param host the address of the machine in which, to create the Space
+	 * @return JavaSpace the newly created Space.
 	 */
 	public JavaSpace getSpace(String host);
 
 	
-}
+ }

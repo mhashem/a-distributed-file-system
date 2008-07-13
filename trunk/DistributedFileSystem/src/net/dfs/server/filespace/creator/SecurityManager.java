@@ -15,16 +15,18 @@
 package net.dfs.server.filespace.creator;
 
 /**
- * SecurityManager Interface Set Security and 
- * allow Privileges in connecting to the Space
+ * SecurityManager will Set Security and will allow Privileges in connecting 
+ * to the Space
  * 
  * @author Rukshan Silva
+ * @version 1.0
  */
-public interface SecurityManager {
+ public interface SecurityManager {
 
 	/**
-	 * securityManager() set the Security
+	 * securityManager will set the Security needed for connecting through the
+	 * server and remote nodes.
 	 */
 	public void securityManager ();
 	
-}
+ }

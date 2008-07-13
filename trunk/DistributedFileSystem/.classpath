@@ -36,8 +36,8 @@
 	<classpathentry kind="lib" path="D:/Java Libraries/jini-core/All/start.jar"/>
 	<classpathentry kind="lib" path="D:/Java Libraries/jini-core/All/sun-util.jar"/>
 	<classpathentry kind="lib" path="D:/Java Libraries/jini-core/All/tools.jar"/>
-	<classpathentry kind="lib" path="D:/Java Libraries/commons-logging-1.1/commons-logging-1.1.jar"/>
-	<classpathentry kind="lib" path="D:/Java Libraries/spring-framework-2.5/dist/spring.jar"/>
 	<classpathentry kind="lib" path="D:/Java Libraries/apache-log4j-1.2.15/log4j-1.2.15.jar"/>
+	<classpathentry kind="lib" path="D:/Java Libraries/commons-logging-1.1/commons-logging-1.1.jar"/>
+	<classpathentry kind="lib" path="D:/Java Libraries/spring-framework-2.5.1/dist/spring.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

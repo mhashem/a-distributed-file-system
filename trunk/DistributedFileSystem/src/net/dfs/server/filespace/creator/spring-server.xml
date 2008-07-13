@@ -65,5 +65,9 @@
 			<bean id="addressCreator" class="net.dfs.server.filespace.creator.impl.HostAddressCreatorImpl" >
  			</bean>
 
+			<bean id="retreive" class="net.dfs.user.connect.impl.RetrievalConnectionHandlerImpl" >
+				<property name="hashMap" ref ="hashMap" />
+ 			</bean>
+
 </beans>
 		

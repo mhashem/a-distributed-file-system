@@ -17,9 +17,16 @@ package net.dfs.server.filemodel;
 import net.jini.entry.AbstractEntry;
 
 /**
+ * FileStorageModel is the File object model class which extends from AbstractEntry. 
+ * The class contains all the properties which will be consists in a File object 
+ * model. The model used in storing the files in the remote nodes.
+ * <p>
+ * The values are being setting at the constructor.
+ * 
  * @author Rukshan Silva
- */
-public class FileStorageModel extends AbstractEntry{
+ * @version 1.0
+ */ 
+ public class FileStorageModel extends AbstractEntry{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -27,22 +34,37 @@ public class FileStorageModel extends AbstractEntry{
 	public Integer bytesRead;
 	public byte [] bytes;
 
-	
+	/**
+	 * The constructor which accepts no values.
+	 */
 	public FileStorageModel(){
 		
-	}	
-
+	}
+	
+	/**
+	 * The constructor which accepts the File Name and set it to the File's property, 
+	 * fileName.
+	 */
 	public FileStorageModel(String fileName){
 		super();
 		this.fileName = fileName;
-		
 	}	
+
+	/**
+	 * The constructor which accepts the total bytes read in the File 
+	 * and set it to the File's property, bytesRead.
+	 */
 	public FileStorageModel(Integer bytesRead){
 		super();
 		this.bytesRead =  bytesRead;
 	}	
+	
+	/**
+	 * The constructor which accepts the total bytes in the file and set it to the 
+	 * File's property, bytes.
+	 */
 	public FileStorageModel(byte bytes[]){
 		super();
 		this.bytes = bytes;
 	}	
-}
+ }

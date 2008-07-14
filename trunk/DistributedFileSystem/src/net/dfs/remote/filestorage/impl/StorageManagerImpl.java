@@ -67,7 +67,7 @@ import org.apache.commons.logging.LogFactory;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		hashMap.retrieveKeys();
+//		hashMap.retrieveKeys();
 	}
 	
 	/**

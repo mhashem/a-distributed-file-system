@@ -31,5 +31,5 @@ package net.dfs.remote.fileretrieve;
 	  * @param fileNames is the collection of file names, which will be read from
 	  * the local storage. 
 	  */
-	 public void retrieveFile(String[] fileNames);
+	 public void retrieveFile(String fileNames);
  }

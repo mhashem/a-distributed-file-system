@@ -48,6 +48,13 @@
 				<property name="registryPort" value="8989"/>		
 			</bean>
 
+			<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+				<property name="serviceName" value="RetrievalConnectionHandler" /> 
+				<property name="service" ref ="retrieve" />
+ 				<property name="serviceInterface" value="net.dfs.user.connect.RetrievalConnectionHandler"/>
+				<property name="registryPort" value="8989"/>		
+			</bean>
+
 			<bean id="spaceAccessor" class="net.dfs.server.filespace.accessor.impl.FileSpaceAccessorImpl" >
 				<property name="addressCreator" ref ="addressCreator" />
 				<property name="spaceCreator" ref ="spaceCreator" />
@@ -65,7 +72,11 @@
 			<bean id="addressCreator" class="net.dfs.server.filespace.creator.impl.HostAddressCreatorImpl" >
  			</bean>
 
-			<bean id="retreive" class="net.dfs.user.connect.impl.RetrievalConnectionHandlerImpl" >
+			<bean id="retrieve" class="net.dfs.user.connect.impl.RetrievalConnectionHandlerImpl" >
+				<property name="retrievalSrevice" ref ="retrievalSrevice" />
+ 			</bean>
+
+			<bean id="retrievalSrevice" class="net.dfs.server.retrieve.impl.FileRetrievalServiceImpl" >
 				<property name="hashMap" ref ="hashMap" />
  			</bean>
 

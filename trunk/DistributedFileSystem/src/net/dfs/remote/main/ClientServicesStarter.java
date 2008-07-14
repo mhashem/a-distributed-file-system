@@ -38,12 +38,12 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 	/**
 	 * Client application will be started with the main() of the {@link ClientServicesStarter}
 	 * 
-	 * @param args Any parameter which is passed to the main()
+	 * @param args the parameter which is passed to the main()
 	 */
 	public static void main(String args []) {
 		
 		ApplicationContext context = new ClassPathXmlApplicationContext("net\\dfs\\remote\\filestorage\\spring-client.xml");
-		FileReceiverSupportImpl receiveFile = (FileReceiverSupportImpl) context.getBean("receiveFile");
+		FileReceiverSupport receiveFile = (FileReceiverSupport) context.getBean("receiveFile");
 		
 		receiveFile.connectJavaSpace();
 		receiveFile.retrieveFile();

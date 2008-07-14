@@ -29,8 +29,8 @@ import net.jini.space.JavaSpace;
 	 * getSpace will create an instance to the Space in the given host 
 	 * and will return the created Space.
 	 * 
-	 * @param host the address of the machine in which, to create the Space
-	 * @return JavaSpace the newly created Space.
+	 * @param host the address of the node in which the Space needed to be created.
+	 * @return the newly created Space.
 	 */
 	public JavaSpace getSpace(String host);
 

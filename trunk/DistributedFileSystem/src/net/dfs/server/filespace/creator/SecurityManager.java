@@ -25,7 +25,7 @@ package net.dfs.server.filespace.creator;
 
 	/**
 	 * securityManager will set the Security needed for connecting through the
-	 * server and remote nodes.
+	 * server and remote nodes. It accepts no values and return no value.
 	 */
 	public void securityManager ();
 	

@@ -17,7 +17,7 @@
 				</bean>
 
 			<bean id="splitfile" class="net.dfs.server.filesplitter.impl.FileSplitServiceImpl" >
-				<property name="spaceAccessor" ref ="spaceAccessor" />
+				<property name="writeSpace" ref ="writeSpace" />
 				</bean>
 
 			<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
@@ -55,7 +55,7 @@
 				<property name="registryPort" value="8989"/>		
 			</bean>
 
-			<bean id="spaceAccessor" class="net.dfs.server.filespace.accessor.impl.FileSpaceAccessorImpl" >
+			<bean id="writeSpace" class="net.dfs.server.filespace.accessor.impl.WriteSpaceAccessorImpl" >
 				<property name="addressCreator" ref ="addressCreator" />
 				<property name="spaceCreator" ref ="spaceCreator" />
 			</bean>

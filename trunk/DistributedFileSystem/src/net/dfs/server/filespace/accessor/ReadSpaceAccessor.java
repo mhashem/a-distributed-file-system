@@ -12,28 +12,29 @@
  * under the License.
  */
 
-package net.dfs.remote.filestorage;
+package net.dfs.server.filespace.accessor;
 
-import net.dfs.server.filemapper.FileLocationTracker;
-import net.dfs.server.filemodel.FileStorageModel;
+import net.dfs.server.filemodel.FileRetrievalModel;
 
 /**
- * StorageManager will be responsible in storing the File physically in the local
- * storage. After the File is been taken from the Space, a notification will be sent 
- * to the {@link FileLocationTracker}.
+ * ReadSpaceAccessor will get connected to the Space and read the File objects 
+ * which have been written by the remote nodes.
  * 
  * @author Rukshan Silva
  * @version 1.0
  */
- public interface StorageManager {
+ public interface ReadSpaceAccessor {
 
 	/**
-	 * fileStorage will get the File object, which is been sent by {@link FileReceiverSupport} 
-	 * and provide a persistent storage in the local disk. It returns no value.
-	 * 
-	 * @param storeFile an object of the type {@link FileStorageModel}
+	 * fileSpace will create an instance of the Space. It accepts no values 
+	 * and return no value.
 	 */
-	public void fileStorage(FileStorageModel storeFile);
+	public void fileSpace();
 	
+	/**
+	 * readFromSpace will take all the File objects from the Space 
+	 * which matches with {@link FileRetrievalModel}. It accepts no arguments 
+	 * and return no argument. 
+	 */
+	public void readFromSpace();
  }
-

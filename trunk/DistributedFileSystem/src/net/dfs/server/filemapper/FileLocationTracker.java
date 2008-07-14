@@ -15,7 +15,7 @@
 package net.dfs.server.filemapper;
 
 import net.dfs.server.filemodel.FileStorageModel;
-import net.dfs.server.filespace.accessor.FileSpaceAccessor;
+import net.dfs.server.filespace.accessor.WriteSpaceAccessor;
 
 /**
  * FileLocationTracker is responsible in tracking which remote storage machine takes 
@@ -29,7 +29,7 @@ import net.dfs.server.filespace.accessor.FileSpaceAccessor;
 	
 	 /**
 	  * createHashIndex will keep a track of all the File objects which is been 
-	  * written to the SPace by the {@link FileSpaceAccessor} with its corresponding 
+	  * written to the SPace by the {@link WriteSpaceAccessor} with its corresponding 
 	  * remote node which takes the File object from the Space.
 	  * 
 	  * @param key the Name of the File object, {@link FileStorageModel} which is been 

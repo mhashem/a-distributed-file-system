@@ -15,11 +15,11 @@
 package net.dfs.server.filesplitter.impl;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-import net.dfs.server.filemodel.FileCreator;
 import net.dfs.server.filemodel.FileStorageModel;
-import net.dfs.server.filespace.accessor.FileSpaceAccessor;
+import net.dfs.server.filespace.accessor.WriteSpaceAccessor;
 import net.dfs.server.filesplitter.FileSplitService;
 
 /**
@@ -32,8 +32,7 @@ import net.dfs.server.filesplitter.FileSplitService;
  */
  public class FileSplitServiceImpl implements FileSplitService {
 	
-	private BufferedInputStream inputStream;
-	private FileSpaceAccessor spaceAccessor;
+	private WriteSpaceAccessor writeSpace;
 //	private Log log = LogFactory.getLog(FileSplitServiceImpl.class);
 	
 	/**
@@ -41,14 +40,14 @@ import net.dfs.server.filesplitter.FileSplitService;
 	 */
 	public void split(byte fileStream[]) {
 		
-		inputStream = FileCreator.BufferedInputStreamCreator(fileStream);
-
+		BufferedInputStream inputStream = new BufferedInputStream(new ByteArrayInputStream(fileStream));
+		
 		byte [] buffer = new byte [1024];
 		Integer bytesRead = 0, increment = 0;
 		FileStorageModel fileModel = new FileStorageModel();
 
 		try {
-			spaceAccessor.fileSpace();
+			writeSpace.fileSpace();
 			
 			while((bytesRead = inputStream.read(buffer)) != -1){
 				increment += 1;
@@ -56,20 +55,21 @@ import net.dfs.server.filesplitter.FileSplitService;
 				fileModel.bytesRead = bytesRead;
 				fileModel.bytes = buffer;
 				
-				spaceAccessor.writeToSpace(fileModel);
+				writeSpace.writeToSpace(fileModel);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
-	 * setSpaceAccessor will be used for the setter injection of the 
-	 * Spring container. It injects the dependency with {@link FileSpaceAccessor}
+	 * setWriteSpace will be used for the setter injection of the 
+	 * Spring container. It injects the dependency with {@link WriteSpaceAccessor}
 	 * 
-	 * @param spaceAccessor is an object of type {@link FileSpaceAccessor}
+	 * @param writeSpace is an object of type {@link WriteSpaceAccessor}
 	 */
-	public void setSpaceAccessor(FileSpaceAccessor spaceAccessor) {
-		this.spaceAccessor = spaceAccessor;
+	public void setWriteSpace(WriteSpaceAccessor writeSpace) {
+		this.writeSpace = writeSpace;
 	}
+	
 }

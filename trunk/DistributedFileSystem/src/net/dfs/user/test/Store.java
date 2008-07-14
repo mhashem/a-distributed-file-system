@@ -29,7 +29,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
- * Store will send the File to be sorted in the distributed network to the Server 
+ * Store will send the File to be sorted in the distributed network to Server 
  * 
  * @author Rukshan Silva
  * @version 1.0

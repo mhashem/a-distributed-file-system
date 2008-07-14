@@ -26,11 +26,26 @@ import net.jini.space.JavaSpace;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-
-public class FileSpaceCreatorImpl implements FileSpaceCreator{
+/**
+ * Implementation of the {@link FileSpaceCreator} which creates the security 
+ * policy and then will create and return the Space for the given host address.
+ * 
+ * @author Rukshan Silva
+ * @version 1.0
+ */
+ public class FileSpaceCreatorImpl implements FileSpaceCreator{
 	private SecurityManager securityManager;
 	private Log log = LogFactory.getLog(FileSpaceCreatorImpl.class);
-
+	
+	/**
+	 * getSpace will simply creates a security manager. Establishes a RMI connection 
+	 * which will be used in connection to the remote nodes. And finally, will create 
+	 * a virtual Space and return an instance of it to the caller. An 
+	 * IOException or a ClassNotFoundException will be thrown on a failure.
+	 * 
+	 * @param host the address of the node in which the Space needed to be created.
+	 * @return the newly created Space.
+	 */
 	@SuppressWarnings("unchecked")
 	public JavaSpace getSpace(String host) {
 		
@@ -58,10 +73,14 @@ public class FileSpaceCreatorImpl implements FileSpaceCreator{
 		}
 		return null;
 	}
-
+	
+	/**
+	 * setSecurityManager will be used for the setter injection of the 
+	 * Spring container. It injects the dependency with {@link SecurityManager}
+	 * 
+	 * @param securityManager is an object of type {@link SecurityManager}
+	 */
 	public void setSecurityManager(SecurityManager securityManager) {
 		this.securityManager = securityManager;
 	}
-
-	
 }

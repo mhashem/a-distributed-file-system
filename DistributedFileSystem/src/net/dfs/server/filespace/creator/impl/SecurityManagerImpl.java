@@ -18,8 +18,19 @@ import java.rmi.RMISecurityManager;
 
 import net.dfs.server.filespace.creator.SecurityManager;
 
-public class SecurityManagerImpl implements SecurityManager{
+/**
+ * Implementation of the {@link SecurityManager} and will grant permission in 
+ * connecting with the remote nodes. It will allow Privileges in connecting 
+ * to the Space
+ * 
+ * @author Rukshan Silva
+ * @version 1.0
+ */
+ public class SecurityManagerImpl implements SecurityManager{
 	
+	 /**
+	  * {@inheritDoc}
+	  */
 	public void securityManager() {
 		try {
 			if(System.getSecurityManager() == null){
@@ -29,4 +40,4 @@ public class SecurityManagerImpl implements SecurityManager{
 			e.printStackTrace();
 		}
 	}
-}
+ }

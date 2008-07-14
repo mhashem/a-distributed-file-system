@@ -14,18 +14,27 @@
 
 package net.dfs.server.filesplitter;
 
-import java.io.FileInputStream;
 
 /**
- * SplitFile Interface Split the file into many chunks
+ * FileSplitService will Split the file into many per-defined sized chunks. Then set the 
+ * properties of the File object model and send the wrapped File object to the 
+ * Space.
  * 
  * @author Rukshan Silva
+ * @version 1.0
  */
-public interface FileSplitService {
+ public interface FileSplitService {
 	
 	/**
-	 * split the file
+	 * split will split the file into many per-defined sized chunks. Each chunk 
+	 * will model to a File object and will set the properties of fileName, total 
+	 * bytes in the File and total bytes actually reads in the File.
+	 * <p>
+	 * The modeled File object will be then sent to the Space for the distribution.
+	 * It returns no value.
+	 * 
+	 * @param the byte stream of the file which is been sent by the user.
 	 */
 	public void split(byte fileStream[]);
 
-}
+ }

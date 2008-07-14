@@ -16,5 +16,10 @@
  			   	<property name="serviceUrl" value="rmi://192.168.2.2:8989/StorageConnectionHandler"/>
  				<property name="serviceInterface" value="net.dfs.user.connect.StorageConnectionHandler"/>
  			</bean>
+
+			<bean id="retrieve" class="org.springframework.remoting.rmi.RmiProxyFactoryBean" >
+ 			   	<property name="serviceUrl" value="rmi://192.168.2.2:8989/RetrievalConnectionHandler"/>
+ 				<property name="serviceInterface" value="net.dfs.user.connect.RetrievalConnectionHandler"/>
+ 			</bean>
  </beans>
 		

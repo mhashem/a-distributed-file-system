@@ -45,13 +45,6 @@ import net.dfs.user.connect.RetrievalConnectionHandler;
 	public void createHashIndex(String key, String value) {
 		hashMap.put(key, value);
 	}
-	
-	/**
-	 * 
-	 * @param args
-	 */
-	public static void main(String args[]){
-	}	
 
 	/**
 	 * {@inheritDoc}

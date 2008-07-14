@@ -1,50 +1,50 @@
+/**
+ * Copyright 2008 Rukshan Silva
+ *  
+ * Licensed under the Apache License, Version 2.0 (the "License"); 
+ * you may not use this file except in compliance with the License. 
+ * You may obtain a copy of the License at 
+ * http://www.apache.org/licenses/LICENSE-2.0 
+ * Unless required by applicable law or agreed to in writing, 
+ * software distributed under the License is distributed on an "AS IS" BASIS, 
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. 
+ * See the License for the specific language governing permissions and limitations 
+ * under the License.
+ */
+
 package net.dfs.user.connect.impl;
 
-import net.dfs.remote.fileretrieve.RetrievalManager;
-import net.dfs.remote.filestorage.impl.FileReceiverSupportImpl;
-import net.dfs.server.filemapper.FileLocationTracker;
+import net.dfs.server.retrieve.FileRetrievalService;
 import net.dfs.user.connect.RetrievalConnectionHandler;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.remoting.rmi.RmiProxyFactoryBean;
-
-public class RetrievalConnectionHandlerImpl implements RetrievalConnectionHandler{
-
-	private FileLocationTracker hashMap ;
-//	private RetrievalConnectionHandler retreive;
+/**
+ * Implementation of {@link RetrievalConnectionHandler}, the class given at the API to 
+ * get connected with the User. It will re-direct the File Name to the 
+ * {@link FileRetrievalService} which is been sent by the user.
+ * 
+ * @author Rukshan Silva
+ * @version 1.0
+ *
+ */
+ public class RetrievalConnectionHandlerImpl implements RetrievalConnectionHandler{
+	private FileRetrievalService retrievalSrevice; 
 	
-	public RetrievalManager createProxy() {
-
-		RmiProxyFactoryBean proxyFactory = new RmiProxyFactoryBean();
-		proxyFactory.setServiceUrl("rmi://192.168.2.2:8989/RetrievalManager");
-		proxyFactory.setServiceInterface(RetrievalManager.class);
-		proxyFactory.afterPropertiesSet();
-		System.out.println("Connected !!!");
-		return (RetrievalManager) proxyFactory.getObject();
-	}
-
-	public static void main(String args[]){
-
-		RetrievalConnectionHandlerImpl retriveFile = new RetrievalConnectionHandlerImpl();
-		retriveFile.retrieveFile();
-	
-	}
-	
-	public void retrieveFile() {
+	/**
+	 * {@inheritDoc}
+	 */
+	public void retrieveFile(String fileName) {
 		
-//		RetrievalConnectionHandler retreive = new RetrievalConnectionHandlerImpl();
-		RetrievalManager retrievalManager = (RetrievalManager) createProxy();
-		
-		System.out.println("Done !!!");
-	//	hashMap.retrieveKeys();
-		retrievalManager.retrieveFile(hashMap.getValues("D:\\Working\\Done"));
-		
+		retrievalSrevice.retrieveFile(fileName);
 	}
 
-	public void setHashMap(FileLocationTracker hashMap) {
-		this.hashMap = hashMap;
+	/**
+	 * setRetrievalSrevice will be used for the setter injection of the 
+	 * Spring container. It injects the dependency with {@link FileRetrievalService}
+	 * 
+	 * @param retrievalSrevice is an object of type {@link FileRetrievalService}
+	 */
+	public void setRetrievalSrevice(FileRetrievalService retrievalSrevice) {
+		this.retrievalSrevice = retrievalSrevice;
 	}
 
-
-}
+ }

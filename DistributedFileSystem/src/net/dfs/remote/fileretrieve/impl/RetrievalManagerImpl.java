@@ -48,9 +48,9 @@ import net.dfs.server.filespace.creator.FileSpaceCreator;
 	 * IOException will be thrown on a failure.
 	 * {@inheritDoc}
 	 */
-	public void retrieveFile(String[] fileNames) {
+	public void retrieveFile(String fileName) {
 		
-		for (String fileName : fileNames) {
+//		for (String fileName : fileNames) {
 			System.out.println("CALLED !!! - Retrieve");
 	
 			try {
@@ -79,7 +79,7 @@ import net.dfs.server.filespace.creator.FileSpaceCreator;
 			}
 		}
 
-	}
+//	}
 
 	/**
 	 * setFileSender will be used for the setter injection of the 

@@ -25,7 +25,7 @@ import net.dfs.server.filespace.creator.FileSpaceCreator;
  * @author Rukshan Silva
  * @version 1.0
  */
- public interface FileSpaceAccessor {
+ public interface WriteSpaceAccessor {
 	
 	/**
 	 * fileSpace will connect to the {@link FileSpaceCreator} and get an instance of the Space. 

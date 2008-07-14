@@ -17,7 +17,7 @@ package net.dfs.server.filespace.accessor.impl;
 import java.rmi.RemoteException;
 
 import net.dfs.server.filemodel.FileStorageModel;
-import net.dfs.server.filespace.accessor.FileSpaceAccessor;
+import net.dfs.server.filespace.accessor.WriteSpaceAccessor;
 import net.dfs.server.filespace.creator.FileSpaceCreator;
 import net.dfs.server.filespace.creator.HostAddressCreator;
 import net.jini.core.transaction.TransactionException;
@@ -27,18 +27,18 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 /**
- * Implementation of the {@link FileSpaceAccessor} which will be create a Space in 
+ * Implementation of the {@link WriteSpaceAccessor} which will be create a Space in 
  * the local Server and the File objects will be written to the Space.
  * 
  * @author Rukshan Silva
  * @version 1.0
  */
- public class FileSpaceAccessorImpl implements FileSpaceAccessor {
+ public class WriteSpaceAccessorImpl implements WriteSpaceAccessor {
 	
 	private FileSpaceCreator spaceCreator;
 	private JavaSpace space ;
 	private HostAddressCreator addressCreator;
-	private Log log = LogFactory.getLog(FileSpaceAccessorImpl.class);
+	private Log log = LogFactory.getLog(WriteSpaceAccessorImpl.class);
 	
 	/**
 	 * {@inheritDoc}

@@ -15,8 +15,7 @@
 package net.dfs.remote.main;
 
 import net.dfs.remote.filestorage.FileReceiverSupport;
-import net.dfs.remote.filestorage.impl.FileReceiverSupportImpl;
-import net.dfs.server.filespace.accessor.impl.FileSpaceAccessorImpl;
+import net.dfs.server.filespace.accessor.impl.WriteSpaceAccessorImpl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,7 +32,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
  public class ClientServicesStarter {
 
-	private static Log log = LogFactory.getLog(FileSpaceAccessorImpl.class);
+	private static Log log = LogFactory.getLog(WriteSpaceAccessorImpl.class);
 	
 	/**
 	 * Client application will be started with the main() of the {@link ClientServicesStarter}

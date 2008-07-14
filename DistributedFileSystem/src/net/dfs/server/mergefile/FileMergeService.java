@@ -12,24 +12,29 @@
  * under the License.
  */
 
-package net.dfs.remote.fileretrieve;
+package net.dfs.server.mergefile;
+
+import net.dfs.server.filemodel.FileRetrievalModel;
 
 /**
- * RetrievalManager will get the File from the local storage, and the File objects'
- * properties are being set. Finally, send the file to the Space via {@link FileSenderSupport}.
+ * FileMergeService is responsible for merge all the File objects which 
+ * have been taken from the Space.
  * 
  * @author Rukshan Silva
  * @version 1.0
  */
- public interface RetrievalManager {
-
+ public interface FileMergeService {
+	
 	 /**
-	  * retrieveFile will read the bytes in the saved File and wrap the newly created
-	  * File with its name and bytes. Then the File will be sent to the {@link FileSenderSupport},
-	  * which in-turn will be written to the Space. This returns no value.
+	  * merge will aggregate all the File objects which taken from the Space.
 	  * 
-	  * @param fileName is the name of the File object, which will be 
-	  * read from the local storage. 
+	  * @param file an object of the type {@link FileRetrievalModel}.
 	  */
-	 public void retrieveFile(String fileName);
- }
+	public void merge(FileRetrievalModel file);
+	
+	/**
+	 * save in the local HDD
+	 */
+	public void saveFile();
+
+ } 

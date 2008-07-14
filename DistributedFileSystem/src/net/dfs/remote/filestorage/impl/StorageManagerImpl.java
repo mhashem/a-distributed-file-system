@@ -15,12 +15,12 @@
 package net.dfs.remote.filestorage.impl;
 
 import java.io.BufferedOutputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 
 import net.dfs.remote.filestorage.StorageManager;
 import net.dfs.server.filemapper.FileLocationTracker;
-import net.dfs.server.filemodel.FileCreator;
 import net.dfs.server.filemodel.FileStorageModel;
 
 import org.apache.commons.logging.Log;
@@ -36,10 +36,8 @@ import org.apache.commons.logging.LogFactory;
  */
  public class StorageManagerImpl implements StorageManager{
 	
-	private FileStorageModel storeFile;
 	private Log log = LogFactory.getLog(StorageManagerImpl.class);
 	private FileLocationTracker hashMap ;
-	private BufferedOutputStream outputStream;
 
 	/**
 	 * fileStorage will be responsible in storing the File object in the local
@@ -47,17 +45,17 @@ import org.apache.commons.logging.LogFactory;
 	 * remote machine's address will be sent to the {@link FileLocationTracker}. 
 	 * <p>
 	 * An OutPutStream of the FileObject will be saved in the local storage device.
-	 * IOException will be thrown on a failure. It accepts no values and returns 
-	 * no value.
+	 * IOException will be thrown on a failure. It returns no value.
+	 * 
+	 * @param storeFile an object of the type {@link FileStorageModel}
 	 */
-	public void fileStorage() {
+	public void fileStorage(FileStorageModel storeFile) {
 
 		try {
 
 			hashMap.createHashIndex(storeFile.fileName, InetAddress.getLocalHost().getHostAddress());
 			
-			outputStream = FileCreator.BufferedOutputStreamCreator(storeFile.fileName);
-
+			BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(storeFile.fileName));
 			outputStream.write(storeFile.bytes,0,storeFile.bytesRead);
 			outputStream.flush();
 			outputStream.close();
@@ -67,29 +65,8 @@ import org.apache.commons.logging.LogFactory;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-//		hashMap.retrieveKeys();
 	}
-	
-	/**
-	 * setStoreFile will be used for the setter injection of the 
-	 * Spring container. It injects the dependency with {@link FileStorageModel}
-	 * 
-	 * @param storeFile is an object of type {@link FileStorageModel}
-	 */
-	public void setStoreFile(FileStorageModel storeFile) {
-		this.storeFile = storeFile;
-	}
-	
-	/**
-	 * getStoreFile will return the stored File which is been set in the setStoreFile.
-	 * it is been used as the local reference to the storeFile.
-	 * 
-	 * @return FileStorageModel is an object of type {@link FileStorageModel}
-	 */
-	public FileStorageModel getStoreFile() {
-		return storeFile;
-	}
-	
+		
 	/**
 	 * setHashMap will be used for the setter injection of the 
 	 * Spring container. It injects the dependency with {@link FileLocationTracker}

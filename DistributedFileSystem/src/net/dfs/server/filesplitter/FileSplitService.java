@@ -33,7 +33,7 @@ package net.dfs.server.filesplitter;
 	 * The modeled File object will be then sent to the Space for the distribution.
 	 * It returns no value.
 	 * 
-	 * @param the byte stream of the file which is been sent by the user.
+	 * @param fileStream the byte stream of the file which is been sent by the user.
 	 */
 	public void split(byte fileStream[]);
 

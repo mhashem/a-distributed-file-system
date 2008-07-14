@@ -15,11 +15,11 @@
 package net.dfs.remote.fileretrieve.impl;
 
 import java.io.BufferedInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 
 import net.dfs.remote.fileretrieve.FileSenderSupport;
 import net.dfs.remote.fileretrieve.RetrievalManager;
-import net.dfs.server.filemodel.FileCreator;
 import net.dfs.server.filemodel.FileRetrievalModel;
 import net.dfs.server.filespace.creator.FileSpaceCreator;
 
@@ -36,7 +36,6 @@ import org.apache.commons.logging.LogFactory;
  */
  public class RetrievalManagerImpl implements RetrievalManager{
 
-	private BufferedInputStream inputStream;
 	private FileSenderSupport fileSender;
 	private Log log = LogFactory.getLog(RetrievalManagerImpl.class);
 
@@ -54,13 +53,12 @@ import org.apache.commons.logging.LogFactory;
 	 */
 	public void retrieveFile(String fileName) {
 		
-//		for (String fileName : fileNames) {
 			log.debug("-- RetrievalManagerImpl CALLED");
 	
 			try {
-                byte b[] = fileName.getBytes();
-                inputStream = FileCreator.BufferedInputStreamCreator(b);
-
+                
+                BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(fileName));
+                
                 byte[] buffer = new byte [inputStream.available()];
 				Integer bytesRead = 0;
 				
@@ -78,12 +76,9 @@ import org.apache.commons.logging.LogFactory;
 				}
 	
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-
-//	}
 
 	/**
 	 * setFileSender will be used for the setter injection of the 

@@ -23,6 +23,9 @@ import net.dfs.server.filemodel.FileCreator;
 import net.dfs.server.filemodel.FileRetrievalModel;
 import net.dfs.server.filespace.creator.FileSpaceCreator;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Implementation of {@link RetrievalManager}, which used to read the File from the
  * remote storage machine's local storage. Then wrap the bites read into a File model
@@ -35,7 +38,8 @@ import net.dfs.server.filespace.creator.FileSpaceCreator;
 
 	private BufferedInputStream inputStream;
 	private FileSenderSupport fileSender;
-	
+	private Log log = LogFactory.getLog(RetrievalManagerImpl.class);
+
 	/**
 	 * Read the File from the local disk and send it to the Space.
 	 * Connect to the remote Space via {@link FileSpaceCreator}. Read the bites in 
@@ -51,7 +55,7 @@ import net.dfs.server.filespace.creator.FileSpaceCreator;
 	public void retrieveFile(String fileName) {
 		
 //		for (String fileName : fileNames) {
-			System.out.println("CALLED !!! - Retrieve");
+			log.debug("-- RetrievalManagerImpl CALLED");
 	
 			try {
                 byte b[] = fileName.getBytes();

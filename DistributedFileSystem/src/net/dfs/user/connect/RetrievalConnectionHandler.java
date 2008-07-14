@@ -14,7 +14,7 @@
 
 package net.dfs.user.connect;
 
-import net.dfs.server.retrieve.FileRetrievalService;
+import net.dfs.server.retrievefile.FileRetrievalService;
 
 /**
  * RetrievalConnectionHandler is the class given at the API to get connected with 

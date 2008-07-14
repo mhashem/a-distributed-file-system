@@ -34,7 +34,7 @@ import net.dfs.user.connect.RetrievalConnectionHandler;
  * @version 1.0
  */
  public class FileLocationTrackerImpl implements FileLocationTracker{
-	
+	 
 	HashMap<String,String> hashMap = new HashMap<String,String>();
 
 	/**
@@ -67,11 +67,13 @@ import net.dfs.user.connect.RetrievalConnectionHandler;
 		
 		List<String> lst = new ArrayList<String> ();
 		
-		for(int i=0;i<hashMap.size();i++){	
-			if(hashMap.containsKey(key+"_"+"i"+".txt")){
-				lst.add(hashMap.get(key));
+		for(int i=1;i<=hashMap.size();i++){	
+			if(hashMap.containsKey(key+"_"+i+".txt")){
+				lst.add(key+"_"+i+".txt");
+				System.out.println("KEY " +key+" "+i+" ADDED");
 			}
 		}
 		return lst.toArray(new String[] {});	
 	}
+
  }

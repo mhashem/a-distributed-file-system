@@ -76,7 +76,7 @@
 				<property name="retrievalSrevice" ref ="retrievalSrevice" />
  			</bean>
 
-			<bean id="retrievalSrevice" class="net.dfs.server.retrieve.impl.FileRetrievalServiceImpl" >
+			<bean id="retrievalSrevice" class="net.dfs.server.retrievefile.impl.FileRetrievalServiceImpl" >
 				<property name="hashMap" ref ="hashMap" />
  			</bean>
 

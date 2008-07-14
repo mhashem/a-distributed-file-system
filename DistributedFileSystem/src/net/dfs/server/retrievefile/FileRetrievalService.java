@@ -12,7 +12,7 @@
  * under the License.
  */
 
-package net.dfs.server.retrieve;
+package net.dfs.server.retrievefile;
 
 import net.dfs.remote.fileretrieve.RetrievalManager;
 
@@ -37,7 +37,7 @@ import net.dfs.remote.fileretrieve.RetrievalManager;
 	 * @return RetrievalManager is an object of the type {@link RetrievalManager}.
 	 */
 	public RetrievalManager createProxy();
-	
+
 	/**
 	 * retrieveFile get the RMI connection established by the createProxy.
 	 * 

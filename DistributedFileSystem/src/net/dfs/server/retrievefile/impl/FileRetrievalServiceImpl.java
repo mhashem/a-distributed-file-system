@@ -24,6 +24,7 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 	private ReadSpaceAccessor readSpace;
 	private Log log = LogFactory.getLog(FileRetrievalServiceImpl.class);
 	private String serverIP;
+	private String path;
 	
 	/**
 	 * {@inheritDoc}
@@ -51,7 +52,7 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 				for (HashModel file : fileNames) {
 
 					RetrievalManager retrievalManager = (RetrievalManager) createProxy(file.getValue());
-					retrievalManager.retrieveFile(file.getKey());
+					retrievalManager.retrieveFile(path+file.getKey());
 					log.debug("Get the File "+file.getKey()+" from the Client "+file.getValue());
 				}
 				readSpace.fileSpace();
@@ -85,4 +86,9 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 		this.serverIP = serverIP;
 	}
 
+	public void setPath(String path) {
+		this.path = path;
+	}
+
+	
  }

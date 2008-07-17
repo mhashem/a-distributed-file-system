@@ -14,6 +14,8 @@
 
 package net.dfs.remote.fileretrieve.impl;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 
 import net.dfs.remote.fileretrieve.FileSenderSupport;
@@ -53,11 +55,16 @@ import org.apache.commons.logging.LogFactory;
 	 * no value.
 	 */
 	public void connectJavaSpace(){
-		log.debug("-- ConnectJavaSpce()called AGAIN ");
-		
+
 		try {
-			space = spaceCreator.getSpace(addressCreator.getHostAddress());
+			log.debug("Space Requested from "+ addressCreator.getHostAddress());
+			if(space == null){	
+				space = spaceCreator.getSpace(addressCreator.getHostAddress(), InetAddress.getLocalHost());
+			}
+			log.debug("Space Returned to "+ addressCreator.getHostAddress());
 		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
 	}
@@ -75,14 +82,16 @@ import org.apache.commons.logging.LogFactory;
 
 			try {
 				space.write((FileRetrievalModel)file, null, Long.MAX_VALUE);
-				log.debug("-- File " + file.fileName + " Written BACK to the Space");
+				log.info("File "+file.fileName+" with "+file.bytesRead+" bytes Written to the Space");
 
 			} catch (RemoteException e) {
 				e.printStackTrace();
 			} catch (TransactionException e) {
 				e.printStackTrace();
 			}
-		}			
+		}
+		else
+			connectJavaSpace();	
 	}
 	
 	/**

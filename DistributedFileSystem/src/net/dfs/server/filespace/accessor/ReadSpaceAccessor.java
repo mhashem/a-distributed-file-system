@@ -37,4 +37,5 @@ import net.dfs.server.filemodel.FileRetrievalModel;
 	 * and return no argument. 
 	 */
 	public void readFromSpace();
+	
  }

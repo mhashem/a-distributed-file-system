@@ -15,6 +15,7 @@
 package net.dfs.server.filespace.creator.impl;
 
 import java.io.IOException;
+import java.net.InetAddress;
 
 import net.dfs.server.filespace.creator.FileSpaceCreator;
 import net.dfs.server.filespace.creator.SecurityManager;
@@ -47,20 +48,19 @@ import org.apache.commons.logging.LogFactory;
 	 * @return the newly created Space.
 	 */
 	@SuppressWarnings("unchecked")
-	public JavaSpace getSpace(String host) {
+	public JavaSpace getSpace(String host, InetAddress requester) {
 		
 		try {
-			securityManager.securityManager();
+			log.info("Space Reqested by "+requester.getHostAddress());
 
-			
+			securityManager.securityManager();
 			LookupLocator lookup = new LookupLocator("jini://" + host);
-			log.debug("-- SpaceAccessor using locater: "+lookup);
 			ServiceRegistrar registrar = lookup.getRegistrar();
 
 			Class[] types = new Class[]{JavaSpace.class};
-
 			JavaSpace space = (JavaSpace) registrar.lookup(new ServiceTemplate(null,types,null));
-			log.debug("-- Accessed to the Space");
+
+			log.info("Space Returned to "+requester.getHostAddress());
 			
 			return space;
 			

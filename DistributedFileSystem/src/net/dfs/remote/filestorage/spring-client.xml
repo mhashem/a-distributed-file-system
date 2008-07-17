@@ -11,37 +11,39 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
 			<!-- Spring Beans Definition -->
+
+	<!-- <context:property-placeholder location="classpath:server.properties" /> -->
 	
 	 		<bean id="receiveFile" class="net.dfs.remote.filestorage.impl.FileReceiverSupportImpl" >
 				<property name="spaceCreator" ref ="spaceCreator" />
 				<property name="addressCreator" ref ="addressCreator" />
 				<property name="storageManager" ref ="storageManager" />
+				<property name="hashMap" ref ="hashMap" />
 			</bean>
 		
 			<bean id="storageManager" class="net.dfs.remote.filestorage.impl.StorageManagerImpl" >
-				<property name="hashMap" ref ="hashMap" />
 			</bean>
 
 		
 			<bean id="spaceCreator" class="org.springframework.remoting.rmi.RmiProxyFactoryBean" >
- 			   	<property name="serviceUrl" value="rmi://192.168.2.2:8989/FileSpaceCreator"/>
+ 			   	<property name="serviceUrl" value="rmi://${server.ip}:8989/FileSpaceCreator"/>
 				<property name="serviceInterface" value="net.dfs.server.filespace.creator.FileSpaceCreator"/>
  			</bean>
  
 			<bean id="hashMap" class="org.springframework.remoting.rmi.RmiProxyFactoryBean" >
-			   	<property name="serviceUrl" value="rmi://192.168.2.2:8989/FileLocationTracker" />
+			   	<property name="serviceUrl" value="rmi://${server.ip}:8989/FileLocationTracker" />
  				<property name="serviceInterface" value="net.dfs.server.filemapper.FileLocationTracker"/>
  			</bean>
  
 			<bean id="addressCreator" class="org.springframework.remoting.rmi.RmiProxyFactoryBean" >
-			   	<property name="serviceUrl" value="rmi://192.168.2.2:8989/HostAddressCreator" />
+			   	<property name="serviceUrl" value="rmi://${server.ip}:8989/HostAddressCreator" />
   				<property name="serviceInterface" value="net.dfs.server.filespace.creator.HostAddressCreator"/>
 			</bean>
 			
  <!-- Client  -->
  
  			<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
-				<property name="serviceName" value="RetrievalManager" /> 
+				<property name="serviceName" value="RetrievalManager.${server.client}" /> 
 				<property name="service" ref ="retrievalManager" />
  				<property name="serviceInterface" value="net.dfs.remote.fileretrieve.RetrievalManager"/>
 				<property name="registryPort" value="8989"/>		

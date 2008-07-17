@@ -11,6 +11,7 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
 			<!-- Spring Beans Definition -->
+		<context:property-placeholder location="file:server.properties" />
 			
 			<bean id="storageHandler" class="net.dfs.user.connect.impl.StorageConnectionHandlerImpl" >
 				<property name="split" ref ="splitfile" />
@@ -19,6 +20,7 @@
 			<bean id="splitfile" class="net.dfs.server.filesplitter.impl.FileSplitServiceImpl" >
 				<property name="writeSpace" ref ="writeSpace" />
 				</bean>
+
 
 			<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
 				<property name="serviceName" value="HostAddressCreator" /> 
@@ -60,6 +62,19 @@
 				<property name="spaceCreator" ref ="spaceCreator" />
 			</bean>
 
+			<bean id="readSpace" class="net.dfs.server.filespace.accessor.impl.ReadSpaceAccessorImpl" >
+				<property name="spaceCreator" ref ="spaceCreator" />
+				<property name="sendFileManager" ref ="sendFileManager" />
+				<property name="addressCreator" ref ="addressCreator" />
+				<property name="hashMap" ref ="hashMap" />
+				</bean>
+
+			<bean id="sendFileManager" class="net.dfs.user.connect.sender.impl.SendFileManagerImpl" >
+				<property name="serverIP" >
+					<value>${server.ip}</value>
+				</property>
+			</bean>
+
 			<bean id="spaceCreator" class="net.dfs.server.filespace.creator.impl.FileSpaceCreatorImpl" >
 				<property name="securityManager" ref ="securityManager" />
  			</bean>
@@ -77,7 +92,11 @@
  			</bean>
 
 			<bean id="retrievalSrevice" class="net.dfs.server.retrievefile.impl.FileRetrievalServiceImpl" >
+				<property name="serverIP" >
+					<value>${server.ip}</value>
+				</property>
 				<property name="hashMap" ref ="hashMap" />
+				<property name="readSpace" ref ="readSpace" />
  			</bean>
 
 </beans>

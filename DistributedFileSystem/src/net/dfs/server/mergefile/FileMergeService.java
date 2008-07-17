@@ -33,7 +33,7 @@ import net.dfs.server.filemodel.FileRetrievalModel;
 	public void merge(FileRetrievalModel file);
 	
 	/**
-	 * save in the local HDD
+	 * save in the local HaaD
 	 */
 	public void saveFile();
 

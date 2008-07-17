@@ -31,7 +31,7 @@ import net.dfs.user.connect.StorageConnectionHandler;
 	 * {@inheritDoc}
 	 */
 	public void storeFile(byte fileStream[]) {
-		System.out.println(fileStream);
+
 		split.split(fileStream);
 	}
 

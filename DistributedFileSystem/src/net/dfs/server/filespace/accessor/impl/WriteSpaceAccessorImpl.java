@@ -14,6 +14,8 @@
 
 package net.dfs.server.filespace.accessor.impl;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 
 import net.dfs.server.filemodel.FileStorageModel;
@@ -46,8 +48,13 @@ import org.apache.commons.logging.LogFactory;
 	public void fileSpace(){
 		
 		try {
-			space = spaceCreator.getSpace(addressCreator.getHostAddress());
+			if(space == null){
+				space = spaceCreator.getSpace(addressCreator.getHostAddress(), InetAddress.getLocalHost());
+			}
+			
 		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
 
@@ -82,7 +89,7 @@ import org.apache.commons.logging.LogFactory;
 
 			try {
 				space.write((FileStorageModel)file, null, Long.MAX_VALUE);
-				log.debug("-- File " + file.fileName + " Written to the Space");
+				log.info("File "+file.fileName+" with "+file.bytesRead+" bytes Written to the Space");
 
 			} catch (RemoteException e) {
 				e.printStackTrace();
@@ -91,8 +98,7 @@ import org.apache.commons.logging.LogFactory;
 			}	
 		}
 		else{
-			log.debug("-- Unable to find ");
-			System.exit(1);
+			fileSpace();
 		}
 	}
 	

@@ -14,12 +14,19 @@
 
 package net.dfs.remote.main;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.util.Properties;
+
 import net.dfs.remote.filestorage.FileReceiverSupport;
 import net.dfs.server.filespace.accessor.impl.WriteSpaceAccessorImpl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.context.ApplicationContext;
+import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -40,13 +47,35 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 	 * @param args the parameter which is passed to the main()
 	 */
 	public static void main(String args []) {
+		Properties props = new Properties();
+
+		try {
+			props.load(new FileInputStream("server.properties"));
+			props.put("server.client", InetAddress.getLocalHost().getHostAddress());
+			props.store(new FileOutputStream("classpath:server.properties"), null);
+			log.debug(props);
+
+		} catch (FileNotFoundException e) {
+			System.exit(1);
+		} catch (IOException e) {
+			System.exit(1);
+		}
 		
-		ApplicationContext context = new ClassPathXmlApplicationContext("net\\dfs\\remote\\filestorage\\spring-client.xml");
+		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext();
+		
+		PropertyPlaceholderConfigurer configurer = new PropertyPlaceholderConfigurer();
+		configurer.setProperties(props);
+		
+		context.addBeanFactoryPostProcessor(configurer);
+		context.setConfigLocation("net\\dfs\\remote\\filestorage\\spring-client.xml");
+		context.refresh();
+		context.start();
+		
 		FileReceiverSupport receiveFile = (FileReceiverSupport) context.getBean("receiveFile");
 		
 		receiveFile.connectJavaSpace();
 		receiveFile.retrieveFile();
-		log.debug("-- Client Started");
+		log.debug("Client Started");
 	}
  }
 

@@ -99,6 +99,9 @@
 				<property name="serverIP" >
 					<value>${server.ip}</value>
 				</property>
+			<property name="path">
+				<value>${remote.savepath}</value>
+			</property>
 				<property name="hashMap" ref ="hashMap" />
 				<property name="readSpace" ref ="readSpace" />
  			</bean>

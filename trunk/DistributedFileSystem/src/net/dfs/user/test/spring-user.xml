@@ -33,6 +33,9 @@
 			</bean>
  			
  			<bean id="localSave" class="net.dfs.user.test.LocalSaveImpl" >
+	 			<property name="path">
+					<value>${user.savepath}</value>
+				</property>
  			</bean>
 
  </beans>

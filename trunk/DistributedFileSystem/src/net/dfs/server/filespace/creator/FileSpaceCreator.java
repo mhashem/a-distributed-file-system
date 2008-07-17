@@ -14,6 +14,8 @@
 
 package net.dfs.server.filespace.creator;
 
+import java.net.InetAddress;
+
 import net.jini.space.JavaSpace;
 
 /**
@@ -32,7 +34,7 @@ import net.jini.space.JavaSpace;
 	 * @param host the address of the node in which the Space needed to be created.
 	 * @return the newly created Space.
 	 */
-	public JavaSpace getSpace(String host);
+	public JavaSpace getSpace(String host, InetAddress requester);
 
 	
  }

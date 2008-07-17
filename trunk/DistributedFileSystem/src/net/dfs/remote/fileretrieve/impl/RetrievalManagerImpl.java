@@ -23,9 +23,6 @@ import net.dfs.remote.fileretrieve.RetrievalManager;
 import net.dfs.server.filemodel.FileRetrievalModel;
 import net.dfs.server.filespace.creator.FileSpaceCreator;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 /**
  * Implementation of {@link RetrievalManager}, which used to read the File from the
  * remote storage machine's local storage. Then wrap the bites read into a File model
@@ -37,7 +34,7 @@ import org.apache.commons.logging.LogFactory;
  public class RetrievalManagerImpl implements RetrievalManager{
 
 	private FileSenderSupport fileSender;
-	private Log log = LogFactory.getLog(RetrievalManagerImpl.class);
+//	private Log log = LogFactory.getLog(RetrievalManagerImpl.class);
 
 	/**
 	 * Read the File from the local disk and send it to the Space.
@@ -52,8 +49,6 @@ import org.apache.commons.logging.LogFactory;
 	 * {@inheritDoc}
 	 */
 	public void retrieveFile(String fileName) {
-		
-			log.debug("-- RetrievalManagerImpl CALLED");
 	
 			try {
                 
@@ -70,9 +65,7 @@ import org.apache.commons.logging.LogFactory;
 					fileModel.bytesRead = bytesRead;
 					fileModel.bytes = buffer;
 					
-					System.out.println("CALLED !!! - Sending");
 					fileSender.sendFile(fileModel);
-					System.out.println("CALLED !!! - Sent");
 				}
 	
 			} catch (IOException e) {

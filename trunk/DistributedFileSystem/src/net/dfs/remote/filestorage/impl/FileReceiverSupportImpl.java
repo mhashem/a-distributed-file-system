@@ -14,10 +14,13 @@
 
 package net.dfs.remote.filestorage.impl;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 
 import net.dfs.remote.filestorage.FileReceiverSupport;
 import net.dfs.remote.filestorage.StorageManager;
+import net.dfs.server.filemapper.FileLocationTracker;
 import net.dfs.server.filemodel.FileStorageModel;
 import net.dfs.server.filespace.creator.FileSpaceCreator;
 import net.dfs.server.filespace.creator.HostAddressCreator;
@@ -45,6 +48,7 @@ import org.apache.commons.logging.LogFactory;
 	private HostAddressCreator addressCreator;
 	private JavaSpace space;
 	private StorageManager storageManager;
+	private FileLocationTracker hashMap;
 	private Log log = LogFactory.getLog(FileReceiverSupportImpl.class);
 	
 	/**
@@ -52,11 +56,17 @@ import org.apache.commons.logging.LogFactory;
 	 * Throws a RemoteException on a failure.
 	 */
 	public void connectJavaSpace(){
-		log.debug("-- ConnectJavaSpce()called ");
 		
 		try {
-			space = spaceCreator.getSpace(addressCreator.getHostAddress());
+			log.debug("Space requested from "+ addressCreator.getHostAddress());
+			if(space ==null){
+				space = spaceCreator.getSpace(addressCreator.getHostAddress(), InetAddress.getLocalHost());
+			}	
+			log.debug("Space Returned to "+ addressCreator.getHostAddress());
+
 		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
 	}
@@ -77,9 +87,10 @@ import org.apache.commons.logging.LogFactory;
 			for(;;){
 				try {
 					FileStorageModel received = (FileStorageModel) space.take(fileTemp, null, Long.MAX_VALUE);
-					log.debug("--" + received.fileName + " Bytes READ -- " + received.bytesRead);
+					log.info("File "+received.fileName+" with "+received.bytesRead+" bytes Taken from the Space");
 					
 					storageManager.fileStorage(received);
+					hashMap.createHashIndex(received.fileName, InetAddress.getLocalHost());
 					
 				} catch (RemoteException e) {
 					e.printStackTrace();
@@ -89,11 +100,13 @@ import org.apache.commons.logging.LogFactory;
 					e.printStackTrace();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
 				}
 			}
 		}
 		else
-			log.debug("-- Space is Null...");
+			connectJavaSpace();
 	}
 
 	/**
@@ -126,5 +139,15 @@ import org.apache.commons.logging.LogFactory;
 		this.storageManager = storageManager;
 	}
 
+	/**
+	 * setHashMap will be used for the setter injection of the 
+	 * Spring container. It injects the dependency with {@link FileLocationTracker}
+	 * 
+	 * @param hashMap is an object of type {@link FileLocationTracker}
+	 */
+	public void setHashMap(FileLocationTracker hashMap) {
+		this.hashMap = hashMap;
+	}
 
+	
  }

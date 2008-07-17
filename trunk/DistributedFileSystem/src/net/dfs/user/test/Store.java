@@ -22,7 +22,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.dfs.user.connect.RetrievalConnectionHandler;
 import net.dfs.user.connect.StorageConnectionHandler;
 
 import org.springframework.context.ApplicationContext;
@@ -65,14 +64,13 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 		
 		ApplicationContext context = new ClassPathXmlApplicationContext("net\\dfs\\user\\test\\spring-user.xml");
 		StorageConnectionHandler storageHandler = (StorageConnectionHandler)context.getBean("storageHandler");
-		RetrievalConnectionHandler retrieve = (RetrievalConnectionHandler) context.getBean("retrieve");
 	
 		storageHandler.storeFile(filebytes);
 
 		for(int i=0;i<fileName.length();i++){
 			if(fileName.charAt(i) == '.'){
 				System.out.println("FILE NAME :"+fileName.substring(0,i));
-				System.out.println("Extention :"+fileName.substring(i));
+				System.out.println("Extention :"+fileName.substring(i+1));
 			}
 		}
 	}

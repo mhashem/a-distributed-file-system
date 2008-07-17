@@ -14,7 +14,10 @@
 
 package net.dfs.server.filemapper;
 
+import java.net.InetAddress;
+
 import net.dfs.server.filemodel.FileStorageModel;
+import net.dfs.server.filemodel.HashModel;
 import net.dfs.server.filespace.accessor.WriteSpaceAccessor;
 
 /**
@@ -37,7 +40,7 @@ import net.dfs.server.filespace.accessor.WriteSpaceAccessor;
 	  * @param value Address of the remote node which takes a single File Object from the 
 	  * Space  
 	  */
-	public void createHashIndex(String key, String value);
+	public void createHashIndex(String key, InetAddress value);
 	
 	/**
 	 * retrieveKeys will print all the associated pairs of keys and values.
@@ -51,8 +54,15 @@ import net.dfs.server.filespace.accessor.WriteSpaceAccessor;
 	 * @return a list of String associating the remote nodes which contains the 
 	 * given File object.
 	 */
-	public String[] getValues(String key);
-
-
+	public HashModel[] getValues(String key);
+	
+	/**
+	 * removeValues will remove the associated key, value pairs which is 
+	 * taken from the Space by the server.z
+	 * 
+	 * @param key
+	 */
+	public void removeValues(String key);
+	
 	
  } 

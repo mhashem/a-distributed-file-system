@@ -14,9 +14,6 @@
 
 package net.dfs.user.connect.impl;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.dfs.server.retrievefile.FileRetrievalService;
 import net.dfs.user.connect.RetrievalConnectionHandler;
 
@@ -31,13 +28,12 @@ import net.dfs.user.connect.RetrievalConnectionHandler;
  */
  public class RetrievalConnectionHandlerImpl implements RetrievalConnectionHandler{
 	private FileRetrievalService retrievalSrevice; 
-	private Log log = LogFactory.getLog(RetrievalConnectionHandlerImpl.class);
+//	private Log log = LogFactory.getLog(RetrievalConnectionHandlerImpl.class);
 	/**
 	 * {@inheritDoc}
 	 */
 	public void retrieveFile(String fileName) {
-		
-		log.debug("-- RetrievalConnectionHandlerImpl CALLED");
+
 		retrievalSrevice.retrieveFile(fileName);
 	}
 

@@ -17,7 +17,6 @@ package net.dfs.remote.filestorage.impl;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.InetAddress;
 
 import net.dfs.remote.filestorage.StorageManager;
 import net.dfs.server.filemapper.FileLocationTracker;
@@ -37,7 +36,6 @@ import org.apache.commons.logging.LogFactory;
  public class StorageManagerImpl implements StorageManager{
 	
 	private Log log = LogFactory.getLog(StorageManagerImpl.class);
-	private FileLocationTracker hashMap ;
 
 	/**
 	 * fileStorage will be responsible in storing the File object in the local
@@ -53,29 +51,17 @@ import org.apache.commons.logging.LogFactory;
 
 		try {
 
-			hashMap.createHashIndex(storeFile.fileName, InetAddress.getLocalHost().getHostAddress());
-			
 			BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(storeFile.fileName));
 			outputStream.write(storeFile.bytes,0,storeFile.bytesRead);
 			outputStream.flush();
 			outputStream.close();
 		
-			log.debug("-- File " + storeFile.fileName + " Saved to the Disk");
+			log.debug("File " + storeFile.fileName + " saved to the disk");
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 		
-	/**
-	 * setHashMap will be used for the setter injection of the 
-	 * Spring container. It injects the dependency with {@link FileLocationTracker}
-	 * 
-	 * @param hashMap is an object of type {@link FileLocationTracker}
-	 */
-	public void setHashMap(FileLocationTracker hashMap) {
-		this.hashMap = hashMap;
-	}
 
-	
  }

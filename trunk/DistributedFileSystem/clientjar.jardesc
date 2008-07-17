@@ -4,27 +4,13 @@
 <options buildIfNeeded="true" compress="true" descriptionLocation="/ADistributedFileSystem/clientjar.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
 <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
 <selectedProjects/>
-<manifest generateManifest="true" mainClassHandleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.remote.main{ClientServicesStarter.java[ClientServicesStarter" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+<manifest generateManifest="false" mainClassHandleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.remote.main{ClientServicesStarter.java[ClientServicesStarter" manifestLocation="/ADistributedFileSystem/MANIFEST.MF" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
 <sealing sealJar="false">
 <packagesToSeal/>
 <packagesToUnSeal/>
 </sealing>
 </manifest>
 <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
-<file path="/ADistributedFileSystem/src/log4j.properties"/>
-<javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.server.filesplitter.impl"/>
-<javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.server.filespace.accessor.impl"/>
-<javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.server.filemapper"/>
-<javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.server.filespace.creator"/>
-<javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.server.filespace.creator.impl"/>
-<javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.server.filesplitter"/>
-<javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.remote.main"/>
-<file path="/ADistributedFileSystem/.project"/>
-<javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.server.filespace.accessor"/>
-<javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.server.filemodel"/>
-<javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.server.filemapper.impl"/>
-<file path="/ADistributedFileSystem/.classpath"/>
-<javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.remote.filestorage"/>
-<javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.remote.filestorage.impl"/>
+<javaElement handleIdentifier="=ADistributedFileSystem/src"/>
 </selectedElements>
 </jardesc>

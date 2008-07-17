@@ -33,6 +33,7 @@ import net.dfs.server.filesplitter.FileSplitService;
  public class FileSplitServiceImpl implements FileSplitService {
 	
 	private WriteSpaceAccessor writeSpace;
+	
 //	private Log log = LogFactory.getLog(FileSplitServiceImpl.class);
 	
 	/**
@@ -51,7 +52,7 @@ import net.dfs.server.filesplitter.FileSplitService;
 			
 			while((bytesRead = inputStream.read(buffer)) != -1){
 				increment += 1;
-				fileModel.fileName = "D:\\Working\\Done_"+increment+".txt";
+				fileModel.fileName = "C:\\Done_"+increment+".txt";
 				fileModel.bytesRead = bytesRead;
 				fileModel.bytes = buffer;
 				
@@ -71,5 +72,5 @@ import net.dfs.server.filesplitter.FileSplitService;
 	public void setWriteSpace(WriteSpaceAccessor writeSpace) {
 		this.writeSpace = writeSpace;
 	}
-	
+
 }

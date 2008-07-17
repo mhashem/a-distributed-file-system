@@ -11,15 +11,29 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
 			<!-- Spring Beans Definition -->
+	<context:property-placeholder location="file:server.properties" />
 			
 			<bean id="storageHandler" class="org.springframework.remoting.rmi.RmiProxyFactoryBean" >
- 			   	<property name="serviceUrl" value="rmi://192.168.2.2:8989/StorageConnectionHandler"/>
+ 			   	<property name="serviceUrl" value="rmi://${server.ip}:8989/StorageConnectionHandler"/>
  				<property name="serviceInterface" value="net.dfs.user.connect.StorageConnectionHandler"/>
  			</bean>
 
 			<bean id="retrieve" class="org.springframework.remoting.rmi.RmiProxyFactoryBean" >
- 			   	<property name="serviceUrl" value="rmi://192.168.2.2:8989/RetrievalConnectionHandler"/>
+ 			   	<property name="serviceUrl" value="rmi://${server.ip}:8989/RetrievalConnectionHandler"/>
  				<property name="serviceInterface" value="net.dfs.user.connect.RetrievalConnectionHandler"/>
  			</bean>
+ 			
+<!-- Client  -->
+ 
+ 			<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+				<property name="serviceName" value="LocalSave" /> 
+				<property name="service" ref ="localSave" />
+ 				<property name="serviceInterface" value="net.dfs.user.test.LocalSave"/>
+				<property name="registryPort" value="8989"/>		
+			</bean>
+ 			
+ 			<bean id="localSave" class="net.dfs.user.test.LocalSaveImpl" >
+ 			</bean>
+ 
  </beans>
 		

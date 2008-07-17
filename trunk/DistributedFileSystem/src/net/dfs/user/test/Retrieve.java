@@ -40,6 +40,6 @@ public class Retrieve {
 		ApplicationContext context = new ClassPathXmlApplicationContext("net\\dfs\\user\\test\\spring-user.xml");
 		RetrievalConnectionHandler retrieve = (RetrievalConnectionHandler) context.getBean("retrieve");
 
-		retrieve.retrieveFile("D:\\Working\\Done");
+		retrieve.retrieveFile("C:\\Done");
 	}
 }

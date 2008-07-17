@@ -18,7 +18,6 @@ import java.io.FileNotFoundException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -45,8 +44,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 	 */
 	public static void main(String args []) throws FileNotFoundException{
 
-		ApplicationContext context = new ClassPathXmlApplicationContext("net\\dfs\\server\\filespace\\creator\\spring-server.xml");
+		new ClassPathXmlApplicationContext("net\\dfs\\server\\filespace\\creator\\spring-server.xml");
 
-		log.debug("-- Application Context loded");
+		log.debug("Server Started");
 	}
  }

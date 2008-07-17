@@ -36,7 +36,7 @@ import net.dfs.remote.fileretrieve.RetrievalManager;
 	 * 
 	 * @return RetrievalManager is an object of the type {@link RetrievalManager}.
 	 */
-	public RetrievalManager createProxy();
+	public RetrievalManager createProxy(String client);
 
 	/**
 	 * retrieveFile get the RMI connection established by the createProxy.

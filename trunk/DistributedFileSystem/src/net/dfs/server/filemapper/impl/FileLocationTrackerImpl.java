@@ -14,12 +14,17 @@
 
 package net.dfs.server.filemapper.impl;
 
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.dfs.server.filemapper.FileLocationTracker;
+import net.dfs.server.filemodel.HashModel;
 import net.dfs.user.connect.RetrievalConnectionHandler;
 /**
  * Implementation of the {@link FileLocationTracker} which will keep track of the 
@@ -34,7 +39,8 @@ import net.dfs.user.connect.RetrievalConnectionHandler;
  * @version 1.0
  */
  public class FileLocationTrackerImpl implements FileLocationTracker{
-	 
+	private Log log = LogFactory.getLog(FileLocationTrackerImpl.class);
+	
 	HashMap<String,String> hashMap = new HashMap<String,String>();
 
 	/**
@@ -42,8 +48,9 @@ import net.dfs.user.connect.RetrievalConnectionHandler;
 	 * the newly created HashMap. It returns no value.
 	 * {@inheritDoc}
 	 */
-	public void createHashIndex(String key, String value) {
-		hashMap.put(key, value);
+	public void createHashIndex(String key, InetAddress value) {
+		log.debug("Key "+key+" and Value "+value.getHostAddress()+" Added to the HashMap");
+		hashMap.put(key, value.getHostAddress());
 	}
 
 	/**
@@ -63,17 +70,24 @@ import net.dfs.user.connect.RetrievalConnectionHandler;
 	 * 
 	 * {@inheritDoc}
 	 */
-	public String[] getValues(String key){
+	public HashModel[] getValues(String key){
 		
-		List<String> lst = new ArrayList<String> ();
+		List<HashModel> list = new ArrayList<HashModel> ();
 		
 		for(int i=1;i<=hashMap.size();i++){	
 			if(hashMap.containsKey(key+"_"+i+".txt")){
-				lst.add(key+"_"+i+".txt");
-				System.out.println("KEY " +key+" "+i+" ADDED");
+				HashModel hashModel = new HashModel();
+				
+				hashModel.setKey(key+"_"+i+".txt");
+				hashModel.setValue(hashMap.get(key+"_"+i+".txt"));
+				list.add(hashModel);
 			}
 		}
-		return lst.toArray(new String[] {});	
+		
+		return list.toArray(new HashModel[] {});	
 	}
 
+	public void removeValues(String key){
+		hashMap.remove(key);
+	}
  }

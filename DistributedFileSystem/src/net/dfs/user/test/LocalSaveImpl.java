@@ -3,6 +3,8 @@ package net.dfs.user.test;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.zip.ZipInputStream;
+import java.util.zip.ZipOutputStream;
 
 import net.dfs.server.filemodel.FileRetrievalModel;
 
@@ -21,7 +23,7 @@ public class LocalSaveImpl implements LocalSave{
 			called = true;
 		}
 		try {
-			BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(path+fileName+extention,true));
+			ZipOutputStream outputStream = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(path+fileName+extention,true)));
 			outputStream.write(file.bytes,0,file.bytesRead);
 			outputStream.flush();
 			outputStream.close();

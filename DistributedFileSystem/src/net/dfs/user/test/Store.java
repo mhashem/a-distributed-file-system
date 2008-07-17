@@ -22,6 +22,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.zip.ZipInputStream;
 
 import net.dfs.user.connect.StorageConnectionHandler;
 
@@ -53,7 +54,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 		prop.load(new FileInputStream("server.properties"));
 		
 		File f = new File(prop.getProperty("store.fileName"));
-		BufferedInputStream in = new BufferedInputStream(new FileInputStream(f));
+		ZipInputStream in = new ZipInputStream(new BufferedInputStream(new FileInputStream(f)));
+		System.out.println("ZIPPED !!!");
+		
 		
 		List<Byte> bytes = new ArrayList<Byte>();
 		int b = -1;

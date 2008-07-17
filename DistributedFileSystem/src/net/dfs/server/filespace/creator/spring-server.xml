@@ -12,6 +12,7 @@
 
 			<!-- Spring Beans Definition -->
 		<context:property-placeholder location="file:server.properties" />
+
 			
 			<bean id="storageHandler" class="net.dfs.user.connect.impl.StorageConnectionHandlerImpl" >
 				<property name="split" ref ="splitfile" />
@@ -19,6 +20,9 @@
 
 			<bean id="splitfile" class="net.dfs.server.filesplitter.impl.FileSplitServiceImpl" >
 				<property name="writeSpace" ref ="writeSpace" />
+				<property name="CHUNK_SIZE">
+					<value>${server.CHUNK_SIZE}</value>
+				</property>
 				</bean>
 
 

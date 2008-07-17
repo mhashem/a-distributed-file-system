@@ -1,16 +1,33 @@
 <?xml version="1.0" encoding="WINDOWS-1252"?>
 <jardesc>
-<jar path="C:/Documents and Settings/Rukshan/Desktop/client.jar"/>
+<jar path="D:/DFS Client/client.jar"/>
 <options buildIfNeeded="true" compress="true" descriptionLocation="/ADistributedFileSystem/clientjar.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
 <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
 <selectedProjects/>
-<manifest generateManifest="false" mainClassHandleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.remote.main{ClientServicesStarter.java[ClientServicesStarter" manifestLocation="/ADistributedFileSystem/MANIFEST.MF" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+<manifest generateManifest="false" manifestLocation="/ADistributedFileSystem/MANIFEST.MF" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
 <sealing sealJar="false">
 <packagesToSeal/>
 <packagesToUnSeal/>
 </sealing>
 </manifest>
 <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
-<javaElement handleIdentifier="=ADistributedFileSystem/src"/>
+<file path="/ADistributedFileSystem/src/log4j.properties"/>
+<javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.server.filespace.accessor.impl"/>
+<javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.server.filemapper"/>
+<file path="/ADistributedFileSystem/MANIFEST.MF"/>
+<javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.server.filespace.creator"/>
+<javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.server.filespace.creator.impl"/>
+<file path="/ADistributedFileSystem/server.properties"/>
+<javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.remote.main"/>
+<javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.remote.fileretrieve.impl"/>
+<javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.remote.fileretrieve"/>
+<folder path="/ADistributedFileSystem/_gsdata_"/>
+<javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.server.filespace.accessor"/>
+<javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.server.filemodel"/>
+<javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.server.retrievefile.impl"/>
+<javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.server.filemapper.impl"/>
+<javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.remote.filestorage"/>
+<javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.remote.filestorage.impl"/>
+<javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.server.retrievefile"/>
 </selectedElements>
 </jardesc>

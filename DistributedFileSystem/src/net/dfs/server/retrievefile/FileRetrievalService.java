@@ -43,5 +43,5 @@ import net.dfs.remote.fileretrieve.RetrievalManager;
 	 * 
 	 * @param fileName the Name of the File object.
 	 */
-	public void retrieveFile(String fileName);
+	public void retrieveFile(String fileName, String ext);
  }

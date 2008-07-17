@@ -56,9 +56,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 			log.debug(props);
 
 		} catch (FileNotFoundException e) {
-			System.exit(1);
+			e.printStackTrace();
 		} catch (IOException e) {
-			System.exit(1);
+			e.printStackTrace();
 		}
 		
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext();

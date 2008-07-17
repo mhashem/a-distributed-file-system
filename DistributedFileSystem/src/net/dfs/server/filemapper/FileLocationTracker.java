@@ -54,7 +54,7 @@ import net.dfs.server.filespace.accessor.WriteSpaceAccessor;
 	 * @return a list of String associating the remote nodes which contains the 
 	 * given File object.
 	 */
-	public HashModel[] getValues(String key);
+	public HashModel[] getValues(String key, String ext);
 	
 	/**
 	 * removeValues will remove the associated key, value pairs which is 

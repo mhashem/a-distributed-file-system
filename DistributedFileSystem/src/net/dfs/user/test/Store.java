@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import net.dfs.user.connect.StorageConnectionHandler;
 
@@ -36,7 +37,10 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  public class Store implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	private static String fileName;
+	private static String extention;
 
+	
 	/**
 	 * Store application will be started with the main() of the {@link Store}.
 	 * 
@@ -44,9 +48,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 	 * @throws IOException
 	 */
 	public static void main(String args[])throws IOException{
-		String fileName = "C:\\Done.txt";
 		
-		File f = new File(fileName);
+		Properties prop = new Properties();
+		prop.load(new FileInputStream("server.properties"));
+		
+		File f = new File(prop.getProperty("store.fileName"));
 		BufferedInputStream in = new BufferedInputStream(new FileInputStream(f));
 		
 		List<Byte> bytes = new ArrayList<Byte>();
@@ -62,16 +68,28 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 			filebytes[i] = bytes.get(i);
 		}
 		
+		Store store = new Store();
+		store.fileNameAnalyzer(prop.getProperty("store.fileName"));
+
 		ApplicationContext context = new ClassPathXmlApplicationContext("net\\dfs\\user\\test\\spring-user.xml");
 		StorageConnectionHandler storageHandler = (StorageConnectionHandler)context.getBean("storageHandler");
-	
-		storageHandler.storeFile(filebytes);
 
-		for(int i=0;i<fileName.length();i++){
-			if(fileName.charAt(i) == '.'){
-				System.out.println("FILE NAME :"+fileName.substring(0,i));
-				System.out.println("Extention :"+fileName.substring(i+1));
+		storageHandler.storeFile(filebytes, fileName, extention);
+	}
+	
+	
+	@SuppressWarnings("static-access")
+	private void fileNameAnalyzer(String file){
+
+		String [] parts  = file.split("\\\\");
+		String name = parts[parts.length-1];
+		
+		for(int i=0;i<name.length();i++){
+			if(name.charAt(i) == '.'){
+				this.fileName = name.substring(0,i);
+				this.extention = name.substring(i);
 			}
 		}
 	}
+
  }

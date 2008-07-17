@@ -35,6 +35,6 @@ package net.dfs.server.filesplitter;
 	 * 
 	 * @param fileStream the byte stream of the file which is been sent by the user.
 	 */
-	public void split(byte fileStream[]);
+	public void split(byte fileStream[], String fileName, String ext);
 
  }

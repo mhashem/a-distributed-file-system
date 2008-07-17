@@ -22,6 +22,9 @@
 			</bean>
 		
 			<bean id="storageManager" class="net.dfs.remote.filestorage.impl.StorageManagerImpl" >
+			<property name="path">
+				<value>${remote.savepath}</value>
+			</property>
 			</bean>
 
 		

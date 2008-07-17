@@ -30,9 +30,9 @@ import net.dfs.user.connect.StorageConnectionHandler;
 	/**
 	 * {@inheritDoc}
 	 */
-	public void storeFile(byte fileStream[]) {
+	public void storeFile(byte fileStream[], String fileName, String ext) {
 
-		split.split(fileStream);
+		split.split(fileStream, fileName, ext);
 	}
 
 	/**

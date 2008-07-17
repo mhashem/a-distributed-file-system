@@ -17,6 +17,7 @@ package net.dfs.remote.fileretrieve.impl;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.zip.ZipInputStream;
 
 import net.dfs.remote.fileretrieve.FileSenderSupport;
 import net.dfs.remote.fileretrieve.RetrievalManager;
@@ -52,7 +53,7 @@ import net.dfs.server.filespace.creator.FileSpaceCreator;
 	
 			try {
                 
-                BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(fileName));
+               ZipInputStream inputStream = new ZipInputStream(new BufferedInputStream(new FileInputStream(fileName)));
                 
                 byte[] buffer = new byte [inputStream.available()];
 				Integer bytesRead = 0;

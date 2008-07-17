@@ -33,17 +33,18 @@ import net.dfs.server.filesplitter.FileSplitService;
  public class FileSplitServiceImpl implements FileSplitService {
 	
 	private WriteSpaceAccessor writeSpace;
+	private String CHUNK_SIZE;
 	
 //	private Log log = LogFactory.getLog(FileSplitServiceImpl.class);
 	
 	/**
 	 * {@inheritDoc}
 	 */
-	public void split(byte fileStream[]) {
+	public void split(byte fileStream[], String fileName, String ext) {
 		
 		BufferedInputStream inputStream = new BufferedInputStream(new ByteArrayInputStream(fileStream));
 		
-		byte [] buffer = new byte [1024];
+		byte [] buffer = new byte [Integer.parseInt(CHUNK_SIZE)];
 		Integer bytesRead = 0, increment = 0;
 		FileStorageModel fileModel = new FileStorageModel();
 
@@ -52,7 +53,7 @@ import net.dfs.server.filesplitter.FileSplitService;
 			
 			while((bytesRead = inputStream.read(buffer)) != -1){
 				increment += 1;
-				fileModel.fileName = "C:\\Done_"+increment+".txt";
+				fileModel.fileName = fileName+"_"+increment+ext;
 				fileModel.bytesRead = bytesRead;
 				fileModel.bytes = buffer;
 				
@@ -71,6 +72,10 @@ import net.dfs.server.filesplitter.FileSplitService;
 	 */
 	public void setWriteSpace(WriteSpaceAccessor writeSpace) {
 		this.writeSpace = writeSpace;
+	}
+
+	public void setCHUNK_SIZE(String chunk_size) {
+		CHUNK_SIZE = chunk_size;
 	}
 
 }

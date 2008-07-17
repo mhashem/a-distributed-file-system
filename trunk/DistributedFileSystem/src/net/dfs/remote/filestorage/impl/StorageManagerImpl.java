@@ -36,7 +36,7 @@ import org.apache.commons.logging.LogFactory;
  public class StorageManagerImpl implements StorageManager{
 	
 	private Log log = LogFactory.getLog(StorageManagerImpl.class);
-
+	private String path;
 	/**
 	 * fileStorage will be responsible in storing the File object in the local
 	 * storage device. A notification indicating the name of the File object and the 
@@ -50,8 +50,10 @@ import org.apache.commons.logging.LogFactory;
 	public void fileStorage(FileStorageModel storeFile) {
 
 		try {
-
-			BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(storeFile.fileName));
+			
+			String savePath = path + storeFile.fileName;
+			
+			BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(savePath));
 			outputStream.write(storeFile.bytes,0,storeFile.bytesRead);
 			outputStream.flush();
 			outputStream.close();
@@ -62,6 +64,8 @@ import org.apache.commons.logging.LogFactory;
 			e.printStackTrace();
 		}
 	}
-		
-
+	
+	public void setPath(String path) {
+		this.path = path;
+	}
  }

@@ -70,18 +70,20 @@ import net.dfs.user.connect.RetrievalConnectionHandler;
 	 * 
 	 * {@inheritDoc}
 	 */
-	public HashModel[] getValues(String key){
+	public HashModel[] getValues(String key, String ext){
 		
 		List<HashModel> list = new ArrayList<HashModel> ();
 		
 		for(int i=1;i<=hashMap.size();i++){	
-			if(hashMap.containsKey(key+"_"+i+".txt")){
+			if(hashMap.containsKey(key+"_"+i+ext)){
 				HashModel hashModel = new HashModel();
 				
-				hashModel.setKey(key+"_"+i+".txt");
-				hashModel.setValue(hashMap.get(key+"_"+i+".txt"));
+				hashModel.setKey(key+"_"+i+ext);
+				hashModel.setValue(hashMap.get(key+"_"+i+ext));
 				list.add(hashModel);
 			}
+			else
+				log.info("The requested File "+key+ext+"Not Found");
 		}
 		
 		return list.toArray(new HashModel[] {});	

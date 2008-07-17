@@ -32,5 +32,5 @@ import net.dfs.server.retrievefile.FileRetrievalService;
 	  * 
 	  * @param fileName the name of the File object.
 	  */
-	 public void retrieveFile(String fileName);
+	 public void retrieveFile(String fileName, String ext);
  }

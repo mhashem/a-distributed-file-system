@@ -40,13 +40,13 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 	/**
 	 * {@inheritDoc}
 	 */
-	public void retrieveFile(final String fileName) {
+	public void retrieveFile(final String fileName, final String ext) {
 
 		new Thread(new Runnable() {
 
 			public void run() {
 				hashMap.retrieveKeys();
-				HashModel [] fileNames = hashMap.getValues(fileName);
+				HashModel [] fileNames = hashMap.getValues(fileName,ext);
 
 				for (HashModel file : fileNames) {
 

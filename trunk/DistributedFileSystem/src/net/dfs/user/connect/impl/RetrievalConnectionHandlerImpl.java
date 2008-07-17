@@ -32,9 +32,9 @@ import net.dfs.user.connect.RetrievalConnectionHandler;
 	/**
 	 * {@inheritDoc}
 	 */
-	public void retrieveFile(String fileName) {
+	public void retrieveFile(String fileName, String ext) {
 
-		retrievalSrevice.retrieveFile(fileName);
+		retrievalSrevice.retrieveFile(fileName,ext);
 	}
 
 	/**

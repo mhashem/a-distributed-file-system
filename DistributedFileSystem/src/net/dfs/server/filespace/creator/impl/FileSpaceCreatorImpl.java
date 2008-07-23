@@ -54,7 +54,7 @@ import org.apache.commons.logging.LogFactory;
 			log.info("Space Reqested by "+requester.getHostAddress());
 
 			securityManager.securityManager();
-			LookupLocator lookup = new LookupLocator("jini://" + host);
+			LookupLocator lookup = new LookupLocator("jini://localhost");
 			ServiceRegistrar registrar = lookup.getRegistrar();
 
 			Class[] types = new Class[]{JavaSpace.class};

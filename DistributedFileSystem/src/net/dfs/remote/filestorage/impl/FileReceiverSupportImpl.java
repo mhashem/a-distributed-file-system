@@ -65,9 +65,9 @@ import org.apache.commons.logging.LogFactory;
 			log.debug("Space Returned to "+ addressCreator.getHostAddress());
 
 		} catch (RemoteException e) {
-			e.printStackTrace();
+			log.debug("RemoteException @ FileReceiver Support");
 		} catch (UnknownHostException e) {
-			e.printStackTrace();
+			log.debug("UnknownHostException @ FileReceiver Support");
 		}
 	}
 	

@@ -19,15 +19,18 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Properties;
 
 import net.dfs.remote.filestorage.FileReceiverSupport;
 import net.dfs.server.filespace.accessor.impl.WriteSpaceAccessorImpl;
+import net.dfs.server.noderegistration.NodeRegistrationService;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.config.PropertyPlaceholderConfigurer;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 
 /**
  * ClientServicesStarter is responsible in starting all the Client's services.
@@ -41,13 +44,14 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 	private static Log log = LogFactory.getLog(WriteSpaceAccessorImpl.class);
 	
+	static Properties props = new Properties();
+
 	/**
 	 * Client application will be started with the main() of the {@link ClientServicesStarter}
 	 * 
 	 * @param args the parameter which is passed to the main()
 	 */
 	public static void main(String args []) {
-		Properties props = new Properties();
 
 		try {
 			props.load(new FileInputStream("server.properties"));
@@ -60,22 +64,54 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	
+		ClientServicesStarter client = new ClientServicesStarter();
+		NodeRegistrationService nodeRegister = (NodeRegistrationService) client.startProxy();
 		
+		try {
+			if(nodeRegister != null){
+				nodeRegister.registerNode(InetAddress.getLocalHost());
+			}	
+			else{
+				log.debug("Server at "+props.getProperty("server.ip")+" not found");
+				System.exit(1);
+			}	
+		
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+			
+			client.loadNode();
+	}
+	
+	public NodeRegistrationService startProxy(){
+
+		RmiProxyFactoryBean proxyFactory = new RmiProxyFactoryBean();
+		proxyFactory.setServiceUrl("rmi://"+props.getProperty("server.ip")+":8989/NodeRegistrationService");
+		proxyFactory.setServiceInterface(NodeRegistrationService.class);
+		proxyFactory.afterPropertiesSet();
+	
+		return (NodeRegistrationService) proxyFactory.getObject();
+	}
+	
+	public final void loadNode(){
+
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext();
 		
 		PropertyPlaceholderConfigurer configurer = new PropertyPlaceholderConfigurer();
 		configurer.setProperties(props);
-		
+
 		context.addBeanFactoryPostProcessor(configurer);
 		context.setConfigLocation("net\\dfs\\remote\\filestorage\\spring-client.xml");
 		context.refresh();
 		context.start();
+		log.info("Client Started");
 		
 		FileReceiverSupport receiveFile = (FileReceiverSupport) context.getBean("receiveFile");
 		
 		receiveFile.connectJavaSpace();
 		receiveFile.retrieveFile();
-		log.debug("Client Started");
 	}
+
  }
 

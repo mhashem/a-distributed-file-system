@@ -61,6 +61,18 @@
 				<property name="registryPort" value="8989"/>		
 			</bean>
 
+ 			<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+				<property name="serviceName" value="NodeRegistrationService" /> 
+				<property name="service" ref ="nodeRegistrationService" />
+ 				<property name="serviceInterface" value="net.dfs.server.noderegistration.NodeRegistrationService"/>
+				<property name="registryPort" value="8989"/>		
+			</bean>
+
+
+			<bean id="nodeRegistrationService" class="net.dfs.server.noderegistration.impl.NodeRegistrationServiceImpl" >
+			</bean>
+
+
 			<bean id="writeSpace" class="net.dfs.server.filespace.accessor.impl.WriteSpaceAccessorImpl" >
 				<property name="addressCreator" ref ="addressCreator" />
 				<property name="spaceCreator" ref ="spaceCreator" />

@@ -83,7 +83,7 @@ import net.dfs.user.connect.RetrievalConnectionHandler;
 				list.add(hashModel);
 			}
 			else
-				log.info("The requested File "+key+ext+"Not Found");
+				log.info("The requested File "+key+ext+" Not Found");
 		}
 		
 		return list.toArray(new HashModel[] {});	

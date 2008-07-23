@@ -17,7 +17,6 @@ package net.dfs.remote.filestorage.impl;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.zip.ZipOutputStream;
 
 import net.dfs.remote.filestorage.StorageManager;
 import net.dfs.server.filemapper.FileLocationTracker;
@@ -54,7 +53,7 @@ import org.apache.commons.logging.LogFactory;
 			
 			String savePath = path + storeFile.fileName;
 			
-			ZipOutputStream outputStream = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(savePath)));
+			BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(savePath));
 			outputStream.write(storeFile.bytes,0,storeFile.bytesRead);
 			outputStream.flush();
 			outputStream.close();

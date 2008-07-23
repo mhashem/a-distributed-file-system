@@ -46,6 +46,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 		new ClassPathXmlApplicationContext("net\\dfs\\server\\filespace\\creator\\spring-server.xml");
 
-		log.debug("Server Started");
+		log.info("Server Started");
 	}
  }

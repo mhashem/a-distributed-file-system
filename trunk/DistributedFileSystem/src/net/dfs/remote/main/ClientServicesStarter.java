@@ -16,7 +16,6 @@ package net.dfs.remote.main;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -56,7 +55,7 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 		try {
 			props.load(new FileInputStream("server.properties"));
 			props.put("server.client", InetAddress.getLocalHost().getHostAddress());
-			props.store(new FileOutputStream("classpath:server.properties"), null);
+			System.err.println("Server Client = " + props.get("server.client"));
 			log.debug(props);
 
 		} catch (FileNotFoundException e) {

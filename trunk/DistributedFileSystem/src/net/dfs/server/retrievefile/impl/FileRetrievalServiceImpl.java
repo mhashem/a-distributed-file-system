@@ -23,7 +23,6 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 	private FileLocationTracker hashMap ;
 	private ReadSpaceAccessor readSpace;
 	private Log log = LogFactory.getLog(FileRetrievalServiceImpl.class);
-	private String serverIP;
 	private String path;
 	
 	/**
@@ -32,7 +31,7 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 	public RetrievalManager createProxy(String client) {
 		
 		RmiProxyFactoryBean proxyFactory = new RmiProxyFactoryBean();
-		proxyFactory.setServiceUrl("rmi://"+serverIP+":8989/RetrievalManager."+client);
+		proxyFactory.setServiceUrl("rmi://"+client+":8989/RetrievalManager."+client);
 		proxyFactory.setServiceInterface(RetrievalManager.class);
 		proxyFactory.afterPropertiesSet();
 		return (RetrievalManager) proxyFactory.getObject();
@@ -80,10 +79,6 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 	 */
 	public void setReadSpace(ReadSpaceAccessor readSpace) {
 		this.readSpace = readSpace;
-	}
-
-	public void setServerIP(String serverIP) {
-		this.serverIP = serverIP;
 	}
 
 	public void setPath(String path) {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="WINDOWS-1252"?>
 <jardesc>
-<jar path="D:/DFS Client/client.jar"/>
+<jar path="C:/Documents and Settings/Rukshan/Desktop/Client/client.jar"/>
 <options buildIfNeeded="true" compress="true" descriptionLocation="/ADistributedFileSystem/clientjar.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
 <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
 <selectedProjects/>
@@ -14,14 +14,13 @@
 <file path="/ADistributedFileSystem/src/log4j.properties"/>
 <javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.server.filespace.accessor.impl"/>
 <javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.server.filemapper"/>
-<file path="/ADistributedFileSystem/MANIFEST.MF"/>
+<javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.server.noderegistration"/>
 <javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.server.filespace.creator"/>
 <javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.server.filespace.creator.impl"/>
-<file path="/ADistributedFileSystem/server.properties"/>
 <javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.remote.main"/>
 <javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.remote.fileretrieve.impl"/>
+<javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.server.noderegistration.impl"/>
 <javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.remote.fileretrieve"/>
-<folder path="/ADistributedFileSystem/_gsdata_"/>
 <javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.server.filespace.accessor"/>
 <javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.server.filemodel"/>
 <javaElement handleIdentifier="=ADistributedFileSystem/src&lt;net.dfs.server.retrievefile.impl"/>

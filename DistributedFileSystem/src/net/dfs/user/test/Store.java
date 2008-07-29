@@ -78,7 +78,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 	}
 	
 	
-	@SuppressWarnings("static-access")
 	private void fileNameAnalyzer(String file){
 
 		String [] parts  = file.split("\\\\");
@@ -86,8 +85,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 		
 		for(int i=0;i<name.length();i++){
 			if(name.charAt(i) == '.'){
-				this.fileName = name.substring(0,i);
-				this.extention = name.substring(i);
+				Store.fileName = name.substring(0,i);
+				Store.extention = name.substring(i);
 			}
 		}
 	}

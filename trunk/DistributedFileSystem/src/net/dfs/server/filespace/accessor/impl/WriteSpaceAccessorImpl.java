@@ -19,9 +19,11 @@ import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 
 import net.dfs.server.filemodel.FileStorageModel;
+import net.dfs.server.filemodel.FileToken;
 import net.dfs.server.filespace.accessor.WriteSpaceAccessor;
 import net.dfs.server.filespace.creator.FileSpaceCreator;
-import net.dfs.server.filespace.creator.HostAddressCreator;
+import net.dfs.server.filespace.creator.impl.FileListenerImpl;
+import net.jini.core.event.RemoteEventListener;
 import net.jini.core.transaction.TransactionException;
 import net.jini.space.JavaSpace;
 
@@ -39,9 +41,9 @@ import org.apache.commons.logging.LogFactory;
 	
 	private FileSpaceCreator spaceCreator;
 	private JavaSpace space ;
-	private HostAddressCreator addressCreator;
+	private String serverIP;
 	private Log log = LogFactory.getLog(WriteSpaceAccessorImpl.class);
-	
+//	private FileListener listener;
 	/**
 	 * {@inheritDoc}
 	 */
@@ -49,20 +51,19 @@ import org.apache.commons.logging.LogFactory;
 		
 		try {
 			if(space == null){
-				space = spaceCreator.getSpace(addressCreator.getHostAddress(), InetAddress.getLocalHost());
+				space = spaceCreator.getSpace(InetAddress.getByName(serverIP), InetAddress.getLocalHost());
 			}
 			
-		} catch (RemoteException e) {
-			e.printStackTrace();
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
 
 
 /*		try {
-			FileListenerImpl listener = new FileListenerImpl(space);
-			FileModel model = new FileModel();
-			space.notify(model,null,listener,Long.MAX_VALUE, null);
+			FileListenerImpl listener = new FileListenerImpl();
+			
+			FileToken model = new FileToken();
+			space.notify(model,null,(RemoteEventListener)listener,Long.MAX_VALUE, null);
 
 		} catch (RemoteException e) {
 			System.out.println("EX 1 !!!");
@@ -70,8 +71,8 @@ import org.apache.commons.logging.LogFactory;
 		} catch (TransactionException e) {
 			System.out.println("EX 2 !!!");
 			e.printStackTrace();
-		}
-*/		
+		}*/
+		
 	}
 
 	/**
@@ -83,13 +84,14 @@ import org.apache.commons.logging.LogFactory;
 	 * 
 	 * @param file is an object of the type {@link FileStorageModel}
 	 */
-	public void writeToSpace(FileStorageModel file){
+
+	public void writeToSpace(FileToken token){
 		
 		if(space != null){
 
 			try {
-				space.write((FileStorageModel)file, null, Long.MAX_VALUE);
-				log.info("File "+file.fileName+" with "+file.bytesRead+" bytes Written to the Space");
+				space.write((FileToken)token, null, Long.MAX_VALUE);
+				log.info("Chunk "+token.fileName+" with Chunk No "+token.CHUNK_NO+" Written to the Space");
 
 			} catch (RemoteException e) {
 				e.printStackTrace();
@@ -112,13 +114,15 @@ import org.apache.commons.logging.LogFactory;
 		this.spaceCreator = spaceCreator;
 	}
 
-	/**
-	 * setAddressCreator will be used for the setter injection of the 
-	 * Spring container. It injects the dependency with {@link HostAddressCreator}
-	 * 
-	 * @param addressCreator is an object of type {@link HostAddressCreator}
-	 */
-	public void setAddressCreator(HostAddressCreator addressCreator) {
-		this.addressCreator = addressCreator;
+	public void setServerIP(String serverIP) {
+		this.serverIP = serverIP;
 	}
+
+	
+	
+/*	public void setListener(FileListener listener) {
+		this.listener = listener;
+	}
+*/
+	
 }

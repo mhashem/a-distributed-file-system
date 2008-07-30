@@ -42,6 +42,11 @@ import net.dfs.server.filespace.accessor.WriteSpaceAccessor;
 	  */
 	public void createHashIndex(String key, InetAddress value);
 	
+	
+	public void deleteHashIndex(String key);
+	
+	
+	
 	/**
 	 * retrieveKeys will print all the associated pairs of keys and values.
 	 */
@@ -62,7 +67,7 @@ import net.dfs.server.filespace.accessor.WriteSpaceAccessor;
 	 * 
 	 * @param key
 	 */
-	public void removeValues(String key);
+	public void removeAll();
 	
 	
  } 

@@ -14,12 +14,14 @@
 
 package net.dfs.user.connect;
 
-import net.dfs.server.filesplitter.FileSplitService;
+import java.net.InetAddress;
+
+import net.dfs.server.token.TokenService;
 
 /**
  * StorageConnectionHandler will store the file in the distributed network.
  * This will re-direct the byte stream of the File object to the 
- * {@link FileSplitService}. 
+ * {@link TokenService}. 
  * 
  * @author Rukshan Silva
  * @version 1.0
@@ -28,10 +30,10 @@ public interface StorageConnectionHandler {
 
 	/**
 	 * storeFile will re-direct the byte stream of the file to the 
-	 * {@link FileSplitService}.
+	 * {@link TokenService}.
 	 * 
 	 * @param fileStream the byte stream of the File object
 	 */
-	public void storeFile(byte fileStream[], String fileName, String ext);
+	public void storeFile(long FILE_SIZE, String fileName, String ext, InetAddress user);
 
 }	

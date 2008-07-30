@@ -54,7 +54,6 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 					retrievalManager.retrieveFile(path+file.getKey());
 					log.debug("Get the File "+file.getKey()+" from the Client "+file.getValue());
 				}
-				readSpace.fileSpace();
 				readSpace.readFromSpace();
 			}
 			

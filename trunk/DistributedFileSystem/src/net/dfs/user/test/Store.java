@@ -14,11 +14,11 @@
 
 package net.dfs.user.test;
 
-import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -39,7 +39,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 	private static final long serialVersionUID = 1L;
 	private static String fileName;
 	private static String extention;
-
+	private static long FILE_SIZE = 0;
 	
 	/**
 	 * Store application will be started with the main() of the {@link Store}.
@@ -53,7 +53,10 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 		prop.load(new FileInputStream("server.properties"));
 		
 		File f = new File(prop.getProperty("store.fileName"));
-		BufferedInputStream in = new BufferedInputStream(new FileInputStream(f));
+		FILE_SIZE = f.length();
+		
+		
+/*		BufferedInputStream in = new BufferedInputStream(new FileInputStream(f));
 		
 		List<Byte> bytes = new ArrayList<Byte>();
 		int b = -1;
@@ -68,13 +71,15 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 			filebytes[i] = bytes.get(i);
 		}
 		
+*/		
+		
 		Store store = new Store();
 		store.fileNameAnalyzer(prop.getProperty("store.fileName"));
 
 		ApplicationContext context = new ClassPathXmlApplicationContext("net\\dfs\\user\\test\\spring-user.xml");
 		StorageConnectionHandler storageHandler = (StorageConnectionHandler)context.getBean("storageHandler");
 
-		storageHandler.storeFile(filebytes, fileName, extention);
+		storageHandler.storeFile(FILE_SIZE, fileName, extention, InetAddress.getLocalHost());
 	}
 	
 	

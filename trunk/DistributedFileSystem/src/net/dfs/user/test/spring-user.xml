@@ -23,7 +23,7 @@
  				<property name="serviceInterface" value="net.dfs.user.connect.RetrievalConnectionHandler"/>
  			</bean>
  			
-<!-- Client  -->
+<!-- User -->
  
  			<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
 				<property name="serviceName" value="LocalSave" /> 
@@ -32,11 +32,22 @@
 				<property name="registryPort" value="8989"/>		
 			</bean>
  			
+ 			<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+				<property name="serviceName" value="ChunkSendingService" /> 
+				<property name="service" ref ="chunkSendingService" />
+ 				<property name="serviceInterface" value="net.dfs.user.test.ChunkSendingService"/>
+				<property name="registryPort" value="8989"/>		
+			</bean>
+
  			<bean id="localSave" class="net.dfs.user.test.LocalSaveImpl" >
 	 			<property name="path">
 					<value>${user.savepath}</value>
 				</property>
  			</bean>
+
+ 			<bean id="chunkSendingService" class="net.dfs.user.test.ChunkSendingServiceImpl" >
+ 			</bean>
+
 
  </beans>
 		

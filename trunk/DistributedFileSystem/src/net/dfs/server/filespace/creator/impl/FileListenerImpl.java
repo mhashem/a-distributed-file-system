@@ -14,58 +14,62 @@
 
 package net.dfs.server.filespace.creator.impl;
 
-import java.io.Serializable;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 
-import net.dfs.server.filemodel.FileStorageModel;
+import net.dfs.server.filemodel.FileToken;
+import net.dfs.server.filespace.creator.FileListener;
+import net.dfs.server.filespace.creator.FileSpaceCreator;
 import net.jini.core.entry.UnusableEntryException;
 import net.jini.core.event.RemoteEvent;
-import net.jini.core.event.RemoteEventListener;
 import net.jini.core.event.UnknownEventException;
 import net.jini.core.transaction.TransactionException;
 import net.jini.space.JavaSpace;
 
-public class FileListenerImpl implements RemoteEventListener, Serializable{
+public class FileListenerImpl implements FileListener{
+
+private FileSpaceCreator spaceCreator;
+private JavaSpace space ;
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	JavaSpace space;
+/**
+ * 
+ */
+private static final long serialVersionUID = 1L;
 	
-	public FileListenerImpl(JavaSpace space){
-	
-		System.out.println("FILE LISTENER CALLED !!!");
-		this.space = space;
-/*		try {
-			UnicastRemoteObject.exportObject(this,0);
-			System.out.println("UnicastRemoteObject DONE !!!");
+
+public FileListenerImpl(){
+	System.out.println("FILE LISTENER CALLED !!!");
+			try {
+				space = spaceCreator.getSpace(InetAddress.getLocalHost(), InetAddress.getLocalHost());
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			}
+}
+
+
+
+public void notify(RemoteEvent event) throws UnknownEventException,RemoteException {
+
+	try{
+			FileToken temp = new FileToken();
+			
+			FileToken result = (FileToken) space.read(temp, null, Long.MAX_VALUE);
+			System.out.println("NOTIFIED " +result.fileName);
+			
 		} catch (RemoteException e) {
-			System.out.println("EXCEPTION !!!");
 			e.printStackTrace();
-		}
-*/	}
-	
-	public void notify(RemoteEvent event) throws UnknownEventException,
-			RemoteException {
-		FileStorageModel temp = new FileStorageModel();
-		
-		try {
-			FileStorageModel result = (FileStorageModel) space.read(temp, null, Long.MAX_VALUE);
-		
-			System.out.println(result.fileName);
 		} catch (UnusableEntryException e) {
-			System.out.println("EXCEPTION 1 !!!");
 			e.printStackTrace();
 		} catch (TransactionException e) {
-			System.out.println("EXCEPTION 2 !!!");
 			e.printStackTrace();
 		} catch (InterruptedException e) {
-			System.out.println("EXCEPTION 3 !!!");
 			e.printStackTrace();
 		}
-		
-		
 	}
 
+	public void setSpaceCreator(FileSpaceCreator spaceCreator) {
+		this.spaceCreator = spaceCreator;
+	}
+	
 }

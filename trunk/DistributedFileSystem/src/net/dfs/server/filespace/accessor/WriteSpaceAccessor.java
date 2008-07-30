@@ -15,6 +15,7 @@
 package net.dfs.server.filespace.accessor;
 
 import net.dfs.server.filemodel.FileStorageModel;
+import net.dfs.server.filemodel.FileToken;
 import net.dfs.server.filespace.creator.FileSpaceCreator;
 
 /**
@@ -39,6 +40,6 @@ import net.dfs.server.filespace.creator.FileSpaceCreator;
 	 * 
 	 * @param file is an object of the type {@link FileStorageModel}
 	 */
-	public void writeToSpace(FileStorageModel file);
+	public void writeToSpace(FileToken token);
 
  }

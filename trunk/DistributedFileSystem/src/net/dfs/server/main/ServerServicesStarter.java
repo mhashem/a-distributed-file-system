@@ -14,7 +14,11 @@
 
 package net.dfs.server.main;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -44,6 +48,15 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 	 */
 	public static void main(String args []) throws FileNotFoundException{
 
+		Properties props = new Properties();
+
+		try {
+			props.load(new FileInputStream("server.properties"));
+			props.put("server.ip", InetAddress.getLocalHost().getHostAddress());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		new ClassPathXmlApplicationContext("net\\dfs\\server\\filespace\\creator\\spring-server.xml");
 
 		log.info("Server Started");

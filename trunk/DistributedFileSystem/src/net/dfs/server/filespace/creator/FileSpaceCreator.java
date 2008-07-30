@@ -34,7 +34,7 @@ import net.jini.space.JavaSpace;
 	 * @param host the address of the node in which the Space needed to be created.
 	 * @return the newly created Space.
 	 */
-	public JavaSpace getSpace(String host, InetAddress requester);
+	public JavaSpace getSpace(InetAddress host, InetAddress requester);
 
 	
  }

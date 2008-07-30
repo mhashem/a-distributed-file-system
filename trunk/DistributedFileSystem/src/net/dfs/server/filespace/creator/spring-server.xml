@@ -15,28 +15,27 @@
 
 			
 			<bean id="storageHandler" class="net.dfs.user.connect.impl.StorageConnectionHandlerImpl" >
-				<property name="split" ref ="splitfile" />
+				<property name="tokenService" ref ="tokenService" />
 				</bean>
 
-			<bean id="splitfile" class="net.dfs.server.filesplitter.impl.FileSplitServiceImpl" >
+			<bean id="tokenService" class="net.dfs.server.token.impl.TokenServiceImpl" >
 				<property name="writeSpace" ref ="writeSpace" />
 				<property name="CHUNK_SIZE">
 					<value>${server.CHUNK_SIZE}</value>
 				</property>
 				</bean>
 
-
-			<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
-				<property name="serviceName" value="HostAddressCreator" /> 
-				<property name="service" ref ="addressCreator" />
- 				<property name="serviceInterface" value="net.dfs.server.filespace.creator.HostAddressCreator"/>
-				<property name="registryPort" value="8989"/>		
-			</bean>
-
 			<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
 				<property name="serviceName" value="FileSpaceCreator" /> 
 				<property name="service" ref ="spaceCreator" />
 				<property name="serviceInterface" value="net.dfs.server.filespace.creator.FileSpaceCreator"/>
+ 				<property name="registryPort" value="8989"/>		
+			</bean>
+
+			<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+				<property name="serviceName" value="TokenFileManager" /> 
+				<property name="service" ref ="tokenFileManager" />
+				<property name="serviceInterface" value="net.dfs.server.chunkreceiver.TokenFileManager"/>
  				<property name="registryPort" value="8989"/>		
 			</bean>
 
@@ -74,15 +73,19 @@
 
 
 			<bean id="writeSpace" class="net.dfs.server.filespace.accessor.impl.WriteSpaceAccessorImpl" >
-				<property name="addressCreator" ref ="addressCreator" />
 				<property name="spaceCreator" ref ="spaceCreator" />
+				<property name="serverIP" >
+					<value>${server.ip}</value>
+				</property>
 			</bean>
 
 			<bean id="readSpace" class="net.dfs.server.filespace.accessor.impl.ReadSpaceAccessorImpl" >
 				<property name="spaceCreator" ref ="spaceCreator" />
 				<property name="sendFileManager" ref ="sendFileManager" />
-				<property name="addressCreator" ref ="addressCreator" />
 				<property name="hashMap" ref ="hashMap" />
+				<property name="serverIP" >
+					<value>${server.ip}</value>
+				</property>
 				</bean>
 
 			<bean id="sendFileManager" class="net.dfs.user.connect.sender.impl.SendFileManagerImpl" >
@@ -95,12 +98,18 @@
 				<property name="securityManager" ref ="securityManager" />
  			</bean>
 
+			<bean id="tokenFileManager" class="net.dfs.server.chunkreceiverimpl.TokenFileManagerImpl" >
+				<property name="CHUNK_SIZE">
+					<value>${server.CHUNK_SIZE}</value>
+				</property>
+				<property name="userIP" >
+					<value>${user.ip}</value>
+				</property>
+ 			</bean>
+
 			<bean id="securityManager" class="net.dfs.server.filespace.creator.impl.SecurityManagerImpl" />
 
 			<bean id="hashMap" class="net.dfs.server.filemapper.impl.FileLocationTrackerImpl" >
- 			</bean>
-
-			<bean id="addressCreator" class="net.dfs.server.filespace.creator.impl.HostAddressCreatorImpl" >
  			</bean>
 
 			<bean id="retrieve" class="net.dfs.user.connect.impl.RetrievalConnectionHandlerImpl" >
@@ -108,9 +117,6 @@
  			</bean>
 
 			<bean id="retrievalSrevice" class="net.dfs.server.retrievefile.impl.FileRetrievalServiceImpl" >
-				<property name="serverIP" >
-					<value>${server.ip}</value>
-				</property>
 			<property name="path">
 				<value>${remote.savepath}</value>
 			</property>

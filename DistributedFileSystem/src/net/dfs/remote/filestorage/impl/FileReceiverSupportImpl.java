@@ -14,16 +14,18 @@
 
 package net.dfs.remote.filestorage.impl;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 
 import net.dfs.remote.filestorage.FileReceiverSupport;
 import net.dfs.remote.filestorage.StorageManager;
+import net.dfs.server.chunkreceiver.TokenFileManager;
 import net.dfs.server.filemapper.FileLocationTracker;
 import net.dfs.server.filemodel.FileStorageModel;
+import net.dfs.server.filemodel.FileToken;
 import net.dfs.server.filespace.creator.FileSpaceCreator;
-import net.dfs.server.filespace.creator.HostAddressCreator;
 import net.jini.core.entry.UnusableEntryException;
 import net.jini.core.transaction.TransactionException;
 import net.jini.space.JavaSpace;
@@ -45,7 +47,8 @@ import org.apache.commons.logging.LogFactory;
  public class FileReceiverSupportImpl implements FileReceiverSupport{
 	
 	private FileSpaceCreator spaceCreator;
-	private HostAddressCreator addressCreator;
+	private TokenFileManager tokenFileManager;;
+	private String serverIP;
 	private JavaSpace space;
 	private StorageManager storageManager;
 	private FileLocationTracker hashMap;
@@ -58,14 +61,12 @@ import org.apache.commons.logging.LogFactory;
 	public void connectJavaSpace(){
 		
 		try {
-			log.debug("Space requested from "+ addressCreator.getHostAddress());
+			log.debug("Space requested from "+ serverIP);
 			if(space ==null){
-				space = spaceCreator.getSpace(addressCreator.getHostAddress(), InetAddress.getLocalHost());
+				space = spaceCreator.getSpace(InetAddress.getByName(serverIP), InetAddress.getLocalHost());
 			}	
-			log.debug("Space Returned to "+ addressCreator.getHostAddress());
+			log.debug("Space Returned to "+ serverIP);
 
-		} catch (RemoteException e) {
-			log.debug("RemoteException @ FileReceiver Support");
 		} catch (UnknownHostException e) {
 			log.debug("UnknownHostException @ FileReceiver Support");
 		}
@@ -80,17 +81,21 @@ import org.apache.commons.logging.LogFactory;
 	 * the persistent storage. It accepts no values and returns no value.
 	 */
 	public void retrieveFile(){
-		FileStorageModel fileTemp = new FileStorageModel();
+		FileToken tempToken = new FileToken();
 		
 		if(space != null){
 			
 			for(;;){
 				try {
-					FileStorageModel received = (FileStorageModel) space.take(fileTemp, null, Long.MAX_VALUE);
-					log.info("File "+received.fileName+" with "+received.bytesRead+" bytes Taken from the Space");
+					FileToken received = (FileToken) space.take(tempToken, null, Long.MAX_VALUE);
+					log.info("Chunk "+received.fileName+" with Chunk No "+received.CHUNK_NO+" Taken from the Space");
 					
-					storageManager.fileStorage(received);
-					hashMap.createHashIndex(received.fileName, InetAddress.getLocalHost());
+					FileStorageModel fileStorageModel = tokenFileManager.receiveChunk(received.fileName, received.ext, received.CHUNK_NO);
+					log.info("ACTUAL File "+fileStorageModel.fileName+" with bytes "+fileStorageModel.bytesRead+" bytes from the Space");
+					
+					storageManager.fileStorage(fileStorageModel);
+					
+					hashMap.createHashIndex(fileStorageModel.fileName, InetAddress.getLocalHost());
 					
 				} catch (RemoteException e) {
 					e.printStackTrace();
@@ -100,7 +105,11 @@ import org.apache.commons.logging.LogFactory;
 					e.printStackTrace();
 				} catch (InterruptedException e) {
 					e.printStackTrace();
-				} catch (UnknownHostException e) {
+//				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -119,16 +128,11 @@ import org.apache.commons.logging.LogFactory;
 		this.spaceCreator = spaceCreator;
 	}
 	
-	/**
-	 * setAddressCreator will be used for the setter injection of the 
-	 * Spring container. It injects the dependency with {@link HostAddressCreator}
-	 * 
-	 * @param addressCreator is an object of type {@link HostAddressCreator}
-	 */
-	public void setAddressCreator(HostAddressCreator addressCreator) {
-		this.addressCreator = addressCreator;
+		
+	public void setTokenFileManager(TokenFileManager tokenFileManager) {
+		this.tokenFileManager = tokenFileManager;
 	}
-	
+
 	/**
 	 * setStorageManager will be used for the setter injection of the 
 	 * Spring container. It injects the dependency with {@link StorageManager}
@@ -149,5 +153,9 @@ import org.apache.commons.logging.LogFactory;
 		this.hashMap = hashMap;
 	}
 
+	public void setServerIP(String serverIP) {
+		this.serverIP = serverIP;
+	}
+	
 	
  }

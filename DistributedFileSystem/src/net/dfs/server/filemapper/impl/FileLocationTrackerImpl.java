@@ -53,6 +53,9 @@ import net.dfs.user.connect.RetrievalConnectionHandler;
 		hashMap.put(key, value.getHostAddress());
 	}
 
+	public void deleteHashIndex(String key) {
+		hashMap.remove(key);
+	}
 	/**
 	 * {@inheritDoc}
 	 */
@@ -89,7 +92,7 @@ import net.dfs.user.connect.RetrievalConnectionHandler;
 		return list.toArray(new HashModel[] {});	
 	}
 
-	public void removeValues(String key){
-		hashMap.remove(key);
+	public void removeAll(){
+		hashMap.clear();
 	}
  }

@@ -48,7 +48,7 @@ import org.apache.commons.logging.LogFactory;
 	 * @return the newly created Space.
 	 */
 	@SuppressWarnings("unchecked")
-	public JavaSpace getSpace(String host, InetAddress requester) {
+	public JavaSpace getSpace(InetAddress host, InetAddress requester) {
 		
 		try {
 			log.info("Space Reqested by "+requester.getHostAddress());

@@ -22,7 +22,6 @@ import net.dfs.remote.fileretrieve.FileSenderSupport;
 import net.dfs.remote.filestorage.impl.FileReceiverSupportImpl;
 import net.dfs.server.filemodel.FileRetrievalModel;
 import net.dfs.server.filespace.creator.FileSpaceCreator;
-import net.dfs.server.filespace.creator.HostAddressCreator;
 import net.jini.core.transaction.TransactionException;
 import net.jini.space.JavaSpace;
 
@@ -45,8 +44,8 @@ import org.apache.commons.logging.LogFactory;
  public class FileSenderSupportImpl implements FileSenderSupport{
 
 	private FileSpaceCreator spaceCreator;
-	private HostAddressCreator addressCreator;
 	private JavaSpace space;
+	private String serverIP;
 	private Log log = LogFactory.getLog(FileReceiverSupportImpl.class);
 	
 	/**
@@ -57,13 +56,11 @@ import org.apache.commons.logging.LogFactory;
 	public void connectJavaSpace(){
 
 		try {
-			log.debug("Space Requested from "+ addressCreator.getHostAddress());
+			log.debug("Space Requested from "+ serverIP);
 			if(space == null){	
-				space = spaceCreator.getSpace(addressCreator.getHostAddress(), InetAddress.getLocalHost());
+				space = spaceCreator.getSpace(InetAddress.getByName(serverIP), InetAddress.getLocalHost());
 			}
-			log.debug("Space Returned to "+ addressCreator.getHostAddress());
-		} catch (RemoteException e) {
-			e.printStackTrace();
+			log.debug("Space Returned to "+ serverIP);
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
@@ -104,15 +101,11 @@ import org.apache.commons.logging.LogFactory;
 	public void setSpaceCreator(FileSpaceCreator spaceCreator) {
 		this.spaceCreator = spaceCreator;
 	}
-	
-	/**
-	 * setAddressCreator will be used for the setter injection of the 
-	 * Spring container. It injects the dependency with {@link HostAddressCreator}
-	 * 
-	 * @param addressCreator is an object of type {@link HostAddressCreator}
-	 */
-	public void setAddressCreator(HostAddressCreator addressCreator) {
-		this.addressCreator = addressCreator;
+
+	public void setServerIP(String serverIP) {
+		this.serverIP = serverIP;
 	}
+
+	
 	
  }

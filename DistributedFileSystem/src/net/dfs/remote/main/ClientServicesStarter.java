@@ -22,6 +22,7 @@ import java.net.UnknownHostException;
 import java.util.Properties;
 
 import net.dfs.remote.filestorage.FileReceiverSupport;
+import net.dfs.server.filemapper.impl.FileLocationTrackerImpl;
 import net.dfs.server.filespace.accessor.impl.WriteSpaceAccessorImpl;
 import net.dfs.server.noderegistration.NodeRegistrationService;
 
@@ -54,8 +55,8 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 
 		try {
 			props.load(new FileInputStream("server.properties"));
-			props.put("server.client", InetAddress.getLocalHost().getHostAddress());
-			System.err.println("Server Client = " + props.get("server.client"));
+			props.put("client.ip", InetAddress.getLocalHost().getHostAddress());
+//			System.err.println("Server Client = " + props.get("server.client"));
 			log.debug(props);
 
 		} catch (FileNotFoundException e) {
@@ -104,6 +105,10 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 		context.setConfigLocation("net\\dfs\\remote\\filestorage\\spring-client.xml");
 		context.refresh();
 		context.start();
+		
+		FileLocationTrackerImpl hash = new FileLocationTrackerImpl();
+		hash.removeAll();
+		
 		log.info("Client Started");
 		
 		FileReceiverSupport receiveFile = (FileReceiverSupport) context.getBean("receiveFile");

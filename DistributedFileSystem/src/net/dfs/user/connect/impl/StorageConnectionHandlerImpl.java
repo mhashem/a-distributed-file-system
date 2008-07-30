@@ -14,7 +14,13 @@
 
 package net.dfs.user.connect.impl;
 
-import net.dfs.server.filesplitter.FileSplitService;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.InetAddress;
+import java.util.Properties;
+
+import net.dfs.server.token.TokenService;
 import net.dfs.user.connect.StorageConnectionHandler;
 
 /**
@@ -25,23 +31,34 @@ import net.dfs.user.connect.StorageConnectionHandler;
  * @version 1.0
  */
  public class StorageConnectionHandlerImpl implements StorageConnectionHandler{
-	private FileSplitService split;
+	private TokenService tokenService;
 	
 	/**
 	 * {@inheritDoc}
 	 */
-	public void storeFile(byte fileStream[], String fileName, String ext) {
+	public void storeFile(long FILE_SIZE, String fileName, String ext, InetAddress user) {
+		Properties props = new Properties();
 
-		split.split(fileStream, fileName, ext);
+		try {
+			props.load(new FileInputStream("server.properties"));
+			props.put("user.ip", user.getHostAddress());
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		tokenService.createToken(FILE_SIZE, fileName, ext);
 	}
 
 	/**
-	 * setSplit will be used for the setter injection of the 
-	 * Spring container. It injects the dependency with {@link FileSplitService}
+	 * setTokenService will be used for the setter injection of the 
+	 * Spring container. It injects the dependency with {@link TokenService}
 	 * 
-	 * @param split is an object of type {@link FileSplitService}
+	 * @param tokenService is an object of type {@link TokenService}
 	 */
-	public void setSplit(FileSplitService split) {
-		this.split = split;
+	public void setTokenService(TokenService tokenService) {
+		this.tokenService = tokenService;
 	}
  }

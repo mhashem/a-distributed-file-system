@@ -14,11 +14,6 @@
 
 package net.dfs.server.token.impl;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-
-import net.dfs.server.filemodel.FileStorageModel;
 import net.dfs.server.filemodel.FileToken;
 import net.dfs.server.filespace.accessor.WriteSpaceAccessor;
 import net.dfs.server.token.TokenService;

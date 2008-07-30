@@ -30,6 +30,9 @@ import net.dfs.server.filespace.accessor.WriteSpaceAccessor;
  */
  public interface FileLocationTracker {
 	
+	 
+	 public void loadMap();
+	 
 	 /**
 	  * createHashIndex will keep a track of all the File objects which is been 
 	  * written to the SPace by the {@link WriteSpaceAccessor} with its corresponding 
@@ -69,5 +72,5 @@ import net.dfs.server.filespace.accessor.WriteSpaceAccessor;
 	 */
 	public void removeAll();
 	
-	
+	public void saveMap();
  } 

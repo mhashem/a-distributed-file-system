@@ -14,6 +14,12 @@
 
 package net.dfs.server.filemapper.impl;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,6 +48,23 @@ import net.dfs.user.connect.RetrievalConnectionHandler;
 	private Log log = LogFactory.getLog(FileLocationTrackerImpl.class);
 	
 	HashMap<String,String> hashMap = new HashMap<String,String>();
+
+
+	@SuppressWarnings("unchecked")
+	public void loadMap() {
+		try {
+			ObjectInputStream load = new ObjectInputStream(new FileInputStream("locationMap"));
+			@SuppressWarnings("unused")
+			HashMap<String,String> hashMap = (HashMap<String,String>) load.readObject();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 	/**
 	 * createHashIndex will insert each and every File Name and Location tuples into
@@ -95,4 +118,23 @@ import net.dfs.user.connect.RetrievalConnectionHandler;
 	public void removeAll(){
 		hashMap.clear();
 	}
+
+	public void saveMap() {
+			new Thread(new Runnable(){
+				public void run(){
+					ObjectOutputStream save;
+					try {
+						save = new ObjectOutputStream(new FileOutputStream("locationMap"));
+						save.writeObject(hashMap);
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}).start();
+		
+	}
+	
+	
  }

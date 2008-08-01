@@ -60,7 +60,7 @@ import org.apache.commons.logging.LogFactory;
 	 */
 	public void connectJavaSpace(){
 		
-		try {
+/*		try {
 			log.debug("Space requested from "+ serverIP);
 			if(space ==null){
 				space = spaceCreator.getSpace(InetAddress.getByName(serverIP), InetAddress.getLocalHost());
@@ -70,7 +70,7 @@ import org.apache.commons.logging.LogFactory;
 		} catch (UnknownHostException e) {
 			log.debug("UnknownHostException @ FileReceiver Support");
 		}
-	}
+*/	}
 	
 	/**
 	 * retrieveFile will create an instance of {@link FileStorageModel} and takes
@@ -81,42 +81,46 @@ import org.apache.commons.logging.LogFactory;
 	 * the persistent storage. It accepts no values and returns no value.
 	 */
 	public void retrieveFile(){
-		FileToken tempToken = new FileToken();
 		
-		if(space != null){
-			
-			for(;;){
-				try {
-					FileToken received = (FileToken) space.take(tempToken, null, Long.MAX_VALUE);
-					log.info("Chunk "+received.fileName+" with Chunk No "+received.CHUNK_NO+" Taken from the Space");
-					
-					FileStorageModel fileStorageModel = tokenFileManager.receiveChunk(received.fileName, received.ext, received.CHUNK_NO);
-					log.info("ACTUAL File "+fileStorageModel.fileName+" with bytes "+fileStorageModel.bytesRead+" bytes from the Space");
-					
-					storageManager.fileStorage(fileStorageModel);
-					
-					hashMap.createHashIndex(fileStorageModel.fileName, InetAddress.getLocalHost());
-					
-				} catch (RemoteException e) {
-					e.printStackTrace();
-				} catch (UnusableEntryException e) {
-					e.printStackTrace();
-				} catch (TransactionException e) {
-					e.printStackTrace();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-//				} catch (FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+		FileToken tempToken = new FileToken();
+
+		if(space == null){	
+			try {
+				log.debug("Space Requested from "+ serverIP);
+				space = spaceCreator.getSpace(InetAddress.getByName(serverIP), InetAddress.getLocalHost());
+				log.debug("Space Returned to "+ serverIP);
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
 			}
 		}
-		else
-			connectJavaSpace();
-	}
+			
+		for(;;){
+			try {
+				FileToken received = (FileToken) space.take(tempToken, null, Long.MAX_VALUE);
+				log.info("Chunk "+received.fileName+" with Chunk No "+received.CHUNK_NO+" Taken from the Space");
+				
+				FileStorageModel fileStorageModel = tokenFileManager.receiveChunk(received.fileName, received.ext, received.CHUNK_NO);
+				log.info("ACTUAL File "+fileStorageModel.fileName+" with bytes "+fileStorageModel.bytesRead+" taken from the Space");
+				storageManager.fileStorage(fileStorageModel);
+				hashMap.createHashIndex(fileStorageModel.fileName, InetAddress.getLocalHost());
+				
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			} catch (UnusableEntryException e) {
+				e.printStackTrace();
+			} catch (TransactionException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+//			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+}
 
 	/**
 	 * setSpaceCreator will be used for the setter injection of the 

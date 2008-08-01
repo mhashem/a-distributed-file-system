@@ -24,7 +24,7 @@ import java.util.Properties;
 import net.dfs.remote.filestorage.FileReceiverSupport;
 import net.dfs.server.filemapper.impl.FileLocationTrackerImpl;
 import net.dfs.server.filespace.accessor.impl.WriteSpaceAccessorImpl;
-import net.dfs.server.noderegistration.NodeRegistrationService;
+import net.dfs.server.noderegistration.RemoteNodeRegistration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -66,7 +66,7 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 		}
 	
 		ClientServicesStarter client = new ClientServicesStarter();
-		NodeRegistrationService nodeRegister = (NodeRegistrationService) client.startProxy();
+		RemoteNodeRegistration nodeRegister = (RemoteNodeRegistration) client.startProxy();
 		
 		try {
 			if(nodeRegister != null){
@@ -84,14 +84,14 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 			client.loadNode();
 	}
 	
-	public NodeRegistrationService startProxy(){
+	public RemoteNodeRegistration startProxy(){
 
 		RmiProxyFactoryBean proxyFactory = new RmiProxyFactoryBean();
-		proxyFactory.setServiceUrl("rmi://"+props.getProperty("server.ip")+":8989/NodeRegistrationService");
-		proxyFactory.setServiceInterface(NodeRegistrationService.class);
+		proxyFactory.setServiceUrl("rmi://"+props.getProperty("server.ip")+":8989/RemoteNodeRegistration");
+		proxyFactory.setServiceInterface(RemoteNodeRegistration.class);
 		proxyFactory.afterPropertiesSet();
 	
-		return (NodeRegistrationService) proxyFactory.getObject();
+		return (RemoteNodeRegistration) proxyFactory.getObject();
 	}
 	
 	public final void loadNode(){

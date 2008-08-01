@@ -52,7 +52,7 @@ import org.apache.commons.logging.LogFactory;
 	 */
 	public void fileSpace() {
 
-		try {
+/*		try {
 			if(space == null){
 				space = spaceCreator.getSpace(InetAddress.getByName(serverIP), InetAddress.getLocalHost());
 			}
@@ -60,38 +60,45 @@ import org.apache.commons.logging.LogFactory;
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
-	}
+*/	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public void readFromSpace() {
 
-		if(space != null){
-			FileRetrievalModel tempFile = new FileRetrievalModel();
-		
-			for(;;){
-				try {
-					FileRetrievalModel received = (FileRetrievalModel) space.take(tempFile, null, Long.MAX_VALUE);
-					sendFileManager.sendFile(received);
-
-					hashMap.deleteHashIndex(received.fileName);
-					log.info("File "+received.fileName+" with "+received.bytesRead+" bytes Retrieved from the Space");
-					
-				} catch (RemoteException e) {
-					e.printStackTrace();
-				} catch (UnusableEntryException e) {
-					e.printStackTrace();
-				} catch (TransactionException e) {
-					e.printStackTrace();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
+		if(space == null){
+			try {
+				if(space == null){
+					space = spaceCreator.getSpace(InetAddress.getByName(serverIP), InetAddress.getLocalHost());
 				}
+				
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
 			}
 		}
-		else
-			fileSpace();	
-	}
+		
+		FileRetrievalModel tempFile = new FileRetrievalModel();
+		
+		for(;;){
+			try {
+				FileRetrievalModel received = (FileRetrievalModel) space.take(tempFile, null, Long.MAX_VALUE);
+				sendFileManager.sendFile(received);
+
+				hashMap.deleteHashIndex(received.fileName);
+				log.info("File "+received.fileName+" with "+received.bytesRead+" bytes Retrieved from the Space");
+					
+			} catch (RemoteException e) {
+				e.printStackTrace();
+			} catch (UnusableEntryException e) {
+				e.printStackTrace();
+			} catch (TransactionException e) {
+				e.printStackTrace();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+}
 
 
 	/**

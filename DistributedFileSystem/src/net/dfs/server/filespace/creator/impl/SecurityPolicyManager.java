@@ -12,21 +12,31 @@
  * under the License.
  */
 
-package net.dfs.server.filespace.creator;
+package net.dfs.server.filespace.creator.impl;
+
+import java.rmi.RMISecurityManager;
 
 /**
- * SecurityManager will Set Security and will allow Privileges in connecting 
+ * Implementation of the {@link SecurityManager} and will grant permission in 
+ * connecting with the remote nodes. It will allow Privileges in connecting 
  * to the Space
  * 
- * @author Rukshan Silva
  * @version 1.0
  */
- public interface SecurityManager {
-
-	/**
-	 * securityManager will set the Security needed for connecting through the
-	 * server and remote nodes. It accepts no values and return no value.
-	 */
-	public void securityManager ();
+ public class SecurityPolicyManager{
+	
+	 /**
+	  * {@inheritDoc}
+	  */
+	public static void securityManager() {
+		try {
+			if(System.getSecurityManager() == null){
+				System.setSecurityManager(new RMISecurityManager());
+			}
+		} catch (RuntimeException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	
  }

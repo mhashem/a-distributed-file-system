@@ -47,7 +47,7 @@ import org.apache.commons.logging.LogFactory;
 	 */
 	public void fileSpace(){
 		
-		try {
+/*		try {
 			if(space == null){
 				space = spaceCreator.getSpace(InetAddress.getByName(serverIP), InetAddress.getLocalHost());
 			}
@@ -57,7 +57,7 @@ import org.apache.commons.logging.LogFactory;
 		}
 
 
-/*		try {
+		try {
 			FileListenerImpl listener = new FileListenerImpl();
 			
 			FileToken model = new FileToken();
@@ -85,22 +85,27 @@ import org.apache.commons.logging.LogFactory;
 
 	public void writeToSpace(FileToken token){
 		
-		if(space != null){
-
+		if(space == null){
 			try {
-				space.write((FileToken)token, null, Long.MAX_VALUE);
-				log.info("Chunk "+token.fileName+" with Chunk No "+token.CHUNK_NO+" Written to the Space");
+				if(space == null){
+					space = spaceCreator.getSpace(InetAddress.getByName(serverIP), InetAddress.getLocalHost());
+				}
+				
+			} catch (UnknownHostException e) {
+				e.printStackTrace();
+			}
+		}
 
-			} catch (RemoteException e) {
-				e.printStackTrace();
-			} catch (TransactionException e) {
-				e.printStackTrace();
-			}	
-		}
-		else{
-			fileSpace();
-		}
-	}
+		try {
+			space.write((FileToken)token, null, Long.MAX_VALUE);
+			log.info("Chunk "+token.fileName+" with Chunk No "+token.CHUNK_NO+" Written to the Space");
+
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (TransactionException e) {
+			e.printStackTrace();
+		}	
+}
 	
 	/**
 	 * setSpaceCreator will be used for the setter injection of the 

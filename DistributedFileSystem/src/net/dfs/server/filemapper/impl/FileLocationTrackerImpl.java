@@ -72,8 +72,8 @@ import net.dfs.user.connect.RetrievalConnectionHandler;
 	 * {@inheritDoc}
 	 */
 	public void createHashIndex(String key, InetAddress value) {
-		log.debug("Key "+key+" and Value "+value.getHostAddress()+" Added to the HashMap");
 		hashMap.put(key, value.getHostAddress());
+		log.debug("Key "+key+" and Value "+value.getHostAddress()+" Added to the HashMap");
 	}
 
 	public void deleteHashIndex(String key) {
@@ -107,9 +107,10 @@ import net.dfs.user.connect.RetrievalConnectionHandler;
 				hashModel.setKey(key+"_"+i+ext);
 				hashModel.setValue(hashMap.get(key+"_"+i+ext));
 				list.add(hashModel);
+				log.fatal("HASH MAP INCLUDES : " +key+"_"+i+ext);
 			}
 			else
-				log.info("The requested File "+key+ext+" Not Found");
+				log.info("The requested File "+key+"_"+i+ext+" Not Found");
 		}
 		
 		return list.toArray(new HashModel[] {});	

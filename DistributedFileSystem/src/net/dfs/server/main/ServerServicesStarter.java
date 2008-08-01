@@ -61,4 +61,9 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 		log.info("Server Started");
 	}
+	
+	public void exitServer(){
+		System.out.print("Server Terminated...");
+		System.exit(1);
+	}
  }

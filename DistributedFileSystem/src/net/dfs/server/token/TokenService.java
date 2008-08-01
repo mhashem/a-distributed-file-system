@@ -14,6 +14,8 @@
 
 package net.dfs.server.token;
 
+import java.net.InetAddress;
+
 
 /**
  * FileSplitService will Split the file into many per-defined sized chunks. Then set the 
@@ -35,6 +37,6 @@ package net.dfs.server.token;
 	 * 
 	 * @param fileStream the byte stream of the file which is been sent by the user.
 	 */
-	public void createToken(long FILE_SIZE, String fileName, String ext);
+	public void createToken(long FILE_SIZE, String fileName, String ext, InetAddress user);
 
  }

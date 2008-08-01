@@ -14,6 +14,8 @@
 
 package net.dfs.server.token.impl;
 
+import java.net.InetAddress;
+
 import net.dfs.server.filemodel.FileToken;
 import net.dfs.server.filespace.accessor.WriteSpaceAccessor;
 import net.dfs.server.token.TokenService;
@@ -37,19 +39,17 @@ import net.dfs.server.token.TokenService;
 	/**
 	 * {@inheritDoc}
 	 */
-	public void createToken(long FILE_SIZE, String fileName, String ext) {
+	public void createToken(long FILE_SIZE, String fileName, String ext,InetAddress user) {
 		
 		
-		NO_OF_CHUNKS = (int)FILE_SIZE / Integer.parseInt(CHUNK_SIZE);
+		NO_OF_CHUNKS = (int) Math.ceil(((double)FILE_SIZE) / Integer.parseInt(CHUNK_SIZE));
 
-		if(FILE_SIZE / Integer.parseInt(CHUNK_SIZE) != 0){
-			NO_OF_CHUNKS += 1;
-		}
 		System.out.println("TOTAL CHUNKS = " + NO_OF_CHUNKS);
 		
 		for(int increment=1;increment<= NO_OF_CHUNKS;increment++){
+		
 			FileToken token = new FileToken();
-			token.fileName = fileName+"_"+increment;
+			token.fileName = user.getHostAddress()+"_"+fileName+"_"+increment;
 			token.ext = ext;
 			token.CHUNK_NO = new Integer(increment);
 			

@@ -14,7 +14,7 @@ import java.util.Properties;
 import net.dfs.server.filemodel.FileStorageModel;
 
 public class ChunkSendingServiceImpl implements ChunkSendingService{
-	private Integer bytesRead,NO_OF_CHUNKS = 0;
+	private int bytesRead;
 	
 	private Map<String, BufferedInputStream> countMap = new HashMap<String, BufferedInputStream> ();
 	
@@ -44,51 +44,12 @@ public class ChunkSendingServiceImpl implements ChunkSendingService{
 		
 		byte [] buffer = new byte [CHUNK_SIZE];
 		FileStorageModel fileModel = new FileStorageModel();
-		int b  = -1;
-		List<Byte> bytes = new ArrayList<Byte>();
-		
-//		inputStream.skip(NO_OF_CHUNKS*CHUNK_SIZE);
-		b = inputStream.read(buffer);
-		bytes.add(b);
-		
-/*		BufferedInputStream in = new BufferedInputStream(new FileInputStream(f));
-		
-		List<Byte> bytes = new ArrayList<Byte>();
-		int b = -1;
-		
-		while ((b = in.read()) != -1) {
-			bytes.add((byte) b);
-		}
-		
-		byte[] filebytes = new byte[bytes.size()];
-		
-		for(int i=0; i< bytes.size(); i++) {
-			filebytes[i] = bytes.get(i);
-		}
-		
-*/
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+
+		bytesRead = inputStream.read(buffer);
 
 		fileModel.fileName = fileName+ext;
 		fileModel.bytes = buffer;
 		fileModel.bytesRead = bytesRead;
-		NO_OF_CHUNKS += 1;	
 
 //		countMap.put(file, inputStream);
 

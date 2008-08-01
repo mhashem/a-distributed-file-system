@@ -14,10 +14,15 @@
 
 package net.dfs.user.connect.impl;
 
+import java.io.IOException;
 import java.net.InetAddress;
 
+import net.dfs.server.noderegistration.UserRegistrationService;
 import net.dfs.server.retrievefile.FileRetrievalService;
 import net.dfs.user.connect.RetrievalConnectionHandler;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Implementation of {@link RetrievalConnectionHandler}, the class given at the API to 
@@ -30,13 +35,18 @@ import net.dfs.user.connect.RetrievalConnectionHandler;
  */
  public class RetrievalConnectionHandlerImpl implements RetrievalConnectionHandler{
 	private FileRetrievalService retrievalSrevice; 
-//	private Log log = LogFactory.getLog(RetrievalConnectionHandlerImpl.class);
+	private UserRegistrationService userRegistration;
+	private Log log = LogFactory.getLog(RetrievalConnectionHandlerImpl.class);
+	
 	/**
 	 * {@inheritDoc}
+	 * @throws IOException 
 	 */
-	public void retrieveFile(String fileName, String ext,InetAddress user) {
+	public void retrieveFile(String fileName, String ext,InetAddress user) throws IOException {
+		log.debug("The User "+user+" requested for the File "+fileName+ext);
+		userRegistration.registerUserIP(fileName+ext, user);
 
-		retrievalSrevice.retrieveFile(fileName,ext,user);
+		retrievalSrevice.retrieveFile(fileName,ext);
 	}
 
 	/**
@@ -49,4 +59,9 @@ import net.dfs.user.connect.RetrievalConnectionHandler;
 		this.retrievalSrevice = retrievalSrevice;
 	}
 
+	public void setUserRegistration(UserRegistrationService userRegistration) {
+		this.userRegistration = userRegistration;
+	}
+
+	
  }

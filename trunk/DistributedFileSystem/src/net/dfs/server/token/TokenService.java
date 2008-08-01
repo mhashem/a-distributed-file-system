@@ -14,7 +14,6 @@
 
 package net.dfs.server.token;
 
-import java.net.InetAddress;
 
 
 /**
@@ -37,6 +36,6 @@ import java.net.InetAddress;
 	 * 
 	 * @param fileStream the byte stream of the file which is been sent by the user.
 	 */
-	public void createToken(long FILE_SIZE, String fileName, String ext, InetAddress user);
+	public void createToken(long FILE_SIZE, String fileName, String ext);
 
  }

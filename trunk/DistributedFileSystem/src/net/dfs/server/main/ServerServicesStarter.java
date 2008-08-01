@@ -60,6 +60,19 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 		new ClassPathXmlApplicationContext("net\\dfs\\server\\filespace\\creator\\spring-server.xml");
 
 		log.info("Server Started");
+		
+		//TODO UI
+		//TODO Save/Load HashMap
+		//TODO Commenting
+		//TODO Threads
+		//TODO HeartBeating
+		//TODO Services Restart Scene
+
+
+
+
+		
+		
 	}
 	
 	public void exitServer(){

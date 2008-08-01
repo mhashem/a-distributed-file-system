@@ -1,12 +1,14 @@
 package net.dfs.server.retrievefile.impl;
 
-import java.net.InetAddress;
+import java.io.IOException;
 
 import net.dfs.remote.fileretrieve.RetrievalManager;
 import net.dfs.server.filemapper.FileLocationTracker;
+import net.dfs.server.filemodel.FileRetrievalModel;
 import net.dfs.server.filemodel.HashModel;
-import net.dfs.server.filespace.accessor.ReadSpaceAccessor;
+import net.dfs.server.noderegistration.UserRegistrationService;
 import net.dfs.server.retrievefile.FileRetrievalService;
+import net.dfs.user.connect.sender.SendFileManager;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -23,7 +25,8 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
  public class FileRetrievalServiceImpl implements FileRetrievalService{
 
 	private FileLocationTracker hashMap ;
-	private ReadSpaceAccessor readSpace;
+	private SendFileManager sendFileManager;
+	private UserRegistrationService userRegistration;
 	private Log log = LogFactory.getLog(FileRetrievalServiceImpl.class);
 	private String path;
 	
@@ -41,25 +44,43 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 	
 	/**
 	 * {@inheritDoc}
+	 * @return 
+	 * @throws IOException 
 	 */
-	public void retrieveFile(final String fileName, final String ext, final InetAddress user) {
+	public void retrieveFile(final String fileName, final String ext){
+
+		final String user = userRegistration.invokeUser(fileName);
 
 		new Thread(new Runnable() {
 
 			public void run() {
 				hashMap.retrieveKeys();
-				HashModel [] fileNames = hashMap.getValues(user.getHostAddress()+"_"+fileName,ext);
+				HashModel [] fileNames = hashMap.getValues(user+"_"+fileName,ext);
 
 				for (HashModel file : fileNames) {
 
-					RetrievalManager retrievalManager = (RetrievalManager) createProxy(file.getValue());
-					retrievalManager.retrieveFile(path+file.getKey());
-					log.debug("Get the File "+file.getKey()+" from the Client "+file.getValue());
+					try {
+						RetrievalManager retrievalManager = (RetrievalManager) createProxy(file.getValue());
+						FileRetrievalModel fileRetrievalModel = retrievalManager.retrieveFile(path+file.getKey());
+
+						log.debug("Recieve the File "+file.getKey()+" from the Client "+file.getValue());
+						sendFileManager.sendFile(fileRetrievalModel);
+		
+						hashMap.deleteHashIndex(fileNameAnalyzer(fileRetrievalModel.fileName));
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
-				readSpace.readFromSpace();
 			}
 			
 		}).start();
+	}
+	
+	private String fileNameAnalyzer(String file){
+
+		String [] parts  = file.split("\\\\");
+		return parts[parts.length-1];
+
 	}
 	
 	/**
@@ -72,18 +93,16 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 		this.hashMap = hashMap;
 	}
 
-	/**
-	 * setReadSpace will be used for the setter injection of the 
-	 * Spring container. It injects the dependency with {@link ReadSpaceAccessor}
-	 * 
-	 * @param readSpace is an object of type {@link ReadSpaceAccessor}
-	 */
-	public void setReadSpace(ReadSpaceAccessor readSpace) {
-		this.readSpace = readSpace;
-	}
-
 	public void setPath(String path) {
 		this.path = path;
+	}
+
+	public void setSendFileManager(SendFileManager sendFileManager) {
+		this.sendFileManager = sendFileManager;
+	}
+
+	public void setUserRegistration(UserRegistrationService userRegistration) {
+		this.userRegistration = userRegistration;
 	}
 
 	

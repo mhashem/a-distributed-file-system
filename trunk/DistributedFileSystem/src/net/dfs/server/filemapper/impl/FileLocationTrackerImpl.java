@@ -78,6 +78,7 @@ import net.dfs.user.connect.RetrievalConnectionHandler;
 
 	public void deleteHashIndex(String key) {
 		hashMap.remove(key);
+		log.debug("Key "+key+" Removed from the HashMap");
 	}
 	/**
 	 * {@inheritDoc}

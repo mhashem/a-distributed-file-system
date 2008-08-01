@@ -14,6 +14,10 @@
 
 package net.dfs.remote.fileretrieve;
 
+import java.io.IOException;
+
+import net.dfs.server.filemodel.FileRetrievalModel;
+
 /**
  * RetrievalManager will get the File from the local storage, and the File objects'
  * properties are being set. Finally, send the file to the Space via {@link FileSenderSupport}.
@@ -31,5 +35,6 @@ package net.dfs.remote.fileretrieve;
 	  * @param fileName is the name of the File object, which will be 
 	  * read from the local storage. 
 	  */
-	 public void retrieveFile(String fileName);
+	public FileRetrievalModel retrieveFile(String fileName) throws IOException;
+
  }

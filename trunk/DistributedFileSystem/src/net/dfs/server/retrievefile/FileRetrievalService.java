@@ -14,8 +14,6 @@
 
 package net.dfs.server.retrievefile;
 
-import java.net.InetAddress;
-
 import net.dfs.remote.fileretrieve.RetrievalManager;
 
 /**
@@ -45,5 +43,5 @@ import net.dfs.remote.fileretrieve.RetrievalManager;
 	 * 
 	 * @param fileName the Name of the File object.
 	 */
-	public void retrieveFile(String fileName, String ext,InetAddress user);
+	public void retrieveFile(String fileName, String ext);
  }

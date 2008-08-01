@@ -7,5 +7,5 @@ public interface SendFileManager {
 	
 	public void sendFile(FileRetrievalModel received);
 	
-	public LocalSave createProxy();
+	public LocalSave createProxy(String user);
 }

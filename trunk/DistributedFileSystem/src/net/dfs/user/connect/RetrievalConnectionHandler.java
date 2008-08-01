@@ -14,6 +14,7 @@
 
 package net.dfs.user.connect;
 
+import java.io.IOException;
 import java.net.InetAddress;
 
 import net.dfs.server.retrievefile.FileRetrievalService;
@@ -33,6 +34,7 @@ import net.dfs.server.retrievefile.FileRetrievalService;
 	  * which is been sent by the user.
 	  * 
 	  * @param fileName the name of the File object.
+	  * @throws
 	  */
-	 public void retrieveFile(String fileName, String ext, InetAddress user);
+		public void retrieveFile(String fileName, String ext,InetAddress user) throws IOException;
  }

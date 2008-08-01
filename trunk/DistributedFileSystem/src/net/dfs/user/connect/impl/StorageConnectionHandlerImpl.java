@@ -16,6 +16,9 @@ package net.dfs.user.connect.impl;
 
 import java.net.InetAddress;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.dfs.server.noderegistration.UserRegistrationService;
 import net.dfs.server.token.TokenService;
 import net.dfs.user.connect.StorageConnectionHandler;
@@ -30,13 +33,16 @@ import net.dfs.user.connect.StorageConnectionHandler;
  public class StorageConnectionHandlerImpl implements StorageConnectionHandler{
 	private TokenService tokenService;
 	private UserRegistrationService userRegistration;
+	private Log log = LogFactory.getLog(RetrievalConnectionHandlerImpl.class);
+	
 	/**
 	 * {@inheritDoc}
 	 */
 	public void storeFile(long FILE_SIZE, String fileName, String ext, InetAddress user) {
-		
+		log.debug("The File "+fileName+ext+" With "+FILE_SIZE+" received by "+user);
 		userRegistration.registerUserIP(fileName, user);
-		tokenService.createToken(FILE_SIZE, fileName, ext,user);
+
+		tokenService.createToken(FILE_SIZE, fileName, ext);
 	}
 
 	/**

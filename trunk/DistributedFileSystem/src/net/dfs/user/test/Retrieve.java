@@ -22,6 +22,8 @@ import java.util.Properties;
 
 import net.dfs.user.connect.RetrievalConnectionHandler;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -35,6 +37,7 @@ public class Retrieve {
 
 	private static String fileName;
 	private static String extention;
+	private static Log log = LogFactory.getLog(Retrieve.class);
 
 	/**
 	 * Retrieve application will be started with the main() of the {@link Retrieve}.
@@ -57,6 +60,8 @@ public class Retrieve {
 		RetrievalConnectionHandler retrieve = (RetrievalConnectionHandler) context.getBean("retrieve");
 
 		retrieve.retrieveFile(fileName, extention, InetAddress.getLocalHost());
+		log.debug("The File "+fileName+extention+" Request from the Server");
+
 	}
 	
 	@SuppressWarnings("static-access")

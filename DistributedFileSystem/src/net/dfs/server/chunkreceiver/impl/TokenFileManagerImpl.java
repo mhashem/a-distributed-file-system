@@ -8,6 +8,8 @@ import net.dfs.server.filemodel.FileStorageModel;
 import net.dfs.server.noderegistration.UserRegistrationService;
 import net.dfs.user.test.ChunkSendingService;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 
 
@@ -16,28 +18,30 @@ public class TokenFileManagerImpl implements TokenFileManager{
 	
 	private UserRegistrationService userRegistration;
 	private Integer CHUNK_SIZE;
+	private Log log = LogFactory.getLog(TokenFileManagerImpl.class);
+
 	
-	
-	public ChunkSendingService createProxy(String fileName) {
-		
-		String userIP = userRegistration.invokeUser(fileNameAnalyzer(fileName));
+	public ChunkSendingService createProxy(String fileName, String userIP) {
 		
 		RmiProxyFactoryBean proxyFactory = new RmiProxyFactoryBean();
 		proxyFactory.setServiceUrl("rmi://"+userIP+":8989/ChunkSendingService");
 		proxyFactory.setServiceInterface(ChunkSendingService.class);
 		proxyFactory.afterPropertiesSet();
-		ChunkSendingService s = (ChunkSendingService) proxyFactory.getObject();
+		ChunkSendingService serivce = (ChunkSendingService) proxyFactory.getObject();
 
-		return s;
+		return serivce;
 	}
 	
-	public FileStorageModel receiveChunk(String fileName, String ext, Integer CHUNK_NO) throws FileNotFoundException, IOException {
-		
-		ChunkSendingService chunkSendingService	= (ChunkSendingService)createProxy(fileName);	
+	public FileStorageModel receiveChunk(final String fileName, final String ext, final Integer CHUNK_NO) throws FileNotFoundException, IOException {
+			
+		String userIP = userRegistration.invokeUser(fileNameAnalyzer(fileName));
+
+		ChunkSendingService chunkSendingService	= (ChunkSendingService)createProxy(fileName, userIP);	
 		FileStorageModel fileModel = chunkSendingService.sendChunk(fileName,ext,CHUNK_SIZE);
 
+		log.debug("File "+fileName+" Recieved from "+userIP);
 		return fileModel;
-	}
+}
 
 	private String fileNameAnalyzer(String file){
 

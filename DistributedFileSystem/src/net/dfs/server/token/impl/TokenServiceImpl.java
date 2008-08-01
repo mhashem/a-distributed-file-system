@@ -14,10 +14,12 @@
 
 package net.dfs.server.token.impl;
 
-import java.net.InetAddress;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import net.dfs.server.filemodel.FileToken;
 import net.dfs.server.filespace.accessor.WriteSpaceAccessor;
+import net.dfs.server.noderegistration.UserRegistrationService;
 import net.dfs.server.token.TokenService;
 
 /**
@@ -31,25 +33,27 @@ import net.dfs.server.token.TokenService;
  public class TokenServiceImpl implements TokenService {
 	
 	private WriteSpaceAccessor writeSpace;
+	private UserRegistrationService userRegistration;
 	private String CHUNK_SIZE;
 	private Integer NO_OF_CHUNKS;
 	
-//	private Log log = LogFactory.getLog(FileSplitServiceImpl.class);
+	private Log log = LogFactory.getLog(TokenServiceImpl.class);
 	
 	/**
 	 * {@inheritDoc}
 	 */
-	public void createToken(long FILE_SIZE, String fileName, String ext,InetAddress user) {
+	public void createToken(long FILE_SIZE, String fileName, String ext) {
 		
-		
+		String user = userRegistration.invokeUser(fileName);
+
 		NO_OF_CHUNKS = (int) Math.ceil(((double)FILE_SIZE) / Integer.parseInt(CHUNK_SIZE));
 
-		System.out.println("TOTAL CHUNKS = " + NO_OF_CHUNKS);
+		log.debug("TOTAL CHUNKS = " + NO_OF_CHUNKS);
 		
 		for(int increment=1;increment<= NO_OF_CHUNKS;increment++){
 		
 			FileToken token = new FileToken();
-			token.fileName = user.getHostAddress()+"_"+fileName+"_"+increment;
+			token.fileName = user+"_"+fileName+"_"+increment;
 			token.ext = ext;
 			token.CHUNK_NO = new Integer(increment);
 			
@@ -93,4 +97,9 @@ import net.dfs.server.token.TokenService;
 		CHUNK_SIZE = chunk_size;
 	}
 
+	public void setUserRegistration(UserRegistrationService userRegistration) {
+		this.userRegistration = userRegistration;
+	}
+
+	
 }

@@ -56,15 +56,7 @@
 			</bean>
  
  			<bean id="retrievalManager" class="net.dfs.remote.fileretrieve.impl.RetrievalManagerImpl" >
-				<property name="fileSender" ref ="fileSender" />
  			</bean>
  
- 			<bean id="fileSender" class="net.dfs.remote.fileretrieve.impl.FileSenderSupportImpl" >
-				<property name="spaceCreator" ref ="spaceCreator" />
-				<property name="serverIP" >
-					<value>${server.ip}</value>
-				</property>
- 			</bean>
-
 </beans>
 		

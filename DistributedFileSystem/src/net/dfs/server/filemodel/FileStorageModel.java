@@ -31,7 +31,7 @@ import net.jini.entry.AbstractEntry;
 	private static final long serialVersionUID = 1L;
 	
 	public String fileName;
-	public Integer bytesRead;
+	public int bytesRead;
 	public byte [] bytes;
 
 	/**

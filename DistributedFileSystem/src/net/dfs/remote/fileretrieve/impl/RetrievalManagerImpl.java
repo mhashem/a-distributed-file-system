@@ -15,13 +15,16 @@
 package net.dfs.remote.fileretrieve.impl;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import net.dfs.remote.fileretrieve.FileSenderSupport;
 import net.dfs.remote.fileretrieve.RetrievalManager;
 import net.dfs.server.filemodel.FileRetrievalModel;
 import net.dfs.server.filespace.creator.FileSpaceCreator;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Implementation of {@link RetrievalManager}, which used to read the File from the
@@ -33,8 +36,7 @@ import net.dfs.server.filespace.creator.FileSpaceCreator;
  */
  public class RetrievalManagerImpl implements RetrievalManager{
 
-	private FileSenderSupport fileSender;
-//	private Log log = LogFactory.getLog(RetrievalManagerImpl.class);
+	private Log log = LogFactory.getLog(RetrievalManagerImpl.class);
 
 	/**
 	 * Read the File from the local disk and send it to the Space.
@@ -47,40 +49,25 @@ import net.dfs.server.filespace.creator.FileSpaceCreator;
 	 * <p>
 	 * IOException will be thrown on a failure.
 	 * {@inheritDoc}
+	 * @throws IOException 
 	 */
-	public void retrieveFile(String fileName) {
-	
-			try {
-                
-               BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(fileName));
+	public FileRetrievalModel retrieveFile(String fileName) throws IOException {
+	                
+               BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(new File(fileName)));
                 
                 byte[] buffer = new byte [inputStream.available()];
 				Integer bytesRead = 0;
 				
-				fileSender.connectJavaSpace();
 				FileRetrievalModel fileModel = new FileRetrievalModel();
 				
 				while((bytesRead = inputStream.read(buffer)) != -1){
 					fileModel.fileName = fileName;	
-					fileModel.bytesRead = bytesRead;
 					fileModel.bytes = buffer;
-					
-					fileSender.sendFile(fileModel);
+					fileModel.bytesRead = bytesRead;
 				}
-	
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
 
-	/**
-	 * setFileSender will be used for the setter injection of the 
-	 * Spring container. It injects the dependency with {@link FileSenderSupport}
-	 * 
-	 * @param fileSender is an object of type {@link FileSenderSupport}
-	 */
-	public void setFileSender(FileSenderSupport fileSender) {
-		this.fileSender = fileSender;
-	}
+				log.info("The File "+fileModel.fileName+" with bytes "+fileModel.bytesRead+" Sending back to the Server");
+				return fileModel;
+		}
 
  }

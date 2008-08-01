@@ -23,6 +23,8 @@ import java.util.Properties;
 
 import net.dfs.user.connect.StorageConnectionHandler;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -38,7 +40,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 	private static String fileName;
 	private static String extention;
 	private static long FILE_SIZE = 0;
-	
+	private static Log log = LogFactory.getLog(Store.class);
+
 	/**
 	 * Store application will be started with the main() of the {@link Store}.
 	 * 
@@ -78,6 +81,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 		StorageConnectionHandler storageHandler = (StorageConnectionHandler)context.getBean("storageHandler");
 
 		storageHandler.storeFile(FILE_SIZE, fileName, extention, InetAddress.getLocalHost());
+
+		log.debug("The File "+fileName+extention+" With "+FILE_SIZE+" size send to the Server");
 	}
 	
 	

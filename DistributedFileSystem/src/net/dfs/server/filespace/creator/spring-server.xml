@@ -20,6 +20,7 @@
 				</bean>
 
 			<bean id="tokenService" class="net.dfs.server.token.impl.TokenServiceImpl" >
+				<property name="userRegistration" ref ="userRegistration" />
 				<property name="writeSpace" ref ="writeSpace" />
 				<property name="CHUNK_SIZE">
 					<value>${server.CHUNK_SIZE}</value>
@@ -80,19 +81,8 @@
 				</property>
 			</bean>
 
-			<bean id="readSpace" class="net.dfs.server.filespace.accessor.impl.ReadSpaceAccessorImpl" >
-				<property name="spaceCreator" ref ="spaceCreator" />
-				<property name="sendFileManager" ref ="sendFileManager" />
-				<property name="hashMap" ref ="hashMap" />
-				<property name="serverIP" >
-					<value>${server.ip}</value>
-				</property>
-				</bean>
-
 			<bean id="sendFileManager" class="net.dfs.user.connect.sender.impl.SendFileManagerImpl" >
-				<property name="serverIP" >
-					<value>${server.ip}</value>
-				</property>
+				<property name="userRegistration" ref ="userRegistration" />
 			</bean>
 
 			<bean id="spaceCreator" class="net.dfs.server.filespace.creator.impl.FileSpaceCreatorImpl" >
@@ -112,15 +102,17 @@
  			</bean>
 
 			<bean id="retrieve" class="net.dfs.user.connect.impl.RetrievalConnectionHandlerImpl" >
+				<property name="userRegistration" ref ="userRegistration" />
 				<property name="retrievalSrevice" ref ="retrievalSrevice" />
  			</bean>
 
 			<bean id="retrievalSrevice" class="net.dfs.server.retrievefile.impl.FileRetrievalServiceImpl" >
+				<property name="userRegistration" ref ="userRegistration" />
 			<property name="path">
 				<value>${remote.savepath}</value>
 			</property>
 				<property name="hashMap" ref ="hashMap" />
-				<property name="readSpace" ref ="readSpace" />
+				<property name="sendFileManager" ref ="sendFileManager" />
  			</bean>
 
 </beans>

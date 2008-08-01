@@ -4,10 +4,14 @@ import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 import net.dfs.server.filemodel.FileRetrievalModel;
 
 public class LocalSaveImpl implements LocalSave{
 
+	private static Log log = LogFactory.getLog(Retrieve.class);
 	private String fileName;
 	private String extention;
 	private String path;
@@ -15,7 +19,6 @@ public class LocalSaveImpl implements LocalSave{
 	
 	public void saveFile(FileRetrievalModel file){
 
-		System.out.println("HI LOCAL FILE !!!!!!!!!!!!!!!!!!!!!");
 		if(!called){
 			fileNameAnalyzer(file.fileName);
 			called = true;
@@ -23,8 +26,11 @@ public class LocalSaveImpl implements LocalSave{
 		try {
 			BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(path+fileName+extention,true));
 			outputStream.write(file.bytes,0,file.bytesRead);
+
+			log.debug("The File "+file.fileName+" Saved");
 			outputStream.flush();
 			outputStream.close();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

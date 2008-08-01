@@ -2,7 +2,7 @@ package net.dfs.server.noderegistration;
 
 import java.net.InetAddress;
 
-public interface NodeRegistrationService {
+public interface RemoteNodeRegistration {
 	
 	public void registerNode(InetAddress client);
 }

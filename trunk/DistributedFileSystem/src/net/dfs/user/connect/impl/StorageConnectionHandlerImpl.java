@@ -14,12 +14,9 @@
 
 package net.dfs.user.connect.impl;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.InetAddress;
-import java.util.Properties;
 
+import net.dfs.server.noderegistration.UserRegistrationService;
 import net.dfs.server.token.TokenService;
 import net.dfs.user.connect.StorageConnectionHandler;
 
@@ -32,24 +29,14 @@ import net.dfs.user.connect.StorageConnectionHandler;
  */
  public class StorageConnectionHandlerImpl implements StorageConnectionHandler{
 	private TokenService tokenService;
-	
+	private UserRegistrationService userRegistration;
 	/**
 	 * {@inheritDoc}
 	 */
 	public void storeFile(long FILE_SIZE, String fileName, String ext, InetAddress user) {
-		Properties props = new Properties();
-
-		try {
-			props.load(new FileInputStream("server.properties"));
-			props.put("user.ip", user.getHostAddress());
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 		
-		tokenService.createToken(FILE_SIZE, fileName, ext);
+		userRegistration.registerUserIP(fileName, user);
+		tokenService.createToken(FILE_SIZE, fileName, ext,user);
 	}
 
 	/**
@@ -61,4 +48,10 @@ import net.dfs.user.connect.StorageConnectionHandler;
 	public void setTokenService(TokenService tokenService) {
 		this.tokenService = tokenService;
 	}
+
+	public void setUserRegistration(UserRegistrationService userRegistration) {
+		this.userRegistration = userRegistration;
+	}
+	
+	
  }

@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 
 import net.dfs.server.filespace.creator.FileSpaceCreator;
-import net.dfs.server.filespace.creator.SecurityManager;
 import net.jini.core.discovery.LookupLocator;
 import net.jini.core.lookup.ServiceRegistrar;
 import net.jini.core.lookup.ServiceTemplate;
@@ -35,7 +34,6 @@ import org.apache.commons.logging.LogFactory;
  * @version 1.0
  */
  public class FileSpaceCreatorImpl implements FileSpaceCreator{
-	private SecurityManager securityManager;
 	private Log log = LogFactory.getLog(FileSpaceCreatorImpl.class);
 	
 	/**
@@ -53,7 +51,7 @@ import org.apache.commons.logging.LogFactory;
 		try {
 			log.info("Space Reqested by "+requester.getHostAddress());
 
-			securityManager.securityManager();
+			SecurityPolicyManager.securityManager();
 			LookupLocator lookup = new LookupLocator("jini://localhost");
 			ServiceRegistrar registrar = lookup.getRegistrar();
 
@@ -74,13 +72,4 @@ import org.apache.commons.logging.LogFactory;
 		return null;
 	}
 	
-	/**
-	 * setSecurityManager will be used for the setter injection of the 
-	 * Spring container. It injects the dependency with {@link SecurityManager}
-	 * 
-	 * @param securityManager is an object of type {@link SecurityManager}
-	 */
-	public void setSecurityManager(SecurityManager securityManager) {
-		this.securityManager = securityManager;
-	}
 }

@@ -17,6 +17,7 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.Properties;
 
 import net.dfs.user.connect.RetrievalConnectionHandler;
@@ -55,7 +56,7 @@ public class Retrieve {
 		ApplicationContext context = new ClassPathXmlApplicationContext("net\\dfs\\user\\test\\spring-user.xml");
 		RetrievalConnectionHandler retrieve = (RetrievalConnectionHandler) context.getBean("retrieve");
 
-		retrieve.retrieveFile(fileName, extention);
+		retrieve.retrieveFile(fileName, extention, InetAddress.getLocalHost());
 	}
 	
 	@SuppressWarnings("static-access")

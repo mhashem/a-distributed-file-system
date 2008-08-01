@@ -1,5 +1,7 @@
 package net.dfs.server.retrievefile.impl;
 
+import java.net.InetAddress;
+
 import net.dfs.remote.fileretrieve.RetrievalManager;
 import net.dfs.server.filemapper.FileLocationTracker;
 import net.dfs.server.filemodel.HashModel;
@@ -40,13 +42,13 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 	/**
 	 * {@inheritDoc}
 	 */
-	public void retrieveFile(final String fileName, final String ext) {
+	public void retrieveFile(final String fileName, final String ext, final InetAddress user) {
 
 		new Thread(new Runnable() {
 
 			public void run() {
 				hashMap.retrieveKeys();
-				HashModel [] fileNames = hashMap.getValues(fileName,ext);
+				HashModel [] fileNames = hashMap.getValues(user.getHostAddress()+"_"+fileName,ext);
 
 				for (HashModel file : fileNames) {
 

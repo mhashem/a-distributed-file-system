@@ -16,6 +16,7 @@
 			
 			<bean id="storageHandler" class="net.dfs.user.connect.impl.StorageConnectionHandlerImpl" >
 				<property name="tokenService" ref ="tokenService" />
+				<property name="userRegistration" ref ="userRegistration" />
 				</bean>
 
 			<bean id="tokenService" class="net.dfs.server.token.impl.TokenServiceImpl" >
@@ -61,14 +62,14 @@
 			</bean>
 
  			<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
-				<property name="serviceName" value="NodeRegistrationService" /> 
-				<property name="service" ref ="nodeRegistrationService" />
- 				<property name="serviceInterface" value="net.dfs.server.noderegistration.NodeRegistrationService"/>
+				<property name="serviceName" value="RemoteNodeRegistration" /> 
+				<property name="service" ref ="remoteNodeRegistration" />
+ 				<property name="serviceInterface" value="net.dfs.server.noderegistration.RemoteNodeRegistration"/>
 				<property name="registryPort" value="8989"/>		
 			</bean>
 
 
-			<bean id="nodeRegistrationService" class="net.dfs.server.noderegistration.impl.NodeRegistrationServiceImpl" >
+			<bean id="remoteNodeRegistration" class="net.dfs.server.noderegistration.impl.RemoteNodeRegistrationImpl" >
 			</bean>
 
 
@@ -95,19 +96,17 @@
 			</bean>
 
 			<bean id="spaceCreator" class="net.dfs.server.filespace.creator.impl.FileSpaceCreatorImpl" >
-				<property name="securityManager" ref ="securityManager" />
  			</bean>
 
-			<bean id="tokenFileManager" class="net.dfs.server.chunkreceiverimpl.TokenFileManagerImpl" >
+			<bean id="tokenFileManager" class="net.dfs.server.chunkreceiver.impl.TokenFileManagerImpl" >
+				<property name="userRegistration" ref ="userRegistration" />
 				<property name="CHUNK_SIZE">
 					<value>${server.CHUNK_SIZE}</value>
 				</property>
-				<property name="userIP" >
-					<value>${user.ip}</value>
-				</property>
  			</bean>
 
-			<bean id="securityManager" class="net.dfs.server.filespace.creator.impl.SecurityManagerImpl" />
+			<bean id="userRegistration" class="net.dfs.server.noderegistration.impl.UserRegistrationServiceImpl" >
+ 			</bean>
 
 			<bean id="hashMap" class="net.dfs.server.filemapper.impl.FileLocationTrackerImpl" >
  			</bean>

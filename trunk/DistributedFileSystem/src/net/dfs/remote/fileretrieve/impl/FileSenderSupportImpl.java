@@ -55,7 +55,7 @@ import org.apache.commons.logging.LogFactory;
 	 */
 	public void connectJavaSpace(){
 
-		try {
+/*		try {
 			log.debug("Space Requested from "+ serverIP);
 			if(space == null){	
 				space = spaceCreator.getSpace(InetAddress.getByName(serverIP), InetAddress.getLocalHost());
@@ -64,7 +64,7 @@ import org.apache.commons.logging.LogFactory;
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
-	}
+*/	}
 	
 	/**
 	 * sendFile will get an instance of the remote Space and write the file to the Space. 
@@ -75,22 +75,26 @@ import org.apache.commons.logging.LogFactory;
 	 */
 	public void sendFile(FileRetrievalModel file) {
 
-		if(space != null){
-
+		if(space == null){	
 			try {
-				space.write((FileRetrievalModel)file, null, Long.MAX_VALUE);
-				log.info("File "+file.fileName+" with "+file.bytesRead+" bytes Written to the Space");
-
-			} catch (RemoteException e) {
-				e.printStackTrace();
-			} catch (TransactionException e) {
+				log.debug("Space Requested from "+ serverIP);
+				space = spaceCreator.getSpace(InetAddress.getByName(serverIP), InetAddress.getLocalHost());
+				log.debug("Space Returned to "+ serverIP);
+			} catch (UnknownHostException e) {
 				e.printStackTrace();
 			}
 		}
-		else
-			connectJavaSpace();	
-	}
-	
+		
+		try {
+			space.write((FileRetrievalModel)file, null, Long.MAX_VALUE);
+			log.info("File "+file.fileName+" with "+file.bytesRead+" bytes Written to the Space");
+
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		} catch (TransactionException e) {
+			e.printStackTrace();
+		}
+}	
 	/**
 	 * setSpaceCreator will be used for the setter injection of the 
 	 * Spring container. It injects the dependency with {@link FileSpaceCreator}.

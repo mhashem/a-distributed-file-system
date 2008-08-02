@@ -46,7 +46,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 	 * @param args the parameter which is passed to the main().
 	 * @throws FileNotFoundException
 	 */
-	public static void main(String args []) throws FileNotFoundException{
+	public static void startServer() throws FileNotFoundException{
 
 		Properties props = new Properties();
 
@@ -75,7 +75,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 		
 	}
 	
-	public void exitServer(){
+	public static void exitServer(){
 		System.out.print("Server Terminated...");
 		System.exit(1);
 	}

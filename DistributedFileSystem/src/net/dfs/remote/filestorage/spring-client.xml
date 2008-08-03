@@ -29,10 +29,19 @@
 				<value>${remote.savepath}</value>
 			</property>
 			</bean>
-		
+			
+			<bean id="heartBeatSender" class="net.dfs.remote.heartbeat.HeartBeatSender">
+				<property name="service" ref="heartBeatProxy" />
+			</bean>
+
 			<bean id="spaceCreator" class="org.springframework.remoting.rmi.RmiProxyFactoryBean" >
  			   	<property name="serviceUrl" value="rmi://${server.ip}:8989/FileSpaceCreator"/>
 				<property name="serviceInterface" value="net.dfs.server.filespace.creator.FileSpaceCreator"/>
+ 			</bean>
+ 					
+			<bean id="heartBeatProxy" class="org.springframework.remoting.rmi.RmiProxyFactoryBean" >
+ 			   	<property name="serviceUrl" value="rmi://${server.ip}:8989/HeartBeatService"/>
+				<property name="serviceInterface" value="net.dfs.server.heartbeat.HeartBeatService"/>
  			</bean>
  
 			<bean id="tokenFileManager" class="org.springframework.remoting.rmi.RmiProxyFactoryBean" >
@@ -56,6 +65,9 @@
 			</bean>
  
  			<bean id="retrievalManager" class="net.dfs.remote.fileretrieve.impl.RetrievalManagerImpl" >
+ 			<property name="path">
+				<value>${remote.savepath}</value>
+			</property>
  			</bean>
  
 </beans>

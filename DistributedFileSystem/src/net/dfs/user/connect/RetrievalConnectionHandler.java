@@ -36,5 +36,5 @@ import net.dfs.server.retrievefile.FileRetrievalService;
 	  * @param fileName the name of the File object.
 	  * @throws
 	  */
-		public void retrieveFile(String fileName, String ext,InetAddress user) throws IOException;
+		public void retrieveFile(String fileName, String ext,String user) throws IOException;
  }

@@ -6,6 +6,7 @@ import net.dfs.remote.fileretrieve.RetrievalManager;
 import net.dfs.server.filemapper.FileLocationTracker;
 import net.dfs.server.filemodel.FileRetrievalModel;
 import net.dfs.server.filemodel.HashModel;
+import net.dfs.server.noderegistration.RemoteNodeRegistration;
 import net.dfs.server.noderegistration.UserRegistrationService;
 import net.dfs.server.retrievefile.FileRetrievalService;
 import net.dfs.user.connect.sender.SendFileManager;
@@ -27,8 +28,9 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 	private FileLocationTracker hashMap ;
 	private SendFileManager sendFileManager;
 	private UserRegistrationService userRegistration;
+	private RemoteNodeRegistration nodeRegistration;
+	
 	private Log log = LogFactory.getLog(FileRetrievalServiceImpl.class);
-	private String path;
 	
 	/**
 	 * {@inheritDoc}
@@ -60,15 +62,20 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 				for (HashModel file : fileNames) {
 
 					try {
-						RetrievalManager retrievalManager = (RetrievalManager) createProxy(file.getValue());
-						FileRetrievalModel fileRetrievalModel = retrievalManager.retrieveFile(path+file.getKey());
+						if(nodeRegistration.isConnected(file.getValue())){
 
-						log.debug("Recieve the File "+file.getKey()+" from the Client "+file.getValue());
-						sendFileManager.sendFile(fileRetrievalModel);
-		
-						hashMap.deleteHashIndex(fileNameAnalyzer(fileRetrievalModel.fileName));
+							RetrievalManager retrievalManager = (RetrievalManager) createProxy(file.getValue());
+							FileRetrievalModel fileRetrievalModel = retrievalManager.retrieveFile(file.getKey());
+	
+							log.debug("Recieve the File "+file.getKey()+" from the Client "+file.getValue());
+							sendFileManager.sendFile(fileRetrievalModel);
+			
+							hashMap.deleteHashIndex(fileNameAnalyzer(fileRetrievalModel.fileName));
+						}
+						else
+							log.error("Cannot discover the Client "+file.getValue());
 					} catch (IOException e) {
-						e.printStackTrace();
+						log.error(e);
 					}
 				}
 			}
@@ -93,10 +100,6 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 		this.hashMap = hashMap;
 	}
 
-	public void setPath(String path) {
-		this.path = path;
-	}
-
 	public void setSendFileManager(SendFileManager sendFileManager) {
 		this.sendFileManager = sendFileManager;
 	}
@@ -105,5 +108,10 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 		this.userRegistration = userRegistration;
 	}
 
+	public void setNodeRegistration(RemoteNodeRegistration nodeRegistration) {
+		this.nodeRegistration = nodeRegistration;
+	}
+	
+	
 	
  }

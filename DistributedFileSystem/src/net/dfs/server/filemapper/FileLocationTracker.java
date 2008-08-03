@@ -43,7 +43,7 @@ import net.dfs.server.filespace.accessor.WriteSpaceAccessor;
 	  * @param value Address of the remote node which takes a single File Object from the 
 	  * Space  
 	  */
-	public void createHashIndex(String key, InetAddress value);
+	public void createHashIndex(String key, String value);
 	
 	
 	public void deleteHashIndex(String key);

@@ -1,16 +1,10 @@
 package net.dfs.ui;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.ComponentOrientation;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.Rectangle;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.net.UnknownHostException;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -19,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -26,6 +21,9 @@ import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+
+import net.dfs.remote.main.ClientServicesStarter;
+import net.dfs.server.main.ServerServicesStarter;
 
 /**
  * @author Rukshan Silva
@@ -41,52 +39,90 @@ public class NodeUI extends JPanel {
 		new NodeUI();
 	}
 
-	private void btnConnecetActionPerformed(ActionEvent e) {
-		// TODO add your code here
+	@SuppressWarnings("static-access")
+	private void btnLocationActionPerformed(ActionEvent e) {
+		fileChooser1.setFileSelectionMode(fileChooser1.DIRECTORIES_ONLY);
+		fileChooser1.showOpenDialog(null);
+		File selected = fileChooser1.getSelectedFile();
+
+		String loc = selected.getAbsolutePath();
+		lblSaveLoc.setText(ClientServicesStarter.setLocation(loc));
+		
+		btnStart.setEnabled(true);
+	}
+
+	private void btnStartActionPerformed(ActionEvent e) {
+		new Thread(new Runnable(){
+
+			public void run() {
+
+				try {
+					lblNodeIP.setText(ClientServicesStarter.clientIP());
+					lblNodeName.setText(ClientServicesStarter.clientName());
+					lblServerIP.setText(ClientServicesStarter.serverIP());
+					ClientServicesStarter.startClient();
+
+				} catch (UnknownHostException e) {
+					e.printStackTrace();
+				}
+			}
+			
+		}).start();
+		
+		btnStart.setEnabled(false);
+		btnLocation.setEnabled(false);
+	}
+
+	private void btnTerminateActionPerformed(ActionEvent e) {
+		int op = JOptionPane.showConfirmDialog(null, "Do you wish to Terminate the Server ?", "Exit Server", JOptionPane.YES_NO_OPTION);
+		if(op == 0){
+			ServerServicesStarter.exitServer();
+		}
+
+	}
+
+	private void mnuSettingsActionPerformed(ActionEvent e) {
+		int op = JOptionPane.showConfirmDialog(null, "Do you wish to Terminate the Server ?", "Exit Server", JOptionPane.YES_NO_OPTION);
+		if(op == 0){
+			ServerServicesStarter.exitServer();
+		}
+
+	}
+	
+	public static void setServerName(String name){
+		lblServerName.setText(name);
 	}
 	
 	private void initComponents() {
 		//Component initialization //GEN-BEGIN:initComponents
 		// Generated using JFormDesigner Evaluation license - Rukshan Silva
-		frame2 = new JFrame();
-		fileChooser1 = new JFileChooser();
 		frame1 = new JFrame();
 		menuBar1 = new JMenuBar();
 		menu1 = new JMenu();
 		mnuSettings = new JMenuItem();
-		menu3 = new JMenu();
-		menuItem4 = new JMenuItem();
-		menuItem3 = new JMenuItem();
 		menu2 = new JMenu();
 		mnuAbout = new JMenuItem();
 		panel1 = new JPanel();
 		lable1 = new JLabel();
-		lblServerName = new JLabel();
+		lblNodeName = new JLabel();
 		label2 = new JLabel();
+		lblNodeIP = new JLabel();
 		lblServerIP = new JLabel();
-		lblServerIP2 = new JLabel();
 		label3 = new JLabel();
 		lable2 = new JLabel();
-		lblServerName2 = new JLabel();
+		lblServerName = new JLabel();
+		label4 = new JLabel();
+		lblSaveLoc = new JLabel();
 		panel2 = new JPanel();
 		scrollPane1 = new JScrollPane();
 		txtConsole = new JTextArea();
 		panel3 = new JPanel();
 		panel4 = new JPanel();
-		btnConnecet = new JButton();
+		btnStart = new JButton();
 		btnTerminate = new JButton();
-
-		//======== frame2 ========
-		{
-			frame2.setTitle("Select File");
-			frame2.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-			frame2.setResizable(false);
-			Container frame2ContentPane = frame2.getContentPane();
-			frame2ContentPane.setLayout(new BorderLayout());
-			frame2ContentPane.add(fileChooser1, BorderLayout.CENTER);
-			frame2.setSize(585, 420);
-			frame2.setLocationRelativeTo(frame2.getOwner());
-		}
+		panel5 = new JPanel();
+		btnLocation = new JButton();
+		fileChooser1 = new JFileChooser();
 
 		//======== frame1 ========
 		{
@@ -109,23 +145,14 @@ public class NodeUI extends JPanel {
 
 					//---- mnuSettings ----
 					mnuSettings.setText("Close");
+					mnuSettings.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							mnuSettingsActionPerformed(e);
+						}
+					});
 					menu1.add(mnuSettings);
 				}
 				menuBar1.add(menu1);
-
-				//======== menu3 ========
-				{
-					menu3.setText("Settings");
-
-					//---- menuItem4 ----
-					menuItem4.setText("Server IP");
-					menu3.add(menuItem4);
-
-					//---- menuItem3 ----
-					menuItem3.setText("Save Path");
-					menu3.add(menuItem3);
-				}
-				menuBar1.add(menu3);
 
 				//======== menu2 ========
 				{
@@ -141,7 +168,7 @@ public class NodeUI extends JPanel {
 
 			//======== panel1 ========
 			{
-				panel1.setBorder(new TitledBorder(new EtchedBorder(), "Node-Info", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
+				panel1.setBorder(new TitledBorder(new EtchedBorder(), "Node-Info", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.blue));
 
 				// JFormDesigner evaluation mark
 				panel1.setBorder(new javax.swing.border.CompoundBorder(
@@ -157,40 +184,52 @@ public class NodeUI extends JPanel {
 				panel1.add(lable1);
 				lable1.setBounds(14, 22, 75, 37);
 
-				//---- lblServerName ----
-				lblServerName.setText("#NodeName#");
-				panel1.add(lblServerName);
-				lblServerName.setBounds(105, 22, 150, 37);
+				//---- lblNodeName ----
+				lblNodeName.setText("<node_name>");
+				panel1.add(lblNodeName);
+				lblNodeName.setBounds(105, 22, 150, 37);
 
 				//---- label2 ----
 				label2.setText("Node IP :");
 				panel1.add(label2);
-				label2.setBounds(13, 57, 76, 42);
+				label2.setBounds(13, 52, 76, 42);
+
+				//---- lblNodeIP ----
+				lblNodeIP.setText("<node_IP>");
+				panel1.add(lblNodeIP);
+				lblNodeIP.setBounds(106, 53, 149, 41);
 
 				//---- lblServerIP ----
-				lblServerIP.setText("#NodeIP#");
+				lblServerIP.setText("<server_IP>");
 				panel1.add(lblServerIP);
-				lblServerIP.setBounds(106, 58, 149, 41);
-
-				//---- lblServerIP2 ----
-				lblServerIP2.setText("#ServerIP#");
-				panel1.add(lblServerIP2);
-				lblServerIP2.setBounds(357, 56, 149, 41);
+				lblServerIP.setBounds(376, 59, 149, 41);
 
 				//---- label3 ----
 				label3.setText("Server IP :");
 				panel1.add(label3);
-				label3.setBounds(264, 56, 76, 42);
+				label3.setBounds(266, 59, 89, 42);
 
 				//---- lable2 ----
 				lable2.setText("Server Name :");
 				panel1.add(lable2);
-				lable2.setBounds(267, 21, 75, 37);
+				lable2.setBounds(267, 24, 88, 37);
 
-				//---- lblServerName2 ----
-				lblServerName2.setText("#ServerName#");
-				panel1.add(lblServerName2);
-				lblServerName2.setBounds(357, 21, 150, 37);
+				//---- lblServerName ----
+				lblServerName.setText("<server_name>");
+				panel1.add(lblServerName);
+				lblServerName.setBounds(374, 24, 150, 37);
+
+				//---- label4 ----
+				label4.setText("Save Location :");
+				label4.setForeground(new Color(0, 204, 0));
+				panel1.add(label4);
+				label4.setBounds(11, 88, 94, 42);
+
+				//---- lblSaveLoc ----
+				lblSaveLoc.setText("<save_loc>");
+				lblSaveLoc.setForeground(new Color(0, 204, 0));
+				panel1.add(lblSaveLoc);
+				lblSaveLoc.setBounds(104, 88, 456, 41);
 
 				{ // compute preferred size
 					Dimension preferredSize = new Dimension();
@@ -212,12 +251,15 @@ public class NodeUI extends JPanel {
 
 			//======== panel2 ========
 			{
-				panel2.setBorder(new TitledBorder(new EtchedBorder(), "Node-console", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION, null, Color.black));
+				panel2.setBorder(new TitledBorder(new EtchedBorder(), "Node-console", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION, null, Color.blue));
 				panel2.setLayout(new BorderLayout());
 
 				//======== scrollPane1 ========
 				{
 					scrollPane1.setAutoscrolls(true);
+
+					//---- txtConsole ----
+					txtConsole.setForeground(Color.blue);
 					scrollPane1.setViewportView(txtConsole);
 				}
 				panel2.add(scrollPane1, BorderLayout.CENTER);
@@ -237,74 +279,92 @@ public class NodeUI extends JPanel {
 
 				//======== panel4 ========
 				{
-					panel4.setLayout(new GridBagLayout());
-					((GridBagLayout)panel4.getLayout()).columnWidths = new int[] {0, 0, 0};
-					((GridBagLayout)panel4.getLayout()).rowHeights = new int[] {0, 0};
-					((GridBagLayout)panel4.getLayout()).columnWeights = new double[] {0.0, 0.0, 1.0E-4};
-					((GridBagLayout)panel4.getLayout()).rowWeights = new double[] {1.0, 1.0E-4};
+					panel4.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+					panel4.setLayout(new GridLayout());
 
-					//---- btnConnecet ----
-					btnConnecet.setText("Connect");
-					btnConnecet.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-					btnConnecet.setHorizontalAlignment(SwingConstants.RIGHT);
-					btnConnecet.addActionListener(new ActionListener() {
+					//---- btnStart ----
+					btnStart.setText("Start");
+					btnStart.setBorderPainted(false);
+					btnStart.setHorizontalTextPosition(SwingConstants.CENTER);
+					btnStart.setEnabled(false);
+					btnStart.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent e) {
-							btnConnecetActionPerformed(e);
+							btnStartActionPerformed(e);
 						}
 					});
-					panel4.add(btnConnecet, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-						GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-						new Insets(0, 0, 0, 0), 0, 0));
+					panel4.add(btnStart);
 
 					//---- btnTerminate ----
 					btnTerminate.setText("Terminate");
 					btnTerminate.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-					panel4.add(btnTerminate, new GridBagConstraints(1, 0, 1, 1, 0.0, 0.0,
-						GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
-						new Insets(0, 0, 0, 0), 0, 0));
+					btnTerminate.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							btnTerminateActionPerformed(e);
+						}
+					});
+					panel4.add(btnTerminate);
+
+					//======== panel5 ========
+					{
+						panel5.setLayout(new GridLayout());
+
+						//---- btnLocation ----
+						btnLocation.setText("Save Location");
+						btnLocation.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								btnLocationActionPerformed(e);
+							}
+						});
+						panel5.add(btnLocation);
+					}
+					panel4.add(panel5);
 				}
 				panel3.add(panel4, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
-					GridBagConstraints.CENTER, GridBagConstraints.HORIZONTAL,
+					GridBagConstraints.EAST, GridBagConstraints.NONE,
 					new Insets(0, 0, 0, 0), 0, 0));
 			}
 			frame1ContentPane.add(panel3, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
 				GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
 				new Insets(0, 0, 0, 0), 0, 0));
-			frame1.setSize(590, 390);
+			frame1.setSize(590, 445);
 			frame1.setLocationRelativeTo(null);
 			frame1.setVisible(true);
+			TextAreaAppender.setTextArea(txtConsole);
 		}
 		// End of component initialization  //GEN-END:initComponents
+//		frame1.setVisible(true);
+//		TextAreaAppender.setTextArea(txtConsole);
+
 	}
 
 	// Variables declaration //GEN-BEGIN:variables
 	// Generated using JFormDesigner Evaluation license - Rukshan Silva
-	private JFrame frame2;
-	private JFileChooser fileChooser1;
 	private JFrame frame1;
 	private JMenuBar menuBar1;
 	private JMenu menu1;
 	private JMenuItem mnuSettings;
-	private JMenu menu3;
-	private JMenuItem menuItem4;
-	private JMenuItem menuItem3;
 	private JMenu menu2;
 	private JMenuItem mnuAbout;
 	private JPanel panel1;
 	private JLabel lable1;
-	private JLabel lblServerName;
+	private JLabel lblNodeName;
 	private JLabel label2;
+	private JLabel lblNodeIP;
 	private JLabel lblServerIP;
-	private JLabel lblServerIP2;
 	private JLabel label3;
 	private JLabel lable2;
-	private JLabel lblServerName2;
+	private static JLabel lblServerName;
+	private JLabel label4;
+	private JLabel lblSaveLoc;
 	private JPanel panel2;
 	private JScrollPane scrollPane1;
 	private JTextArea txtConsole;
 	private JPanel panel3;
 	private JPanel panel4;
-	private JButton btnConnecet;
+	private JButton btnStart;
 	private JButton btnTerminate;
+	private JPanel panel5;
+	private JButton btnLocation;
+	private JFileChooser fileChooser1;
 	//End of variables declaration //GEN-END:variables
 }

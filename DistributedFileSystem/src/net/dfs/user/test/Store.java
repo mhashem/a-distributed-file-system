@@ -80,7 +80,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 		ApplicationContext context = new ClassPathXmlApplicationContext("net\\dfs\\user\\test\\spring-user.xml");
 		StorageConnectionHandler storageHandler = (StorageConnectionHandler)context.getBean("storageHandler");
 
-		storageHandler.storeFile(FILE_SIZE, fileName, extention, InetAddress.getLocalHost());
+		storageHandler.storeFile(FILE_SIZE, fileName, extention, InetAddress.getLocalHost().getHostAddress());
 
 		log.debug("The File "+fileName+extention+" With "+FILE_SIZE+" size send to the Server");
 	}

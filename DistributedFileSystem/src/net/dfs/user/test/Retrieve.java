@@ -59,7 +59,7 @@ public class Retrieve {
 		ApplicationContext context = new ClassPathXmlApplicationContext("net\\dfs\\user\\test\\spring-user.xml");
 		RetrievalConnectionHandler retrieve = (RetrievalConnectionHandler) context.getBean("retrieve");
 
-		retrieve.retrieveFile(fileName, extention, InetAddress.getLocalHost());
+		retrieve.retrieveFile(fileName, extention, InetAddress.getLocalHost().getHostAddress());
 		log.debug("The File "+fileName+extention+" Request from the Server");
 
 	}

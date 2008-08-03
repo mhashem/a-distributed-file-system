@@ -27,6 +27,10 @@
 				</property>
 				</bean>
 
+			<bean id="heartBeatService" class="net.dfs.server.heartbeat.HeartBeatServiceImpl">
+				<property name="nodeRegistration" ref="nodeRegistration" />
+			</bean>
+
 			<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
 				<property name="serviceName" value="FileSpaceCreator" /> 
 				<property name="service" ref ="spaceCreator" />
@@ -34,6 +38,13 @@
  				<property name="registryPort" value="8989"/>		
 			</bean>
 
+			<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
+				<property name="serviceName" value="HeartBeatService" /> 
+				<property name="service" ref ="heartBeatService" />
+				<property name="serviceInterface" value="net.dfs.server.heartbeat.HeartBeatService"/>
+ 				<property name="registryPort" value="8989"/>		
+			</bean>
+			
 			<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
 				<property name="serviceName" value="TokenFileManager" /> 
 				<property name="service" ref ="tokenFileManager" />
@@ -64,13 +75,14 @@
 
  			<bean class="org.springframework.remoting.rmi.RmiServiceExporter">
 				<property name="serviceName" value="RemoteNodeRegistration" /> 
-				<property name="service" ref ="remoteNodeRegistration" />
+				<property name="service" ref ="nodeRegistration" />
  				<property name="serviceInterface" value="net.dfs.server.noderegistration.RemoteNodeRegistration"/>
 				<property name="registryPort" value="8989"/>		
 			</bean>
 
 
-			<bean id="remoteNodeRegistration" class="net.dfs.server.noderegistration.impl.RemoteNodeRegistrationImpl" >
+			<bean id="nodeRegistration" class="net.dfs.server.noderegistration.impl.RemoteNodeRegistrationImpl" >
+				<property name="heartBeatService" ref="heartBeatService" />
 			</bean>
 
 
@@ -107,10 +119,8 @@
  			</bean>
 
 			<bean id="retrievalSrevice" class="net.dfs.server.retrievefile.impl.FileRetrievalServiceImpl" >
+				<property name="nodeRegistration" ref ="nodeRegistration" />
 				<property name="userRegistration" ref ="userRegistration" />
-			<property name="path">
-				<value>${remote.savepath}</value>
-			</property>
 				<property name="hashMap" ref ="hashMap" />
 				<property name="sendFileManager" ref ="sendFileManager" />
  			</bean>

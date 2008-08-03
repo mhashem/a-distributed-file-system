@@ -18,10 +18,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Properties;
+
+import net.dfs.server.filemapper.FileLocationTracker;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
@@ -38,27 +42,34 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
  public class ServerServicesStarter {
 	private static Log log = LogFactory.getLog(ServerServicesStarter.class);
+	private static Properties props = new Properties();
+	private static boolean flagServer = false;
+	
+	static{
+		try {
+			props.load(new FileInputStream("server.properties"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 	/**
 	 * main will load the Application Context which, in-turn will load the 
 	 * Spring container with all the bean definitions. 
 	 * 
 	 * @param args the parameter which is passed to the main().
-	 * @throws FileNotFoundException
+	 * @throws IOException 
 	 */
-	public static void startServer() throws FileNotFoundException{
+	//invoked by serverUI
+	public static String startServer() throws IOException{
 
-		Properties props = new Properties();
-
-		try {
-			props.load(new FileInputStream("server.properties"));
-			props.put("server.ip", InetAddress.getLocalHost().getHostAddress());
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		String status = setServer(InetAddress.getLocalHost().getHostAddress());
 		
-		new ClassPathXmlApplicationContext("net\\dfs\\server\\filespace\\creator\\spring-server.xml");
-
+		ApplicationContext context = new ClassPathXmlApplicationContext("net\\dfs\\server\\filespace\\creator\\spring-server.xml");
+		FileLocationTracker locationTrack = (FileLocationTracker) context.getBean("hashMap");
+		locationTrack.loadMap();
 		log.info("Server Started");
 		
 		//TODO UI
@@ -68,15 +79,46 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 		//TODO HeartBeating
 		//TODO Services Restart Scene
 
-
-
-
-		
-		
+		locationTrack.saveMap();
+		return status;
 	}
 	
+	//invoked by serverUI
+	public static String setServer(String server) throws FileNotFoundException, IOException{
+		if(ServerServicesStarter.flagServer == false){
+			props.put("server.ip", server);
+			log.debug("Server "+server+" has been set");
+			ServerServicesStarter.flagServer = true;
+		}	
+			return props.getProperty("server.ip");
+	}
+	
+	//invoked by serverUI
+	public static String serverName(){
+		String name = null;
+		try {
+			name =  InetAddress.getLocalHost().getHostName();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		return name;
+	}
+	
+	//invoked by serverUI
+	public static String setChunk(String chunk) throws FileNotFoundException, IOException{
+			props.put("server.CHUNK_SIZE", chunk);
+			log.debug("Chunk size "+chunk+" has been set");
+			return props.getProperty("server.CHUNK_SIZE");
+	}
+	
+	//invoked by serverUI
+	public static String setSize(){
+		return props.getProperty("server.CHUNK_SIZE");
+	}
+	
+	//invoked by serverUI
 	public static void exitServer(){
-		System.out.print("Server Terminated...");
+		log.debug("Server Terminated...");
 		System.exit(1);
 	}
  }

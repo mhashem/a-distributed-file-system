@@ -1,5 +1,6 @@
 package net.dfs.ui;
 
+import java.awt.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.ComponentOrientation;
@@ -44,15 +45,10 @@ public class UserUI extends JPanel {
 	public static void main(String[] args) {
 		new UserUI();
 	}
-	
-	private void tnOpenActionPerformed(ActionEvent e) {
-		frame2.setVisible(true);
-	}
 
 	private void initComponents() {
 		// Component initialization //GEN-BEGIN:initComponents
-		frame2 = new JFrame();
-		fileChooser1 = new JFileChooser();
+		// Generated using JFormDesigner Evaluation license - Rukshan Silva
 		frame1 = new JFrame();
 		menuBar1 = new JMenuBar();
 		menu1 = new JMenu();
@@ -81,18 +77,7 @@ public class UserUI extends JPanel {
 		btnStart = new JButton();
 		panel4 = new JPanel();
 		tnOpen = new JButton();
-
-		//======== frame2 ========
-		{
-			frame2.setTitle("Select File");
-			frame2.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-			frame2.setResizable(false);
-			Container frame2ContentPane = frame2.getContentPane();
-			frame2ContentPane.setLayout(new BorderLayout());
-			frame2ContentPane.add(fileChooser1, BorderLayout.CENTER);
-			frame2.setSize(585, 420);
-			frame2.setLocationRelativeTo(frame2.getOwner());
-		}
+		fileChooser1 = new JFileChooser();
 
 		//======== frame1 ========
 		{
@@ -148,6 +133,13 @@ public class UserUI extends JPanel {
 			//======== panel1 ========
 			{
 				panel1.setBorder(new TitledBorder(new EtchedBorder(), "User-Info", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
+
+				// JFormDesigner evaluation mark
+				panel1.setBorder(new javax.swing.border.CompoundBorder(
+					new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
+						"JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
+						javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
+						java.awt.Color.red), panel1.getBorder())); panel1.addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
 
 				panel1.setLayout(null);
 
@@ -261,11 +253,6 @@ public class UserUI extends JPanel {
 
 					//---- tnOpen ----
 					tnOpen.setText("Open File");
-					tnOpen.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-							tnOpenActionPerformed(e);
-						}
-					});
 					panel4.add(tnOpen);
 				}
 				panel3.add(panel4);
@@ -275,14 +262,12 @@ public class UserUI extends JPanel {
 				new Insets(0, 0, 0, 0), 0, 0));
 			frame1.setSize(585, 380);
 			frame1.setLocationRelativeTo(null);
-			frame1.setVisible(true);
 		}
 		// End of component initialization //GEN-END:initComponents
 	}
 
 	// Variables declaration //GEN-BEGIN:variables
-	private JFrame frame2;
-	private JFileChooser fileChooser1;
+	// Generated using JFormDesigner Evaluation license - Rukshan Silva
 	private JFrame frame1;
 	private JMenuBar menuBar1;
 	private JMenu menu1;
@@ -311,5 +296,6 @@ public class UserUI extends JPanel {
 	private JButton btnStart;
 	private JPanel panel4;
 	private JButton tnOpen;
+	private JFileChooser fileChooser1;
 	//End of variables declaration //GEN-END:variables
 }

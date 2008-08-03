@@ -10,69 +10,6 @@
      <object class="com.jformdesigner.model.FormWindow"> 
       <string>javax.swing.JFrame</string> 
       <object class="com.jformdesigner.model.FormLayoutManager"> 
-       <class>java.awt.BorderLayout</class> 
-      </object> 
-      <void method="setProperty"> 
-       <string>title</string> 
-       <string>Select File</string> 
-      </void> 
-      <void method="setProperty"> 
-       <string>$sizePolicy</string> 
-       <int>1</int> 
-      </void> 
-      <void method="setProperty"> 
-       <string>$locationPolicy</string> 
-       <int>0</int> 
-      </void> 
-      <void method="setProperty"> 
-       <string>defaultCloseOperation</string> 
-       <int>3</int> 
-      </void> 
-      <void method="setProperty"> 
-       <string>resizable</string> 
-       <boolean>false</boolean> 
-      </void> 
-      <void method="add"> 
-       <object class="com.jformdesigner.model.FormComponent"> 
-        <string>javax.swing.JFileChooser</string> 
-        <void property="name"> 
-         <string>fileChooser1</string> 
-        </void> 
-       </object> 
-       <object class="com.jformdesigner.model.FormLayoutConstraints"> 
-        <class>java.lang.String</class> 
-        <void method="setProperty"> 
-         <string>value</string> 
-         <string>Center</string> 
-        </void> 
-       </object> 
-      </void> 
-      <void property="name"> 
-       <string>frame2</string> 
-      </void> 
-     </object> 
-     <object class="com.jformdesigner.model.FormLayoutConstraints"> 
-      <null/> 
-      <void method="setProperty"> 
-       <string>location</string> 
-       <object class="java.awt.Point"> 
-        <int>0</int> 
-        <int>400</int> 
-       </object> 
-      </void> 
-      <void method="setProperty"> 
-       <string>size</string> 
-       <object class="java.awt.Dimension"> 
-        <int>585</int> 
-        <int>420</int> 
-       </object> 
-      </void> 
-     </object> 
-    </void> 
-    <void method="add"> 
-     <object class="com.jformdesigner.model.FormWindow"> 
-      <string>javax.swing.JFrame</string> 
-      <object class="com.jformdesigner.model.FormLayoutManager"> 
        <class>java.awt.GridBagLayout</class> 
        <void method="setProperty"> 
         <string>$columnSpecs</string> 
@@ -142,7 +79,7 @@
           <int>0</int> 
           <int>0</int> 
           <null/> 
-          <object class="java.awt.Color" field="black"/> 
+          <object class="java.awt.Color" field="blue"/> 
          </object> 
         </void> 
         <void property="name"> 
@@ -184,10 +121,10 @@
           <string>javax.swing.JLabel</string> 
           <void method="setProperty"> 
            <string>text</string> 
-           <string>#NodeName#</string> 
+           <string>&lt;node_name&gt;</string> 
           </void> 
           <void property="name"> 
-           <string>lblServerName</string> 
+           <string>lblNodeName</string> 
           </void> 
          </object> 
          <object class="com.jformdesigner.model.FormLayoutConstraints"> 
@@ -229,7 +166,7 @@
           </void> 
           <void method="setProperty"> 
            <string>y</string> 
-           <int>57</int> 
+           <int>52</int> 
           </void> 
           <void method="setProperty"> 
            <string>width</string> 
@@ -246,10 +183,10 @@
           <string>javax.swing.JLabel</string> 
           <void method="setProperty"> 
            <string>text</string> 
-           <string>#NodeIP#</string> 
+           <string>&lt;node_IP&gt;</string> 
           </void> 
           <void property="name"> 
-           <string>lblServerIP</string> 
+           <string>lblNodeIP</string> 
           </void> 
          </object> 
          <object class="com.jformdesigner.model.FormLayoutConstraints"> 
@@ -260,7 +197,7 @@
           </void> 
           <void method="setProperty"> 
            <string>y</string> 
-           <int>58</int> 
+           <int>53</int> 
           </void> 
           <void method="setProperty"> 
            <string>width</string> 
@@ -277,10 +214,10 @@
           <string>javax.swing.JLabel</string> 
           <void method="setProperty"> 
            <string>text</string> 
-           <string>#ServerIP#</string> 
+           <string>&lt;server_IP&gt;</string> 
           </void> 
           <void property="name"> 
-           <string>lblServerIP2</string> 
+           <string>lblServerIP</string> 
           </void> 
          </object> 
          <object class="com.jformdesigner.model.FormLayoutConstraints"> 
@@ -295,11 +232,11 @@
           </void> 
           <void method="setProperty"> 
            <string>x</string> 
-           <int>357</int> 
+           <int>376</int> 
           </void> 
           <void method="setProperty"> 
            <string>y</string> 
-           <int>56</int> 
+           <int>59</int> 
           </void> 
          </object> 
         </void> 
@@ -318,7 +255,7 @@
           <class>com.jformdesigner.runtime.NullConstraints</class> 
           <void method="setProperty"> 
            <string>width</string> 
-           <int>76</int> 
+           <int>89</int> 
           </void> 
           <void method="setProperty"> 
            <string>height</string> 
@@ -326,11 +263,11 @@
           </void> 
           <void method="setProperty"> 
            <string>x</string> 
-           <int>264</int> 
+           <int>266</int> 
           </void> 
           <void method="setProperty"> 
            <string>y</string> 
-           <int>56</int> 
+           <int>59</int> 
           </void> 
          </object> 
         </void> 
@@ -349,7 +286,7 @@
           <class>com.jformdesigner.runtime.NullConstraints</class> 
           <void method="setProperty"> 
            <string>width</string> 
-           <int>75</int> 
+           <int>88</int> 
           </void> 
           <void method="setProperty"> 
            <string>height</string> 
@@ -361,7 +298,7 @@
           </void> 
           <void method="setProperty"> 
            <string>y</string> 
-           <int>21</int> 
+           <int>24</int> 
           </void> 
          </object> 
         </void> 
@@ -370,10 +307,10 @@
           <string>javax.swing.JLabel</string> 
           <void method="setProperty"> 
            <string>text</string> 
-           <string>#ServerName#</string> 
+           <string>&lt;server_name&gt;</string> 
           </void> 
           <void property="name"> 
-           <string>lblServerName2</string> 
+           <string>lblServerName</string> 
           </void> 
          </object> 
          <object class="com.jformdesigner.model.FormLayoutConstraints"> 
@@ -388,11 +325,86 @@
           </void> 
           <void method="setProperty"> 
            <string>x</string> 
-           <int>357</int> 
+           <int>374</int> 
           </void> 
           <void method="setProperty"> 
            <string>y</string> 
-           <int>21</int> 
+           <int>24</int> 
+          </void> 
+         </object> 
+        </void> 
+        <void method="add"> 
+         <object class="com.jformdesigner.model.FormComponent"> 
+          <string>javax.swing.JLabel</string> 
+          <void method="setProperty"> 
+           <string>text</string> 
+           <string>Save Location :</string> 
+          </void> 
+          <void method="setProperty"> 
+           <string>foreground</string> 
+           <object id="Color0" class="java.awt.Color"> 
+            <int>0</int> 
+            <int>204</int> 
+            <int>0</int> 
+            <int>255</int> 
+           </object> 
+          </void> 
+          <void property="name"> 
+           <string>label4</string> 
+          </void> 
+         </object> 
+         <object class="com.jformdesigner.model.FormLayoutConstraints"> 
+          <class>com.jformdesigner.runtime.NullConstraints</class> 
+          <void method="setProperty"> 
+           <string>width</string> 
+           <int>94</int> 
+          </void> 
+          <void method="setProperty"> 
+           <string>height</string> 
+           <int>42</int> 
+          </void> 
+          <void method="setProperty"> 
+           <string>x</string> 
+           <int>11</int> 
+          </void> 
+          <void method="setProperty"> 
+           <string>y</string> 
+           <int>88</int> 
+          </void> 
+         </object> 
+        </void> 
+        <void method="add"> 
+         <object class="com.jformdesigner.model.FormComponent"> 
+          <string>javax.swing.JLabel</string> 
+          <void method="setProperty"> 
+           <string>text</string> 
+           <string>&lt;save_loc&gt;</string> 
+          </void> 
+          <void method="setProperty"> 
+           <string>foreground</string> 
+           <object idref="Color0"/> 
+          </void> 
+          <void property="name"> 
+           <string>lblSaveLoc</string> 
+          </void> 
+         </object> 
+         <object class="com.jformdesigner.model.FormLayoutConstraints"> 
+          <class>com.jformdesigner.runtime.NullConstraints</class> 
+          <void method="setProperty"> 
+           <string>width</string> 
+           <int>456</int> 
+          </void> 
+          <void method="setProperty"> 
+           <string>height</string> 
+           <int>41</int> 
+          </void> 
+          <void method="setProperty"> 
+           <string>x</string> 
+           <int>104</int> 
+          </void> 
+          <void method="setProperty"> 
+           <string>y</string> 
+           <int>88</int> 
           </void> 
          </object> 
         </void> 
@@ -419,7 +431,7 @@
           <int>4</int> 
           <int>0</int> 
           <null/> 
-          <object class="java.awt.Color" field="black"/> 
+          <object class="java.awt.Color" field="blue"/> 
          </object> 
         </void> 
         <void property="name"> 
@@ -441,6 +453,10 @@
           <void method="add"> 
            <object class="com.jformdesigner.model.FormComponent"> 
             <string>javax.swing.JTextArea</string> 
+            <void method="setProperty"> 
+             <string>foreground</string> 
+             <object class="java.awt.Color" field="blue"/> 
+            </void> 
             <void property="name"> 
              <string>txtConsole</string> 
             </void> 
@@ -497,24 +513,12 @@
          <object class="com.jformdesigner.model.FormContainer"> 
           <string>javax.swing.JPanel</string> 
           <object class="com.jformdesigner.model.FormLayoutManager"> 
-           <class>java.awt.GridBagLayout</class> 
-           <void method="setProperty"> 
-            <string>$columnSpecs</string> 
-            <string>0, 0</string> 
-           </void> 
-           <void method="setProperty"> 
-            <string>$rowSpecs</string> 
-            <string>center:0:1.0</string> 
-           </void> 
-           <void method="setProperty"> 
-            <string>$alignTop</string> 
-            <boolean>true</boolean> 
-           </void> 
-           <void method="setProperty"> 
-            <string>$alignLeft</string> 
-            <boolean>true</boolean> 
-           </void> 
+           <class>java.awt.GridLayout</class> 
           </object> 
+          <void method="setProperty"> 
+           <string>componentOrientation</string> 
+           <object class="java.awt.ComponentOrientation" field="RIGHT_TO_LEFT"/> 
+          </void> 
           <void property="name"> 
            <string>panel4</string> 
           </void> 
@@ -523,30 +527,31 @@
             <string>javax.swing.JButton</string> 
             <void method="setProperty"> 
              <string>text</string> 
-             <string>Connect</string> 
+             <string>Start</string> 
             </void> 
             <void method="setProperty"> 
-             <string>componentOrientation</string> 
-             <object class="java.awt.ComponentOrientation" field="RIGHT_TO_LEFT"/> 
+             <string>borderPainted</string> 
+             <boolean>false</boolean> 
             </void> 
             <void method="setProperty"> 
-             <string>horizontalAlignment</string> 
-             <int>4</int> 
+             <string>horizontalTextPosition</string> 
+             <int>0</int> 
+            </void> 
+            <void method="setProperty"> 
+             <string>enabled</string> 
+             <boolean>false</boolean> 
             </void> 
             <void property="name"> 
-             <string>btnConnecet</string> 
+             <string>btnStart</string> 
             </void> 
             <void method="addEvent"> 
              <object class="com.jformdesigner.model.FormEvent"> 
               <string>java.awt.event.ActionListener</string> 
               <string>actionPerformed</string> 
-              <string>btnConnecetActionPerformed</string> 
+              <string>btnStartActionPerformed</string> 
               <boolean>true</boolean> 
              </object> 
             </void> 
-           </object> 
-           <object class="com.jformdesigner.model.FormLayoutConstraints"> 
-            <class>com.jformdesigner.runtime.GridBagConstraintsEx</class> 
            </object> 
           </void> 
           <void method="add"> 
@@ -563,18 +568,54 @@
             <void property="name"> 
              <string>btnTerminate</string> 
             </void> 
+            <void method="addEvent"> 
+             <object class="com.jformdesigner.model.FormEvent"> 
+              <string>java.awt.event.ActionListener</string> 
+              <string>actionPerformed</string> 
+              <string>btnTerminateActionPerformed</string> 
+              <boolean>true</boolean> 
+             </object> 
+            </void> 
            </object> 
-           <object class="com.jformdesigner.model.FormLayoutConstraints"> 
-            <class>com.jformdesigner.runtime.GridBagConstraintsEx</class> 
-            <void method="setProperty"> 
-             <string>gridx</string> 
-             <int>1</int> 
+          </void> 
+          <void method="add"> 
+           <object class="com.jformdesigner.model.FormContainer"> 
+            <string>javax.swing.JPanel</string> 
+            <object class="com.jformdesigner.model.FormLayoutManager"> 
+             <class>java.awt.GridLayout</class> 
+            </object> 
+            <void property="name"> 
+             <string>panel5</string> 
+            </void> 
+            <void method="add"> 
+             <object class="com.jformdesigner.model.FormComponent"> 
+              <string>javax.swing.JButton</string> 
+              <void method="setProperty"> 
+               <string>text</string> 
+               <string>Save Location</string> 
+              </void> 
+              <void property="name"> 
+               <string>btnLocation</string> 
+              </void> 
+              <void method="addEvent"> 
+               <object class="com.jformdesigner.model.FormEvent"> 
+                <string>java.awt.event.ActionListener</string> 
+                <string>actionPerformed</string> 
+                <string>btnLocationActionPerformed</string> 
+                <boolean>true</boolean> 
+               </object> 
+              </void> 
+             </object> 
             </void> 
            </object> 
           </void> 
          </object> 
          <object class="com.jformdesigner.model.FormLayoutConstraints"> 
           <class>com.jformdesigner.runtime.GridBagConstraintsEx</class> 
+          <void method="setProperty"> 
+           <string>hAlign</string> 
+           <int>4</int> 
+          </void> 
          </object> 
         </void> 
        </object> 
@@ -622,44 +663,13 @@
             <void property="name"> 
              <string>mnuSettings</string> 
             </void> 
-           </object> 
-          </void> 
-         </object> 
-        </void> 
-        <void method="add"> 
-         <object class="com.jformdesigner.model.FormContainer"> 
-          <string>javax.swing.JMenu</string> 
-          <object class="com.jformdesigner.model.FormLayoutManager"> 
-           <class>javax.swing.JMenu</class> 
-          </object> 
-          <void method="setProperty"> 
-           <string>text</string> 
-           <string>Settings</string> 
-          </void> 
-          <void property="name"> 
-           <string>menu3</string> 
-          </void> 
-          <void method="add"> 
-           <object class="com.jformdesigner.model.FormComponent"> 
-            <string>javax.swing.JMenuItem</string> 
-            <void method="setProperty"> 
-             <string>text</string> 
-             <string>Server IP</string> 
-            </void> 
-            <void property="name"> 
-             <string>menuItem4</string> 
-            </void> 
-           </object> 
-          </void> 
-          <void method="add"> 
-           <object class="com.jformdesigner.model.FormComponent"> 
-            <string>javax.swing.JMenuItem</string> 
-            <void method="setProperty"> 
-             <string>text</string> 
-             <string>Save Path</string> 
-            </void> 
-            <void property="name"> 
-             <string>menuItem3</string> 
+            <void method="addEvent"> 
+             <object class="com.jformdesigner.model.FormEvent"> 
+              <string>java.awt.event.ActionListener</string> 
+              <string>actionPerformed</string> 
+              <string>mnuSettingsActionPerformed</string> 
+              <boolean>true</boolean> 
+             </object> 
             </void> 
            </object> 
           </void> 
@@ -704,7 +714,7 @@
        <string>size</string> 
        <object class="java.awt.Dimension"> 
         <int>590</int> 
-        <int>390</int> 
+        <int>445</int> 
        </object> 
       </void> 
       <void method="setProperty"> 
@@ -712,6 +722,24 @@
        <object class="java.awt.Point"> 
         <int>0</int> 
         <int>0</int> 
+       </object> 
+      </void> 
+     </object> 
+    </void> 
+    <void method="add"> 
+     <object class="com.jformdesigner.model.FormComponent"> 
+      <string>javax.swing.JFileChooser</string> 
+      <void property="name"> 
+       <string>fileChooser1</string> 
+      </void> 
+     </object> 
+     <object class="com.jformdesigner.model.FormLayoutConstraints"> 
+      <null/> 
+      <void method="setProperty"> 
+       <string>location</string> 
+       <object class="java.awt.Point"> 
+        <int>10</int> 
+        <int>500</int> 
        </object> 
       </void> 
      </object> 

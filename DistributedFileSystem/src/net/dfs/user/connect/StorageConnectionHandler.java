@@ -34,6 +34,6 @@ public interface StorageConnectionHandler {
 	 * 
 	 * @param fileStream the byte stream of the File object
 	 */
-	public void storeFile(long FILE_SIZE, String fileName, String ext, InetAddress user);
+	public void storeFile(long FILE_SIZE, String fileName, String ext, String user);
 
 }	

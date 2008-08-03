@@ -37,7 +37,8 @@ import org.apache.commons.logging.LogFactory;
  public class RetrievalManagerImpl implements RetrievalManager{
 
 	private Log log = LogFactory.getLog(RetrievalManagerImpl.class);
-
+	private String path;
+	
 	/**
 	 * Read the File from the local disk and send it to the Space.
 	 * Connect to the remote Space via {@link FileSpaceCreator}. Read the bites in 
@@ -53,7 +54,7 @@ import org.apache.commons.logging.LogFactory;
 	 */
 	public FileRetrievalModel retrieveFile(String fileName) throws IOException {
 	                
-               BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(new File(fileName)));
+               BufferedInputStream inputStream = new BufferedInputStream(new FileInputStream(new File(path+fileName)));
                 
                 byte[] buffer = new byte [inputStream.available()];
 				Integer bytesRead = 0;
@@ -69,5 +70,9 @@ import org.apache.commons.logging.LogFactory;
 				log.info("The File "+fileModel.fileName+" with bytes "+fileModel.bytesRead+" Sending back to the Server");
 				return fileModel;
 		}
+
+	public void setPath(String path) {
+		this.path = path;
+	}
 
  }

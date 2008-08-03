@@ -1,6 +1,5 @@
 package net.dfs.ui;
 
-import java.awt.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.ComponentOrientation;
@@ -13,7 +12,9 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -27,6 +28,7 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.border.EtchedBorder;
+import javax.swing.border.MatteBorder;
 import javax.swing.border.TitledBorder;
 
 import net.dfs.server.main.ServerServicesStarter;
@@ -37,6 +39,9 @@ import net.dfs.server.main.ServerServicesStarter;
 public class ServerUI extends JPanel {
 
 	private static final long serialVersionUID = 1L;
+	private String IP;
+	private String CHUNK = ServerServicesStarter.setSize();
+	
 	public ServerUI() {
 		initComponents();
 	}
@@ -46,52 +51,76 @@ public class ServerUI extends JPanel {
 	}
 
 	private void btnStartActionPerformed(ActionEvent e) {
-
 		new Thread(new Runnable(){
-			
 			public void run(){
-				TextAreaAppender.setTextArea(txtConsole);
-				new ANSIColorLayout();
-				
 				try {
-					ServerServicesStarter.startServer();
-				} catch (FileNotFoundException e1) {
-					e1.printStackTrace();
+					lblServerName.setText(ServerServicesStarter.serverName());
+					lblServerIP.setText(ServerServicesStarter.startServer());
+					lblChunkSize.setText(CHUNK+" bytes");
+				} catch (IOException e2) {
+					e2.printStackTrace();
 				}
 			}
 		}).start();
 		
 		mnuSettings.setEnabled(false);
+		btnStart.setEnabled(false);
 		
-		//FIXME Print the Log in the TextArea
-		//TextAreaAppender.setTextArea(txtConsole);
+		//FIXME Print the Log in the TextArea - Done
 	}
 
 	private void btnTerminateActionPerformed(ActionEvent e) {
-
-		ServerServicesStarter.exitServer();
-		
-		//FIXME Print the Log in the TextArea
-		//TextAreaAppender.setTextArea(txtConsole);
+		int op = JOptionPane.showConfirmDialog(null, "Do you wish to Terminate the Server ?", "Exit Server", JOptionPane.YES_NO_OPTION);
+		if(op == 0){
+			ServerServicesStarter.exitServer();
+		}
 	}
 
 	private void mnuServerIPActionPerformed(ActionEvent e) {
-		String ip = JOptionPane.showInputDialog(null, "Enter the Server IP (optional)","localhost");
-		if(ip != null){
-			JOptionPane.showMessageDialog(null, "The Server IP "+ip+" has been Set", "Confirm Server IP",JOptionPane.INFORMATION_MESSAGE);
+		this.IP = JOptionPane.showInputDialog(null, "Enter the Server IP (optional)","localhost");
+		try {
+			String res = ServerServicesStarter.setServer(this.IP);
+			if(res == this.IP){
+				JOptionPane.showMessageDialog(null, "The Server IP "+IP+" has been Set", "Confirm Server IP",JOptionPane.INFORMATION_MESSAGE);
+		}
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
 	}
 
 	private void mnuChunkSizeActionPerformed(ActionEvent e) {
-		String chunk = JOptionPane.showInputDialog(null, "Enter the chunk size","1024");
-		if(Integer.parseInt(chunk) == 0){
-			JOptionPane.showMessageDialog(null, "Please enter a valid chunk size","Confirm Chunk size", JOptionPane.ERROR_MESSAGE);
+		this.CHUNK = JOptionPane.showInputDialog(null, "Enter the chunk size","1024");
+		try {
+			String res = ServerServicesStarter.setChunk(this.CHUNK);
+			if(CHUNK == res){
+				JOptionPane.showMessageDialog(null, "The Chunk size "+CHUNK+" has been Set", "Confirm Chunk size",JOptionPane.INFORMATION_MESSAGE);
+				this.CHUNK = res;
+			}
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
 		}
-		else if(chunk != null){
-			JOptionPane.showMessageDialog(null, "The Chunk size "+Integer.parseInt(chunk)+" has been Set", "Confirm Chunk size",JOptionPane.INFORMATION_MESSAGE);
+
+	}
+
+	private void mnuCloseActionPerformed(ActionEvent e) {
+		int op = JOptionPane.showConfirmDialog(null, "Do you wish to Terminate the Server ?", "Exit Server", JOptionPane.YES_NO_OPTION);
+		if(op == 0){
+			System.exit(1);
 		}
 	}
 
+	public static void setClients(int num){
+		lblClientNo.setText(Integer.toString(num));
+	}
+
+	public static void setUsers(int num){
+		lblUserNo.setText(Integer.toString(num));
+	}
+	
 	private void initComponents() {
 		//Component initialization //GEN-BEGIN:initComponents
 		// Generated using JFormDesigner Evaluation license - Rukshan Silva
@@ -104,15 +133,19 @@ public class ServerUI extends JPanel {
 		mnuChunkSize = new JMenuItem();
 		mnuHelp = new JMenu();
 		mnuAbout = new JMenuItem();
-		panel1 = new JPanel();
-		lable1 = new JLabel();
+		panel6 = new JPanel();
+		panel5 = new JPanel();
+		lable2 = new JLabel();
 		lblServerName = new JLabel();
-		label2 = new JLabel();
+		label6 = new JLabel();
 		lblServerIP = new JLabel();
-		lblServerIP2 = new JLabel();
+		lblChunkSize = new JLabel();
+		label9 = new JLabel();
+		panel1 = new JPanel();
+		lblClientNo = new JLabel();
 		label3 = new JLabel();
 		label4 = new JLabel();
-		lblServerIP3 = new JLabel();
+		lblUserNo = new JLabel();
 		panel2 = new JPanel();
 		scrollPane1 = new JScrollPane();
 		txtConsole = new JTextArea();
@@ -141,7 +174,12 @@ public class ServerUI extends JPanel {
 					mnuFile.setText("File");
 
 					//---- mnuClose ----
-					mnuClose.setText("Close");
+					mnuClose.setText("Terminate");
+					mnuClose.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							mnuCloseActionPerformed(e);
+						}
+					});
 					mnuFile.add(mnuClose);
 				}
 				menuBar1.add(mnuFile);
@@ -182,80 +220,121 @@ public class ServerUI extends JPanel {
 			}
 			frame1.setJMenuBar(menuBar1);
 
-			//======== panel1 ========
+			//======== panel6 ========
 			{
-				panel1.setBorder(new TitledBorder(new EtchedBorder(), "Server-Info", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
 
 				// JFormDesigner evaluation mark
-				panel1.setBorder(new javax.swing.border.CompoundBorder(
+				panel6.setBorder(new javax.swing.border.CompoundBorder(
 					new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
 						"JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
 						javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
-						java.awt.Color.red), panel1.getBorder())); panel1.addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
+						java.awt.Color.red), panel6.getBorder())); panel6.addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
 
-				panel1.setLayout(null);
+				panel6.setLayout(new BoxLayout(panel6, BoxLayout.X_AXIS));
 
-				//---- lable1 ----
-				lable1.setText("Server Name :");
-				panel1.add(lable1);
-				lable1.setBounds(10, 23, 95, 37);
+				//======== panel5 ========
+				{
+					panel5.setBorder(new TitledBorder(new EtchedBorder(), "Server-Info", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.blue));
+					panel5.setForeground(Color.blue);
+					panel5.setLayout(null);
 
-				//---- lblServerName ----
-				lblServerName.setText("#ServerName#");
-				panel1.add(lblServerName);
-				lblServerName.setBounds(127, 23, 150, 37);
+					//---- lable2 ----
+					lable2.setText("Server Name :");
+					panel5.add(lable2);
+					lable2.setBounds(17, 23, 95, 37);
 
-				//---- label2 ----
-				label2.setText("Server IP :");
-				panel1.add(label2);
-				label2.setBounds(9, 58, 101, 42);
+					//---- lblServerName ----
+					lblServerName.setText("<server_name>");
+					panel5.add(lblServerName);
+					lblServerName.setBounds(134, 23, 150, 37);
 
-				//---- lblServerIP ----
-				lblServerIP.setText("#ServerIP#");
-				panel1.add(lblServerIP);
-				lblServerIP.setBounds(128, 59, 149, 41);
+					//---- label6 ----
+					label6.setText("Server IP :");
+					panel5.add(label6);
+					label6.setBounds(16, 46, 101, 42);
 
-				//---- lblServerIP2 ----
-				lblServerIP2.setText("#NoOfClients#");
-				panel1.add(lblServerIP2);
-				lblServerIP2.setBounds(404, 23, 100, 41);
+					//---- lblServerIP ----
+					lblServerIP.setText("<server_ip>");
+					panel5.add(lblServerIP);
+					lblServerIP.setBounds(135, 47, 149, 41);
 
-				//---- label3 ----
-				label3.setText("Number of Clients :");
-				panel1.add(label3);
-				label3.setBounds(287, 22, 117, 42);
+					//---- lblChunkSize ----
+					lblChunkSize.setText("<chunk_size>");
+					panel5.add(lblChunkSize);
+					lblChunkSize.setBounds(135, 75, 149, 41);
 
-				//---- label4 ----
-				label4.setText("Number of Users :");
-				panel1.add(label4);
-				label4.setBounds(286, 60, 117, 42);
+					//---- label9 ----
+					label9.setText("Chunk Size :");
+					panel5.add(label9);
+					label9.setBounds(15, 74, 101, 42);
 
-				//---- lblServerIP3 ----
-				lblServerIP3.setText("#NoOfUsers#");
-				panel1.add(lblServerIP3);
-				lblServerIP3.setBounds(406, 60, 100, 41);
-
-				{ // compute preferred size
-					Dimension preferredSize = new Dimension();
-					for(int i = 0; i < panel1.getComponentCount(); i++) {
-						Rectangle bounds = panel1.getComponent(i).getBounds();
-						preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
-						preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
+					{ // compute preferred size
+						Dimension preferredSize = new Dimension();
+						for(int i = 0; i < panel5.getComponentCount(); i++) {
+							Rectangle bounds = panel5.getComponent(i).getBounds();
+							preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
+							preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
+						}
+						Insets insets = panel5.getInsets();
+						preferredSize.width += insets.right;
+						preferredSize.height += insets.bottom;
+						panel5.setMinimumSize(preferredSize);
+						panel5.setPreferredSize(preferredSize);
 					}
-					Insets insets = panel1.getInsets();
-					preferredSize.width += insets.right;
-					preferredSize.height += insets.bottom;
-					panel1.setMinimumSize(preferredSize);
-					panel1.setPreferredSize(preferredSize);
 				}
+				panel6.add(panel5);
+
+				//======== panel1 ========
+				{
+					panel1.setBorder(new TitledBorder(new EtchedBorder(), "Client/User-Info", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.blue));
+					panel1.setForeground(Color.blue);
+					panel1.setLayout(null);
+
+					//---- lblClientNo ----
+					lblClientNo.setText("<number_of_clients>");
+					panel1.add(lblClientNo);
+					lblClientNo.setBounds(140, 18, 135, 41);
+
+					//---- label3 ----
+					label3.setText("Number of Clients :");
+					panel1.add(label3);
+					label3.setBounds(20, 18, 117, 42);
+
+					//---- label4 ----
+					label4.setText("Number of Users :");
+					panel1.add(label4);
+					label4.setBounds(20, 46, 117, 42);
+
+					//---- lblUserNo ----
+					lblUserNo.setText("<number_of_usres>");
+					panel1.add(lblUserNo);
+					lblUserNo.setBounds(140, 49, 135, 41);
+
+					{ // compute preferred size
+						Dimension preferredSize = new Dimension();
+						for(int i = 0; i < panel1.getComponentCount(); i++) {
+							Rectangle bounds = panel1.getComponent(i).getBounds();
+							preferredSize.width = Math.max(bounds.x + bounds.width, preferredSize.width);
+							preferredSize.height = Math.max(bounds.y + bounds.height, preferredSize.height);
+						}
+						Insets insets = panel1.getInsets();
+						preferredSize.width += insets.right;
+						preferredSize.height += insets.bottom;
+						panel1.setMinimumSize(preferredSize);
+						panel1.setPreferredSize(preferredSize);
+					}
+				}
+				panel6.add(panel1);
 			}
-			frame1ContentPane.add(panel1, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
+			frame1ContentPane.add(panel6, new GridBagConstraints(0, 0, 1, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
 				new Insets(0, 0, 5, 0), 0, 0));
 
 			//======== panel2 ========
 			{
-				panel2.setBorder(new TitledBorder(new EtchedBorder(), "Server-console", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION, null, Color.black));
+				panel2.setBorder(new TitledBorder(new EtchedBorder(), "Server-console", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION, null, Color.blue));
+				panel2.setForeground(Color.blue);
+				panel2.setFocusCycleRoot(true);
 				panel2.setLayout(new BorderLayout());
 
 				//======== scrollPane1 ========
@@ -263,6 +342,8 @@ public class ServerUI extends JPanel {
 
 					//---- txtConsole ----
 					txtConsole.setEditable(false);
+					txtConsole.setBorder(new MatteBorder(1, 1, 1, 1, Color.black));
+					txtConsole.setForeground(Color.blue);
 					scrollPane1.setViewportView(txtConsole);
 				}
 				panel2.add(scrollPane1, BorderLayout.CENTER);
@@ -320,11 +401,14 @@ public class ServerUI extends JPanel {
 			frame1ContentPane.add(panel3, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
 				GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
 				new Insets(0, 0, 0, 0), 0, 0));
-			frame1.setSize(680, 470);
+			frame1.setSize(685, 515);
 			frame1.setLocationRelativeTo(null);
 			frame1.setVisible(true);
+			TextAreaAppender.setTextArea(txtConsole);
 		}
 		// End of component initialization //GEN-END:initComponents
+//		frame1.setVisible(true);
+//		TextAreaAppender.setTextArea(txtConsole);
 	}
 
 	// Variables declaration //GEN-BEGIN:variables
@@ -338,15 +422,19 @@ public class ServerUI extends JPanel {
 	private JMenuItem mnuChunkSize;
 	private JMenu mnuHelp;
 	private JMenuItem mnuAbout;
-	private JPanel panel1;
-	private JLabel lable1;
+	private JPanel panel6;
+	private JPanel panel5;
+	private JLabel lable2;
 	private JLabel lblServerName;
-	private JLabel label2;
+	private JLabel label6;
 	private JLabel lblServerIP;
-	private JLabel lblServerIP2;
+	private JLabel lblChunkSize;
+	private JLabel label9;
+	private JPanel panel1;
+	private static JLabel lblClientNo;
 	private JLabel label3;
 	private JLabel label4;
-	private JLabel lblServerIP3;
+	private static JLabel lblUserNo;
 	private JPanel panel2;
 	private JScrollPane scrollPane1;
 	private JTextArea txtConsole;

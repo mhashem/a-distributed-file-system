@@ -14,24 +14,24 @@
 
 package net.dfs.server.filemapper.impl;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-
 import net.dfs.server.filemapper.FileLocationTracker;
 import net.dfs.server.filemodel.HashModel;
 import net.dfs.user.connect.RetrievalConnectionHandler;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 /**
  * Implementation of the {@link FileLocationTracker} which will keep track of the 
  * File object Name and the remote storage machine. It will use a HashMap for the 
@@ -45,6 +45,8 @@ import net.dfs.user.connect.RetrievalConnectionHandler;
  * @version 1.0
  */
  public class FileLocationTrackerImpl implements FileLocationTracker{
+	protected static final long DURATION = 50000;
+
 	private Log log = LogFactory.getLog(FileLocationTrackerImpl.class);
 	
 	HashMap<String,String> hashMap = new HashMap<String,String>();
@@ -53,9 +55,8 @@ import net.dfs.user.connect.RetrievalConnectionHandler;
 	@SuppressWarnings("unchecked")
 	public void loadMap() {
 		try {
-			ObjectInputStream load = new ObjectInputStream(new FileInputStream("locationMap"));
-			@SuppressWarnings("unused")
-			HashMap<String,String> hashMap = (HashMap<String,String>) load.readObject();
+			ObjectInputStream load = new ObjectInputStream(new FileInputStream(new File("locationMap")));
+			hashMap = (HashMap<String,String>) load.readObject();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -63,7 +64,8 @@ import net.dfs.user.connect.RetrievalConnectionHandler;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+		log.info("Hash Map Loaded");
+
 	}
 
 	/**
@@ -71,9 +73,9 @@ import net.dfs.user.connect.RetrievalConnectionHandler;
 	 * the newly created HashMap. It returns no value.
 	 * {@inheritDoc}
 	 */
-	public void createHashIndex(String key, InetAddress value) {
-		hashMap.put(key, value.getHostAddress());
-		log.debug("Key "+key+" and Value "+value.getHostAddress()+" Added to the HashMap");
+	public void createHashIndex(String key, String value) {
+		hashMap.put(key, value);
+		log.debug("Key "+key+" and Value "+value+" Added to the HashMap");
 	}
 
 	public void deleteHashIndex(String key) {
@@ -108,7 +110,7 @@ import net.dfs.user.connect.RetrievalConnectionHandler;
 				hashModel.setKey(key+"_"+i+ext);
 				hashModel.setValue(hashMap.get(key+"_"+i+ext));
 				list.add(hashModel);
-				log.fatal("HASH MAP INCLUDES : " +key+"_"+i+ext);
+				log.info("Hash Map contains : " +key+"_"+i+ext);
 			}
 			else
 				log.info("The requested File "+key+"_"+i+ext+" Not Found");
@@ -125,13 +127,21 @@ import net.dfs.user.connect.RetrievalConnectionHandler;
 			new Thread(new Runnable(){
 				public void run(){
 					ObjectOutputStream save;
-					try {
-						save = new ObjectOutputStream(new FileOutputStream("locationMap"));
-						save.writeObject(hashMap);
-					} catch (FileNotFoundException e) {
-						e.printStackTrace();
-					} catch (IOException e) {
-						e.printStackTrace();
+					while(true){
+						try {
+							save = new ObjectOutputStream(new FileOutputStream(new File("locationMap")));
+							save.writeObject(hashMap);
+	
+							Thread.sleep(DURATION);
+							
+						} catch (FileNotFoundException e) {
+							e.printStackTrace();
+						} catch (IOException e) {
+							e.printStackTrace();
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					log.info("Hash Map Saved");
 					}
 				}
 			}).start();

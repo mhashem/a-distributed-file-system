@@ -102,7 +102,7 @@ import org.apache.commons.logging.LogFactory;
 				FileStorageModel fileStorageModel = tokenFileManager.receiveChunk(received.fileName, received.ext, received.CHUNK_NO);
 				log.info("ACTUAL File "+fileStorageModel.fileName+" with bytes "+fileStorageModel.bytesRead+" Received from the Server");
 				storageManager.fileStorage(fileStorageModel);
-				hashMap.createHashIndex(fileStorageModel.fileName, InetAddress.getLocalHost());
+				hashMap.createHashIndex(fileStorageModel.fileName, InetAddress.getLocalHost().getHostAddress());
 				
 			} catch (RemoteException e) {
 				e.printStackTrace();

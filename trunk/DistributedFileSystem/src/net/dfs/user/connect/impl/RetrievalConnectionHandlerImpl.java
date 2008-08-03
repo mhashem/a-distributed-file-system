@@ -42,7 +42,7 @@ import org.apache.commons.logging.LogFactory;
 	 * {@inheritDoc}
 	 * @throws IOException 
 	 */
-	public void retrieveFile(String fileName, String ext,InetAddress user) throws IOException {
+	public void retrieveFile(String fileName, String ext,String user) throws IOException {
 		log.debug("The User "+user+" requested for the File "+fileName+ext);
 		userRegistration.registerUserIP(fileName+ext, user);
 

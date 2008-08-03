@@ -22,9 +22,9 @@ import java.net.UnknownHostException;
 import java.util.Properties;
 
 import net.dfs.remote.filestorage.FileReceiverSupport;
-import net.dfs.server.filemapper.impl.FileLocationTrackerImpl;
 import net.dfs.server.filespace.accessor.impl.WriteSpaceAccessorImpl;
 import net.dfs.server.noderegistration.RemoteNodeRegistration;
+import net.dfs.ui.NodeUI;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -43,24 +43,28 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
  public class ClientServicesStarter {
 
 	private static Log log = LogFactory.getLog(WriteSpaceAccessorImpl.class);
+	private static Properties props = new Properties();
 	
-	static Properties props = new Properties();
-
+	static{
+		try {
+			props.load(new FileInputStream("server.properties"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * Client application will be started with the main() of the {@link ClientServicesStarter}
 	 * 
 	 * @param args the parameter which is passed to the main()
 	 */
-	public static void main(String args []) {
+	public static void startClient() {
 
 		try {
-			props.load(new FileInputStream("server.properties"));
 			props.put("client.ip", InetAddress.getLocalHost().getHostAddress());
-//			System.err.println("Server Client = " + props.get("server.client"));
-			log.debug(props);
 
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -70,7 +74,9 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 		
 		try {
 			if(nodeRegister != null){
-				nodeRegister.registerNode(InetAddress.getLocalHost());
+				String SERVER_IP = nodeRegister.registerNode(InetAddress.getLocalHost().getHostAddress());
+				ClientServicesStarter.serverName(SERVER_IP);
+				client.loadNode();
 			}	
 			else{
 				log.debug("Server at "+props.getProperty("server.ip")+" not found");
@@ -81,7 +87,6 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 			e.printStackTrace();
 		}
 			
-			client.loadNode();
 	}
 	
 	public RemoteNodeRegistration startProxy(){
@@ -95,7 +100,7 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 	}
 	
 	public final void loadNode(){
-
+		
 		ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext();
 		
 		PropertyPlaceholderConfigurer configurer = new PropertyPlaceholderConfigurer();
@@ -106,9 +111,9 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 		context.refresh();
 		context.start();
 		
-		FileLocationTrackerImpl hash = new FileLocationTrackerImpl();
+/*		FileLocationTrackerImpl hash = new FileLocationTrackerImpl();
 		hash.removeAll();
-		
+*/		
 		log.info("Client Started");
 		
 		FileReceiverSupport receiveFile = (FileReceiverSupport) context.getBean("receiveFile");
@@ -116,6 +121,38 @@ import org.springframework.remoting.rmi.RmiProxyFactoryBean;
 		receiveFile.connectJavaSpace();
 		receiveFile.retrieveFile();
 	}
+	
+	public static String setLocation(String loc){
+		props.put("remote.savepath", fileNameAnalyzer(loc));
+		log.debug("Location "+props.getProperty("remote.savepath")+" Saved");
+		return (loc);
+	}
+	
+	public static String serverIP(){
+		return props.getProperty("server.ip");
+	}
 
- }
+	public static void serverName(String ip){
+		NodeUI.setServerName(ip);
+	}
+	
+	public static String clientIP() throws UnknownHostException{
+		return InetAddress.getLocalHost().getHostAddress();
+	}
+
+	public static String clientName() throws UnknownHostException{
+		return InetAddress.getLocalHost().getHostName();
+	}
+
+	private static String fileNameAnalyzer(String file){
+		String location = "";
+		String [] parts  = file.split("\\\\");
+
+		for(int i=0;i<parts.length;i++){
+			location = location + (parts[i] + "\\\\");
+		}
+		return location;
+	}
+
+}
 

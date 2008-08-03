@@ -1,13 +1,13 @@
 package net.dfs.server.noderegistration.impl;
 
-import java.net.InetAddress;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.dfs.server.noderegistration.UserRegistrationService;
+import net.dfs.ui.ServerUI;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
-import net.dfs.server.noderegistration.UserRegistrationService;
 
 public class UserRegistrationServiceImpl implements UserRegistrationService{
 	
@@ -15,9 +15,10 @@ public class UserRegistrationServiceImpl implements UserRegistrationService{
 	private Map<String, String> userIPs = new HashMap<String, String>();
 
 	// FIXME When a user saves a file, call this method - FIXED
-	public void registerUserIP(String fileName, InetAddress userIP) {
-		userIPs.put(fileName, userIP.getHostAddress());
-		log.debug("The File : "+fileName+" is sent by the User "+userIP.getHostAddress());
+	public void registerUserIP(String fileName, String userIP) {
+		userIPs.put(fileName, userIP);
+		ServerUI.setUsers(userIPs.size());
+		log.debug("The File : "+fileName+" is sent by the User "+userIP);
 	}
 	
 	public String invokeUser(String fileName){

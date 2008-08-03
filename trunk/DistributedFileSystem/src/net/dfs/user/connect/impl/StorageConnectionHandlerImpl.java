@@ -38,7 +38,7 @@ import net.dfs.user.connect.StorageConnectionHandler;
 	/**
 	 * {@inheritDoc}
 	 */
-	public void storeFile(long FILE_SIZE, String fileName, String ext, InetAddress user) {
+	public void storeFile(long FILE_SIZE, String fileName, String ext, String user) {
 		log.debug("The File "+fileName+ext+" With "+FILE_SIZE+" received by "+user);
 		userRegistration.registerUserIP(fileName, user);
 

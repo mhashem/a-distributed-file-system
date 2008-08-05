@@ -1,19 +1,11 @@
 package net.dfs.ui;
 
 import java.awt.*;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.ComponentOrientation;
-import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.net.UnknownHostException;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -22,13 +14,19 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.WindowConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+
+import net.dfs.server.main.ServerServicesStarter;
+import net.dfs.user.test.Retrieve;
+import net.dfs.user.test.Store;
 
 /**
  * @author Rukshan Silva
@@ -46,6 +44,81 @@ public class UserUI extends JPanel {
 		new UserUI();
 	}
 
+	private void btnConnectActionPerformed(ActionEvent e) {
+		
+		new Thread(new Runnable(){
+
+			public void run() {
+				try {
+					Store.userStarter();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+			
+		}).start();
+		
+		btnStoreFile.setEnabled(true);
+	}
+
+	@SuppressWarnings("static-access")
+	private void btnStoreFileActionPerformed(ActionEvent e) {
+		
+		if(btnStoreFile.getText() == "Browse"){
+			fileChooser1.setFileSelectionMode(fileChooser1.FILES_ONLY);
+			fileChooser1.showOpenDialog(null);
+			File selected = fileChooser1.getSelectedFile();
+
+			lblStoreFile.setText(selected.getAbsolutePath());
+			btnStoreFile.setText("Save File");
+		}
+
+		else {
+			try {
+				Store.store(lblStoreFile.getText());
+				lblServerIP.setText(Store.serverIP());
+				lblUserIP.setText(Store.userIP());
+				lblUserName.setText(Store.userName());
+			} catch (UnknownHostException e1) {
+				e1.printStackTrace();
+			}
+			btnStoreFile.setText("Browse");
+			
+		}
+		
+	}
+
+	private void btnTerminateActionPerformed(ActionEvent e) {
+		int op = JOptionPane.showConfirmDialog(null, "Do you wish to Terminate the Server ?", "Exit Server", JOptionPane.YES_NO_OPTION);
+		if(op == 0){
+			ServerServicesStarter.exitServer();
+		}
+	}
+
+	private void mnuSettingsActionPerformed(ActionEvent e) {
+		int op = JOptionPane.showConfirmDialog(null, "Do you wish to Terminate the Server ?", "Exit Server", JOptionPane.YES_NO_OPTION);
+		if(op == 0){
+			ServerServicesStarter.exitServer();
+		}
+	}
+
+	private void btnretrieveFileActionPerformed(ActionEvent e) {
+		try {
+			Retrieve.retrieve(txtRetrieveFile.getText());
+		} catch (UnknownHostException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
+
+	public static void setServerName(String name){
+		lblServerName.setText(name);
+	}
+
+	/**
+	 * 
+	 */
 	private void initComponents() {
 		// Component initialization //GEN-BEGIN:initComponents
 		// Generated using JFormDesigner Evaluation license - Rukshan Silva
@@ -53,30 +126,28 @@ public class UserUI extends JPanel {
 		menuBar1 = new JMenuBar();
 		menu1 = new JMenu();
 		mnuSettings = new JMenuItem();
-		menu3 = new JMenu();
-		menuItem4 = new JMenuItem();
-		menuItem3 = new JMenuItem();
 		menu2 = new JMenu();
 		mnuAbout = new JMenuItem();
 		panel1 = new JPanel();
 		lable1 = new JLabel();
-		lblServerName = new JLabel();
+		lblUserName = new JLabel();
 		label2 = new JLabel();
+		lblUserIP = new JLabel();
 		lblServerIP = new JLabel();
-		lblServerIP2 = new JLabel();
 		label3 = new JLabel();
 		lable2 = new JLabel();
-		lblServerName2 = new JLabel();
-		label4 = new JLabel();
-		lblServerIP3 = new JLabel();
+		lblServerName = new JLabel();
+		btnStoreFile = new JButton();
+		btnretrieveFile = new JButton();
+		txtRetrieveFile = new JTextField();
+		lblStoreFile = new JLabel();
 		panel2 = new JPanel();
+		pnlStore = new JPanel();
 		scrollPane1 = new JScrollPane();
-		txtConsole = new JTextArea();
+		txtStoreConsole = new JTextArea();
 		panel3 = new JPanel();
 		btnTerminate = new JButton();
-		btnStart = new JButton();
-		panel4 = new JPanel();
-		tnOpen = new JButton();
+		btnConnect = new JButton();
 		fileChooser1 = new JFileChooser();
 
 		//======== frame1 ========
@@ -100,23 +171,14 @@ public class UserUI extends JPanel {
 
 					//---- mnuSettings ----
 					mnuSettings.setText("Close");
+					mnuSettings.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+							mnuSettingsActionPerformed(e);
+						}
+					});
 					menu1.add(mnuSettings);
 				}
 				menuBar1.add(menu1);
-
-				//======== menu3 ========
-				{
-					menu3.setText("Settings");
-
-					//---- menuItem4 ----
-					menuItem4.setText("Server IP");
-					menu3.add(menuItem4);
-
-					//---- menuItem3 ----
-					menuItem3.setText("Save Path");
-					menu3.add(menuItem3);
-				}
-				menuBar1.add(menu3);
 
 				//======== menu2 ========
 				{
@@ -132,7 +194,7 @@ public class UserUI extends JPanel {
 
 			//======== panel1 ========
 			{
-				panel1.setBorder(new TitledBorder(new EtchedBorder(), "User-Info", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.black));
+				panel1.setBorder(new TitledBorder(new EtchedBorder(), "User-Info", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.blue));
 
 				// JFormDesigner evaluation mark
 				panel1.setBorder(new javax.swing.border.CompoundBorder(
@@ -148,54 +210,73 @@ public class UserUI extends JPanel {
 				panel1.add(lable1);
 				lable1.setBounds(14, 22, 75, 37);
 
-				//---- lblServerName ----
-				lblServerName.setText("#UserName#");
-				panel1.add(lblServerName);
-				lblServerName.setBounds(105, 22, 150, 37);
+				//---- lblUserName ----
+				lblUserName.setText("#UserName#");
+				panel1.add(lblUserName);
+				lblUserName.setBounds(114, 22, 150, 37);
 
 				//---- label2 ----
 				label2.setText("User IP :");
 				panel1.add(label2);
 				label2.setBounds(13, 57, 76, 42);
 
-				//---- lblServerIP ----
-				lblServerIP.setText("#UserIP#");
-				panel1.add(lblServerIP);
-				lblServerIP.setBounds(106, 58, 149, 41);
+				//---- lblUserIP ----
+				lblUserIP.setText("#UserIP#");
+				panel1.add(lblUserIP);
+				lblUserIP.setBounds(115, 58, 149, 41);
 
-				//---- lblServerIP2 ----
-				lblServerIP2.setText("#ServerIP#");
-				panel1.add(lblServerIP2);
-				lblServerIP2.setBounds(358, 56, 149, 41);
+				//---- lblServerIP ----
+				lblServerIP.setText("#ServerIP#");
+				panel1.add(lblServerIP);
+				lblServerIP.setBounds(386, 56, 149, 41);
 
 				//---- label3 ----
 				label3.setText("Server IP :");
 				panel1.add(label3);
-				label3.setBounds(266, 56, 76, 42);
+				label3.setBounds(266, 56, 99, 42);
 
 				//---- lable2 ----
 				lable2.setText("Server Name :");
 				panel1.add(lable2);
-				lable2.setBounds(267, 21, 75, 37);
+				lable2.setBounds(267, 21, 103, 37);
 
-				//---- lblServerName2 ----
-				lblServerName2.setText("#ServerName#");
-				panel1.add(lblServerName2);
-				lblServerName2.setBounds(357, 21, 150, 37);
+				//---- lblServerName ----
+				lblServerName.setText("#ServerName#");
+				panel1.add(lblServerName);
+				lblServerName.setBounds(385, 21, 150, 37);
 
-				//---- label4 ----
-				label4.setText("File Name :");
-				label4.setFont(label4.getFont().deriveFont(label4.getFont().getStyle() | Font.BOLD));
-				label4.setForeground(new Color(51, 204, 0));
-				panel1.add(label4);
-				label4.setBounds(12, 93, 76, 42);
+				//---- btnStoreFile ----
+				btnStoreFile.setText("Browse");
+				btnStoreFile.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+				btnStoreFile.setEnabled(false);
+				btnStoreFile.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						btnStoreFileActionPerformed(e);
+					}
+				});
+				panel1.add(btnStoreFile);
+				btnStoreFile.setBounds(258, 110, 115, 23);
 
-				//---- lblServerIP3 ----
-				lblServerIP3.setText("#FileName#");
-				lblServerIP3.setFont(lblServerIP3.getFont().deriveFont(lblServerIP3.getFont().getStyle() | Font.BOLD));
-				lblServerIP3.setForeground(new Color(51, 204, 0));
-				panel1.add(lblServerIP3);
-				lblServerIP3.setBounds(104, 93, 149, 41);
+				//---- btnretrieveFile ----
+				btnretrieveFile.setText("Retrieve File");
+				btnretrieveFile.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+				btnretrieveFile.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						btnretrieveFileActionPerformed(e);
+					}
+				});
+				panel1.add(btnretrieveFile);
+				btnretrieveFile.setBounds(258, 140, 115, 23);
+
+				//---- txtRetrieveFile ----
+				txtRetrieveFile.setText("<retrieve_file>");
+				panel1.add(txtRetrieveFile);
+				txtRetrieveFile.setBounds(15, 143, 205, txtRetrieveFile.getPreferredSize().height);
+
+				//---- lblStoreFile ----
+				lblStoreFile.setText("<store_file>");
+				panel1.add(lblStoreFile);
+				lblStoreFile.setBounds(20, 108, 200, 25);
 
 				{ // compute preferred size
 					Dimension preferredSize = new Dimension();
@@ -217,15 +298,24 @@ public class UserUI extends JPanel {
 
 			//======== panel2 ========
 			{
-				panel2.setBorder(new TitledBorder(new EtchedBorder(), "User-console", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION, null, Color.black));
 				panel2.setLayout(new BorderLayout());
 
-				//======== scrollPane1 ========
+				//======== pnlStore ========
 				{
-					scrollPane1.setAutoscrolls(true);
-					scrollPane1.setViewportView(txtConsole);
+					pnlStore.setBorder(new TitledBorder(new EtchedBorder(), "Store-Retrieve console", TitledBorder.LEADING, TitledBorder.DEFAULT_POSITION, null, Color.blue));
+					pnlStore.setLayout(new BorderLayout());
+
+					//======== scrollPane1 ========
+					{
+						scrollPane1.setAutoscrolls(true);
+
+						//---- txtStoreConsole ----
+						txtStoreConsole.setForeground(Color.blue);
+						scrollPane1.setViewportView(txtStoreConsole);
+					}
+					pnlStore.add(scrollPane1, BorderLayout.CENTER);
 				}
-				panel2.add(scrollPane1, BorderLayout.CENTER);
+				panel2.add(pnlStore, BorderLayout.CENTER);
 			}
 			frame1ContentPane.add(panel2, new GridBagConstraints(0, 1, 1, 1, 0.0, 0.0,
 				GridBagConstraints.CENTER, GridBagConstraints.BOTH,
@@ -239,31 +329,35 @@ public class UserUI extends JPanel {
 				//---- btnTerminate ----
 				btnTerminate.setText("Terminate");
 				btnTerminate.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
+				btnTerminate.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						btnTerminateActionPerformed(e);
+					}
+				});
 				panel3.add(btnTerminate);
 
-				//---- btnStart ----
-				btnStart.setText("Start");
-				btnStart.setBorderPainted(false);
-				btnStart.setHorizontalTextPosition(SwingConstants.CENTER);
-				panel3.add(btnStart);
-
-				//======== panel4 ========
-				{
-					panel4.setLayout(new GridLayout());
-
-					//---- tnOpen ----
-					tnOpen.setText("Open File");
-					panel4.add(tnOpen);
-				}
-				panel3.add(panel4);
+				//---- btnConnect ----
+				btnConnect.setText("Connect");
+				btnConnect.setBorderPainted(false);
+				btnConnect.setHorizontalTextPosition(SwingConstants.CENTER);
+				btnConnect.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						btnConnectActionPerformed(e);
+					}
+				});
+				panel3.add(btnConnect);
 			}
 			frame1ContentPane.add(panel3, new GridBagConstraints(0, 2, 1, 1, 0.0, 0.0,
 				GridBagConstraints.EAST, GridBagConstraints.VERTICAL,
 				new Insets(0, 0, 0, 0), 0, 0));
-			frame1.setSize(585, 380);
+			frame1.setSize(600, 590);
 			frame1.setLocationRelativeTo(null);
+			frame1.setVisible(true);
+			TextAreaAppender.setTextArea(txtStoreConsole);
 		}
 		// End of component initialization //GEN-END:initComponents
+//		frame1.setVisible(true);
+//		TextAreaAppender.setTextArea(txtStoreConsole);
 	}
 
 	// Variables declaration //GEN-BEGIN:variables
@@ -272,30 +366,28 @@ public class UserUI extends JPanel {
 	private JMenuBar menuBar1;
 	private JMenu menu1;
 	private JMenuItem mnuSettings;
-	private JMenu menu3;
-	private JMenuItem menuItem4;
-	private JMenuItem menuItem3;
 	private JMenu menu2;
 	private JMenuItem mnuAbout;
 	private JPanel panel1;
 	private JLabel lable1;
-	private JLabel lblServerName;
+	private JLabel lblUserName;
 	private JLabel label2;
+	private JLabel lblUserIP;
 	private JLabel lblServerIP;
-	private JLabel lblServerIP2;
 	private JLabel label3;
 	private JLabel lable2;
-	private JLabel lblServerName2;
-	private JLabel label4;
-	private JLabel lblServerIP3;
+	private static JLabel lblServerName;
+	private JButton btnStoreFile;
+	private JButton btnretrieveFile;
+	private JTextField txtRetrieveFile;
+	private JLabel lblStoreFile;
 	private JPanel panel2;
+	private JPanel pnlStore;
 	private JScrollPane scrollPane1;
-	private JTextArea txtConsole;
+	private JTextArea txtStoreConsole;
 	private JPanel panel3;
 	private JButton btnTerminate;
-	private JButton btnStart;
-	private JPanel panel4;
-	private JButton tnOpen;
+	private JButton btnConnect;
 	private JFileChooser fileChooser1;
 	//End of variables declaration //GEN-END:variables
 }

@@ -15,13 +15,14 @@
 package net.dfs.user.connect.impl;
 
 import java.net.InetAddress;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.net.UnknownHostException;
 
 import net.dfs.server.noderegistration.UserRegistrationService;
 import net.dfs.server.token.TokenService;
 import net.dfs.user.connect.StorageConnectionHandler;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Implementation of the {@link StorageConnectionHandler}, provides the 
@@ -37,12 +38,15 @@ import net.dfs.user.connect.StorageConnectionHandler;
 	
 	/**
 	 * {@inheritDoc}
+	 * @throws UnknownHostException 
 	 */
-	public void storeFile(long FILE_SIZE, String fileName, String ext, String user) {
+	public String storeFile(long FILE_SIZE, String fileName, String ext, String user) throws UnknownHostException {
 		log.debug("The File "+fileName+ext+" With "+FILE_SIZE+" received by "+user);
 		userRegistration.registerUserIP(fileName, user);
 
 		tokenService.createToken(FILE_SIZE, fileName, ext);
+		
+		return InetAddress.getLocalHost().getHostName();
 	}
 
 	/**

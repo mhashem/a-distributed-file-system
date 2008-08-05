@@ -90,7 +90,7 @@ import org.apache.commons.logging.LogFactory;
 				space = spaceCreator.getSpace(InetAddress.getByName(serverIP), InetAddress.getLocalHost());
 				log.debug("Space Returned to "+ serverIP);
 			} catch (UnknownHostException e) {
-				e.printStackTrace();
+				log.error("e");
 			}
 		}
 			
@@ -105,19 +105,15 @@ import org.apache.commons.logging.LogFactory;
 				hashMap.createHashIndex(fileStorageModel.fileName, InetAddress.getLocalHost().getHostAddress());
 				
 			} catch (RemoteException e) {
-				e.printStackTrace();
+				log.error("e");
 			} catch (UnusableEntryException e) {
-				e.printStackTrace();
+				log.error("e");
 			} catch (TransactionException e) {
-				e.printStackTrace();
+				log.error("e");
 			} catch (InterruptedException e) {
-				e.printStackTrace();
-//			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.error("e");
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.error("e");
 			}
 		}
 }

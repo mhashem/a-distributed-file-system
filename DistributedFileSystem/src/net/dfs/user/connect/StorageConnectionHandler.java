@@ -14,7 +14,7 @@
 
 package net.dfs.user.connect;
 
-import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 import net.dfs.server.token.TokenService;
 
@@ -34,6 +34,6 @@ public interface StorageConnectionHandler {
 	 * 
 	 * @param fileStream the byte stream of the File object
 	 */
-	public void storeFile(long FILE_SIZE, String fileName, String ext, String user);
+	public String storeFile(long FILE_SIZE, String fileName, String ext, String user) throws UnknownHostException;
 
 }	

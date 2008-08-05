@@ -16,11 +16,14 @@ package net.dfs.user.test;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Properties;
 
+import net.dfs.ui.UserUI;
 import net.dfs.user.connect.StorageConnectionHandler;
 
 import org.apache.commons.logging.Log;
@@ -41,6 +44,18 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 	private static String extention;
 	private static long FILE_SIZE = 0;
 	private static Log log = LogFactory.getLog(Store.class);
+	static ApplicationContext context;
+	private static Properties props = new Properties();
+	
+	static{
+		try {
+			props.load(new FileInputStream("server.properties"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	/**
 	 * Store application will be started with the main() of the {@link Store}.
@@ -48,45 +63,45 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 	 * @param args the parameter which is passed to the main()
 	 * @throws IOException
 	 */
-	public static void main(String args[])throws IOException{
-		
-		Properties prop = new Properties();
-		prop.load(new FileInputStream("server.properties"));
-		
-		File f = new File(prop.getProperty("store.fileName"));
-		FILE_SIZE = f.length();
-		
-		
-/*		BufferedInputStream in = new BufferedInputStream(new FileInputStream(f));
-		
-		List<Byte> bytes = new ArrayList<Byte>();
-		int b = -1;
-		
-		while ((b = in.read()) != -1) {
-			bytes.add((byte) b);
-		}
-		
-		byte[] filebytes = new byte[bytes.size()];
-		
-		for(int i=0; i< bytes.size(); i++) {
-			filebytes[i] = bytes.get(i);
-		}
-		
-*/		
-		
-		Store store = new Store();
-		store.fileNameAnalyzer(prop.getProperty("store.fileName"));
 
-		ApplicationContext context = new ClassPathXmlApplicationContext("net\\dfs\\user\\test\\spring-user.xml");
-		StorageConnectionHandler storageHandler = (StorageConnectionHandler)context.getBean("storageHandler");
+	public static void userStarter()throws IOException{
 
-		storageHandler.storeFile(FILE_SIZE, fileName, extention, InetAddress.getLocalHost().getHostAddress());
-
-		log.debug("The File "+fileName+extention+" With "+FILE_SIZE+" size send to the Server");
+		Store.context = new ClassPathXmlApplicationContext("net\\dfs\\user\\test\\spring-user.xml");
+		log.debug("The User "+InetAddress.getLocalHost().getHostAddress()+" Started");
 	}
 	
+	public static void store(String file) throws UnknownHostException{
+		File f = new File(file);
+		FILE_SIZE = f.length();
+		
+		fileNameAnalyzer(file);
+
+		
+		StorageConnectionHandler storageHandler = (StorageConnectionHandler)context.getBean("storageHandler");
+		String serverName = storageHandler.storeFile(FILE_SIZE, fileName, extention, InetAddress.getLocalHost().getHostAddress());
+
+		Store.serverName(serverName);
+		log.debug("The File "+fileName+extention+" With "+FILE_SIZE+" size send to the Server");
+		
+	}
 	
-	private void fileNameAnalyzer(String file){
+	public static String userIP() throws UnknownHostException{
+		return InetAddress.getLocalHost().getHostAddress();
+	}
+	
+	public static String userName() throws UnknownHostException{
+		return InetAddress.getLocalHost().getHostName();
+	}
+	
+	public static String serverIP(){
+		return props.getProperty("server.ip");
+	}
+
+	public static void serverName(String name){
+		UserUI.setServerName(name);
+	}
+
+	private static void fileNameAnalyzer(String file){
 
 		String [] parts  = file.split("\\\\");
 		String name = parts[parts.length-1];

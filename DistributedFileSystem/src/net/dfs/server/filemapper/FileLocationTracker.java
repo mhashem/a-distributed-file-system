@@ -14,8 +14,6 @@
 
 package net.dfs.server.filemapper;
 
-import java.net.InetAddress;
-
 import net.dfs.server.filemodel.FileStorageModel;
 import net.dfs.server.filemodel.HashModel;
 import net.dfs.server.filespace.accessor.WriteSpaceAccessor;

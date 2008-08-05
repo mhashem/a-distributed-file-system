@@ -18,6 +18,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Properties;
 
 import net.dfs.user.connect.RetrievalConnectionHandler;
@@ -38,39 +39,39 @@ public class Retrieve {
 	private static String fileName;
 	private static String extention;
 	private static Log log = LogFactory.getLog(Retrieve.class);
-
+	static ApplicationContext context ;
 	/**
 	 * Retrieve application will be started with the main() of the {@link Retrieve}.
 	 * 
 	 * @param args the parameter which is passed to the main()
+	 * @throws UnknownHostException 
 	 * @throws IOException 
 	 * @throws FileNotFoundException 
 	 * @throws IOException
 	 */
 
-	public static void main(String args []) throws IOException{
+	public static void startUser() throws UnknownHostException{
+		context = new ClassPathXmlApplicationContext("net\\dfs\\user\\test\\spring-user.xml");
+		log.debug("The User "+InetAddress.getLocalHost().getHostAddress()+" Started");
+	}
+	
+	public static void retrieve(String file) throws UnknownHostException, IOException{
+		
+		fileNameAnalyzer(file);
 
-		Properties prop = new Properties();
-		prop.load(new FileInputStream("server.properties"));
-		
-		Retrieve ret = new Retrieve();
-		ret.fileNameAnalyzer(prop.getProperty("retrieve.fileName"));
-		
-		ApplicationContext context = new ClassPathXmlApplicationContext("net\\dfs\\user\\test\\spring-user.xml");
 		RetrievalConnectionHandler retrieve = (RetrievalConnectionHandler) context.getBean("retrieve");
 
 		retrieve.retrieveFile(fileName, extention, InetAddress.getLocalHost().getHostAddress());
 		log.debug("The File "+fileName+extention+" Request from the Server");
-
 	}
 	
 	@SuppressWarnings("static-access")
-	private void fileNameAnalyzer(String name){
+	private static void fileNameAnalyzer(String name){
 
 		for(int i=0;i<name.length();i++){
 			if(name.charAt(i) == '.'){
-				this.fileName = name.substring(0,i);
-				this.extention = name.substring(i);
+				Retrieve.fileName = name.substring(0,i);
+				Retrieve.extention = name.substring(i);
 			}
 		}
 	}

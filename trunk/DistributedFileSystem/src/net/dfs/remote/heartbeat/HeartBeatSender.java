@@ -28,6 +28,7 @@ public class HeartBeatSender implements InitializingBean {
 							service.sendBeat(ip);
 						} catch (Exception e) {
 							log.error(e);
+							System.exit(1);
 						}
 
 						try {

@@ -15,7 +15,6 @@
 package net.dfs.user.connect.impl;
 
 import java.io.IOException;
-import java.net.InetAddress;
 
 import net.dfs.server.noderegistration.UserRegistrationService;
 import net.dfs.server.retrievefile.FileRetrievalService;

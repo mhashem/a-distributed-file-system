@@ -1,6 +1,15 @@
 package net.dfs.ui;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.ComponentOrientation;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -20,12 +29,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import net.dfs.server.main.ServerServicesStarter;
-import net.dfs.user.test.Retrieve;
 import net.dfs.user.test.Store;
 
 /**
@@ -41,6 +50,12 @@ public class UserUI extends JPanel {
 	}
 
 	public static void main(String[] args) {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		new UserUI();
 	}
 
@@ -99,16 +114,6 @@ public class UserUI extends JPanel {
 		int op = JOptionPane.showConfirmDialog(null, "Do you wish to Terminate the Server ?", "Exit Server", JOptionPane.YES_NO_OPTION);
 		if(op == 0){
 			ServerServicesStarter.exitServer();
-		}
-	}
-
-	private void btnretrieveFileActionPerformed(ActionEvent e) {
-		try {
-			Retrieve.retrieve(txtRetrieveFile.getText());
-		} catch (UnknownHostException e1) {
-			e1.printStackTrace();
-		} catch (IOException e1) {
-			e1.printStackTrace();
 		}
 	}
 
@@ -196,13 +201,6 @@ public class UserUI extends JPanel {
 			{
 				panel1.setBorder(new TitledBorder(new EtchedBorder(), "User-Info", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.blue));
 
-				// JFormDesigner evaluation mark
-				panel1.setBorder(new javax.swing.border.CompoundBorder(
-					new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
-						"JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
-						javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
-						java.awt.Color.red), panel1.getBorder())); panel1.addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
-
 				panel1.setLayout(null);
 
 				//---- lable1 ----
@@ -260,11 +258,6 @@ public class UserUI extends JPanel {
 				//---- btnretrieveFile ----
 				btnretrieveFile.setText("Retrieve File");
 				btnretrieveFile.setComponentOrientation(ComponentOrientation.RIGHT_TO_LEFT);
-				btnretrieveFile.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						btnretrieveFileActionPerformed(e);
-					}
-				});
 				panel1.add(btnretrieveFile);
 				btnretrieveFile.setBounds(258, 140, 115, 23);
 

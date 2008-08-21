@@ -1,8 +1,9 @@
-package net.dfs.server.heartbeat;
+package net.dfs.server.heartbeat.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import net.dfs.server.heartbeat.HeartBeatService;
 import net.dfs.server.noderegistration.RemoteNodeRegistration;
 
 import org.apache.commons.logging.Log;

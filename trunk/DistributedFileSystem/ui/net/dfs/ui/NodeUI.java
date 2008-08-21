@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
@@ -36,6 +37,12 @@ public class NodeUI extends JPanel {
 	}
 	
 	public static void main(String[] args) {
+		try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 		new NodeUI();
 	}
 
@@ -170,13 +177,6 @@ public class NodeUI extends JPanel {
 			{
 				panel1.setBorder(new TitledBorder(new EtchedBorder(), "Node-Info", TitledBorder.DEFAULT_JUSTIFICATION, TitledBorder.DEFAULT_POSITION, null, Color.blue));
 
-				// JFormDesigner evaluation mark
-				panel1.setBorder(new javax.swing.border.CompoundBorder(
-					new javax.swing.border.TitledBorder(new javax.swing.border.EmptyBorder(0, 0, 0, 0),
-						"JFormDesigner Evaluation", javax.swing.border.TitledBorder.CENTER,
-						javax.swing.border.TitledBorder.BOTTOM, new java.awt.Font("Dialog", java.awt.Font.BOLD, 12),
-						java.awt.Color.red), panel1.getBorder())); panel1.addPropertyChangeListener(new java.beans.PropertyChangeListener(){public void propertyChange(java.beans.PropertyChangeEvent e){if("border".equals(e.getPropertyName()))throw new RuntimeException();}});
-
 				panel1.setLayout(null);
 
 				//---- lable1 ----
@@ -226,7 +226,7 @@ public class NodeUI extends JPanel {
 				label4.setBounds(11, 88, 94, 42);
 
 				//---- lblSaveLoc ----
-				lblSaveLoc.setText("<save_loc>");
+				lblSaveLoc.setText("<save_location>");
 				lblSaveLoc.setForeground(new Color(0, 204, 0));
 				panel1.add(lblSaveLoc);
 				lblSaveLoc.setBounds(104, 88, 456, 41);

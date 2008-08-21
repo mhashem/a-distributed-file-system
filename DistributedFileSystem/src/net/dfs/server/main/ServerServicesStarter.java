@@ -45,14 +45,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 	private static Properties props = new Properties();
 	private static boolean flagServer = false;
 	
-	static{
-		try {
-			props.load(new FileInputStream("server.properties"));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	static {
+		readProperties();
 	}
 	
 	/**
@@ -113,6 +107,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 	
 	//invoked by serverUI
 	public static String setSize(){
+		readProperties();
 		return props.getProperty("server.CHUNK_SIZE");
 	}
 	
@@ -120,5 +115,15 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 	public static void exitServer(){
 		log.debug("Server Terminated...");
 		System.exit(1);
+	}
+	
+	public static void readProperties() {
+		try {
+			props.load(new FileInputStream("server.properties"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
  }

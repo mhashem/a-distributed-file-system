@@ -378,7 +378,7 @@
           <string>javax.swing.JLabel</string> 
           <void method="setProperty"> 
            <string>text</string> 
-           <string>&lt;save_loc&gt;</string> 
+           <string>&lt;save_location&gt;</string> 
           </void> 
           <void method="setProperty"> 
            <string>foreground</string> 

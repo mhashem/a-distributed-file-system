@@ -27,7 +27,7 @@
 				</property>
 				</bean>
 
-			<bean id="heartBeatService" class="net.dfs.server.heartbeat.HeartBeatServiceImpl">
+			<bean id="heartBeatService" class="net.dfs.server.heartbeat.impl.HeartBeatServiceImpl">
 				<property name="nodeRegistration" ref="nodeRegistration" />
 			</bean>
 
